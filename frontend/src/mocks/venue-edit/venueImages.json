@@ -1,103 +1,103 @@
 [
   {
     "venueId": 1,
-    "url": "/assets/images/苗栗巨蛋體育館_01.jpg",
+    "url": "/assets/images/miaoli-arena_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 1,
-    "url": "/assets/images/苗栗巨蛋體育館_02.jpg",
+    "url": "/assets/images/miaoli-arena_02.jpg",
     "isMain": false,
     "sortOrder": 2
   },
   {
     "venueId": 2,
-    "url": "/assets/images/田徑場_01.jpg",
+    "url": "/assets/images/athletics-field_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 3,
-    "url": "/assets/images/照南棒球場_01.jpg",
+    "url": "/assets/images/zhaonan-baseball-field_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 3,
-    "url": "/assets/images/照南棒球場_02.jpg",
+    "url": "/assets/images/zhaonan-baseball-field_02.jpg",
     "isMain": false,
     "sortOrder": 2
   },
   {
     "venueId": 4,
-    "url": "/assets/images/苗栗巨蛋體育館_01.jpg",
+    "url": "/assets/images/miaoli-arena_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 4,
-    "url": "/assets/images/苗栗巨蛋體育館_02.jpg",
+    "url": "/assets/images/miaoli-arena_02.jpg",
     "isMain": false,
     "sortOrder": 2
   },
   {
     "venueId": 5,
-    "url": "/assets/images/大倫風雨籃球場_01.jpg",
+    "url": "/assets/images/dalun-basketball-court_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 5,
-    "url": "/assets/images/大倫風雨籃球場_02.jpg",
+    "url": "/assets/images/dalun-basketball-court_02.jpg",
     "isMain": false,
     "sortOrder": 2
   },
   {
     "venueId": 6,
-    "url": "/assets/images/苗栗縣立網球場_01.jpg",
+    "url": "/assets/images/miaoli-tennis-court_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 6,
-    "url": "/assets/images/苗栗縣立網球場_02.jpg",
+    "url": "/assets/images/miaoli-tennis-court_02.jpg",
     "isMain": false,
     "sortOrder": 2
   },
   {
     "venueId": 7,
-    "url": "/assets/images/滑輪溜冰場_01.jpg",
+    "url": "/assets/images/roller-skating-rink_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 101,
-    "url": "/assets/images/大倫風雨籃球場_01.jpg",
+    "url": "/assets/images/dalun-basketball-court_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 102,
-    "url": "/assets/images/大倫風雨籃球場_02.jpg",
+    "url": "/assets/images/dalun-basketball-court_02.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 103,
-    "url": "/assets/images/大倫風雨籃球場_01.jpg",
+    "url": "/assets/images/dalun-basketball-court_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 201,
-    "url": "/assets/images/照南棒球場_01.jpg",
+    "url": "/assets/images/zhaonan-baseball-field_01.jpg",
     "isMain": true,
     "sortOrder": 0
   },
   {
     "venueId": 202,
-    "url": "/assets/images/照南棒球場_02.jpg",
+    "url": "/assets/images/zhaonan-baseball-field_02.jpg",
     "isMain": true,
     "sortOrder": 0
   }

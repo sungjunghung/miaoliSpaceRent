@@ -206,7 +206,7 @@ function formatTime(b: any) {
               <h2 class="font-semibold">近 7 日預約行程</h2>
               <p class="mt-0.5">{{ todayStr }} ~ {{ weekEnd }}</p>
             </div>
-            <router-link :to="{ name: 'admin-venues-calendar' }" class="btn btn-outline gap-1">
+            <router-link :to="{ name: 'admin-calendar' }" class="btn btn-outline gap-1">
               <span class="material-symbols-outlined">calendar_month</span>
               行事曆
             </router-link>

@@ -226,7 +226,7 @@ const menuGroups: MenuGroup[] = [
 		items: [
 			{ name: 'admin-bookings', icon: 'event_note', label: '預約管理', owns: ['admin-bookings', 'admin-booking-detail'] },
 			{ name: 'admin-refunds', icon: 'currency_exchange', label: '退款作業' },
-			{ name: 'admin-venues-calendar', icon: 'calendar_month', label: '場館行事曆' },
+			{ name: 'admin-calendar', icon: 'calendar_month', label: '場館行事曆' },
 			{ name: 'admin-venues', icon: 'stadium', label: '場館管理', owns: ['admin-venues', 'admin-venue-edit'] },
 		]
 	},
@@ -276,7 +276,7 @@ const TITLES: Record<string, string> = {
 	'admin-venue-edit-rental': '租借方式',
 	'admin-venue-edit-rental-items': '附加項目',
 	'admin-venue-edit-photos': '照片管理',
-	'admin-venues-calendar': '場館行事曆',
+	'admin-calendar': '場館行事曆',
 	'admin-bookings': '預約管理',
 	'admin-booking-detail': '預約詳細',
 	'admin-refunds': '退款作業',
@@ -343,7 +343,7 @@ const breadcrumbs = computed(() => {
 		case 'admin-venue-edit':
 			ancestors.push({ label: '場館管理', to: '/admin/venues' })
 			break
-		case 'admin-venues-calendar':
+		case 'admin-calendar':
 			ancestors.push({ label: '場館管理', to: '/admin/venues' })
 			break
 		case 'admin-venue-edit-basic':

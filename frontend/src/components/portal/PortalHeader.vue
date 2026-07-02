@@ -25,7 +25,7 @@ const isNavActive = (to: string) => (to === '/' ? route.path === '/' : route.pat
 
 // 手機頂部 navbar 顯示的頁面標題:以路由 name 對應
 const PAGE_TITLES: Record<string, string> = {
-  'portal-index': '首頁',
+  'home': '首頁',
   'venue-list': '場館資訊',
   'venue-detail': '場館資訊',
   'venue-booking': '預訂場地',
@@ -35,12 +35,12 @@ const PAGE_TITLES: Record<string, string> = {
   'faq': '常見問題',
   'terms-of-service': '服務條款',
   'privacy-policy': '隱私權政策',
-  'member-index': '會員中心',
+  'member': '會員中心',
   'my-profile': '我的帳戶',
   'my-bookings': '我的預訂',
   'my-refunds': '我的退款',
   'booking-detail': '預訂詳情',
-  'portal-login': '登入',
+  'login': '登入',
   'register': '註冊',
 }
 const pageTitle = computed(() => PAGE_TITLES[String(route.name ?? '')] ?? '')

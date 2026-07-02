@@ -8,10 +8,10 @@
     "location": "苗栗市福麗里國華路 1121 號",
     "type": "運動賽事",
     "description": "苗栗巨蛋體育館於九十年完工啟用，是一座可容納 7,500 多人之多功能綜合體育館。提供空間供各類體育活動、教學、比賽、演唱會、音樂會、商業展覽等使用，並設有地下停車場等多項功能，歡迎各界踴躍申請租用。",
-    "mainImageUrl": "/assets/images/苗栗巨蛋體育館_01.jpg",
+    "mainImageUrl": "/assets/images/miaoli-arena_01.jpg",
     "gallery": [
-      "/assets/images/苗栗巨蛋體育館_01.jpg",
-      "/assets/images/苗栗巨蛋體育館_02.jpg",
+      "/assets/images/miaoli-arena_01.jpg",
+      "/assets/images/miaoli-arena_02.jpg",
       "/assets/images/arena/Arena_1.jpg",
       "/assets/images/arena/Arena_2.jpg",
       "/assets/images/arena/Arena_3.jpg",
@@ -213,9 +213,9 @@
     "location": "苗栗市嘉盛里經國路 4 段 79 號",
     "type": "運動賽事",
     "description": "本場地處市區邊緣，視野佳且四周道路便捷可直達苗栗市中心及苗栗頭份交流道，地理條件優越。現有四百公尺標準 PU 跑道八道供比賽使用，田賽場地亦符合比賽標準，無論是全國性比賽或縣內活動都是最佳場所。",
-    "mainImageUrl": "/assets/images/田徑場_01.jpg",
+    "mainImageUrl": "/assets/images/athletics-field_01.jpg",
     "gallery": [
-      "/assets/images/田徑場_01.jpg",
+      "/assets/images/athletics-field_01.jpg",
       "/assets/images/stadium/stadium_1.jpg",
       "/assets/images/stadium/stadium_2.jpg",
       "/assets/images/stadium/stadium_3.jpg",
@@ -382,10 +382,10 @@
     "location": "竹南鎮龍山路一段 12 號",
     "type": "運動賽事",
     "description": "為提供本縣竹南、頭份、苗栗地區棒球重點發展學校球隊平日培訓場地，特興建照南、頭屋、大倫三處球場。現有棒壘球場共六面，可作為辦理全國型、全縣型、縣代表隊選拔、競技團隊集訓等相關體育活動，平時採預約租借方式開放民眾使用。",
-    "mainImageUrl": "/assets/images/照南棒球場_01.jpg",
+    "mainImageUrl": "/assets/images/zhaonan-baseball-field_01.jpg",
     "gallery": [
-      "/assets/images/照南棒球場_01.jpg",
-      "/assets/images/照南棒球場_02.jpg"
+      "/assets/images/zhaonan-baseball-field_01.jpg",
+      "/assets/images/zhaonan-baseball-field_02.jpg"
     ],
     "pricePerHour": 300,
     "facilities": [
@@ -608,10 +608,10 @@
     "location": "苗栗市中正路 191 號",
     "type": "運動賽事",
     "description": "本體育館位於建功國小旁，為室內多功能運動場地。二樓設有羽球場供羽球比賽及室內運動使用，地下室提供桌球及跆拳道場地，一樓不定期出租供展示活動使用，並設有智能地墊教室供學生上課及民眾體驗。",
-    "mainImageUrl": "/assets/images/苗栗巨蛋體育館_01.jpg",
+    "mainImageUrl": "/assets/images/miaoli-arena_01.jpg",
     "gallery": [
-      "/assets/images/苗栗巨蛋體育館_01.jpg",
-      "/assets/images/苗栗巨蛋體育館_02.jpg"
+      "/assets/images/miaoli-arena_01.jpg",
+      "/assets/images/miaoli-arena_02.jpg"
     ],
     "pricePerHour": 1500,
     "facilities": [
@@ -790,10 +790,10 @@
     "location": "苗栗市國華路 347 號",
     "type": "運動賽事",
     "description": "本球場興建於民國 89 年，於 110 年獲教育部體育署補助全面改建，設有 3 面籃球場、風雨頂蓋、夜間 LED 照明、壓克力地坪及無障礙廁所。符合教育部運動設施規範及分級分類標準，可供訓練、教學及競賽使用，平時開放式管理供民眾休閒運動。",
-    "mainImageUrl": "/assets/images/大倫風雨籃球場_01.jpg",
+    "mainImageUrl": "/assets/images/dalun-basketball-court_01.jpg",
     "gallery": [
-      "/assets/images/大倫風雨籃球場_01.jpg",
-      "/assets/images/大倫風雨籃球場_02.jpg"
+      "/assets/images/dalun-basketball-court_01.jpg",
+      "/assets/images/dalun-basketball-court_02.jpg"
     ],
     "pricePerHour": 500,
     "facilities": [
@@ -962,10 +962,10 @@
     "location": "苗栗市和平路 54 號",
     "type": "運動賽事",
     "description": "本場地處市區，地理條件優越，現有標準富麗克網球場九面，可供網球及軟式網球作為比賽場地。平時採會員制開放，提供愛好網球運動之朋友使用，讓廣大民眾從事各類休閒運動。",
-    "mainImageUrl": "/assets/images/苗栗縣立網球場_01.jpg",
+    "mainImageUrl": "/assets/images/miaoli-tennis-court_01.jpg",
     "gallery": [
-      "/assets/images/苗栗縣立網球場_01.jpg",
-      "/assets/images/苗栗縣立網球場_02.jpg"
+      "/assets/images/miaoli-tennis-court_01.jpg",
+      "/assets/images/miaoli-tennis-court_02.jpg"
     ],
     "pricePerHour": 100,
     "facilities": [
@@ -1201,9 +1201,9 @@
     "location": "苗栗市貓裡喵親子公園旁",
     "type": "運動賽事",
     "description": "苗栗縣政府斥資 3 千萬元興建之縣內首座合格滑輪溜冰場，於 2022 年 4 月 1 日開始營運。經中華民國滑輪溜冰協會認證，符合舉辦國家級正式賽事規格，設有 200 公尺滑輪溜冰場、成績顯示板、教練指導區及智能夜間照明設備。週六、日白天時段開放民眾免費使用。",
-    "mainImageUrl": "/assets/images/滑輪溜冰場_01.jpg",
+    "mainImageUrl": "/assets/images/roller-skating-rink_01.jpg",
     "gallery": [
-      "/assets/images/滑輪溜冰場_01.jpg"
+      "/assets/images/roller-skating-rink_01.jpg"
     ],
     "pricePerHour": 375,
     "facilities": [
@@ -1382,9 +1382,9 @@
     "location": "苗栗市國華路 347 號",
     "type": "運動賽事",
     "description": "大倫風雨籃球場場地A，標準半場籃球場，設有夜間 LED 照明及壓克力地坪。",
-    "mainImageUrl": "/assets/images/大倫風雨籃球場_01.jpg",
+    "mainImageUrl": "/assets/images/dalun-basketball-court_01.jpg",
     "gallery": [
-      "/assets/images/大倫風雨籃球場_01.jpg"
+      "/assets/images/dalun-basketball-court_01.jpg"
     ],
     "pricePerHour": 500,
     "facilities": [
@@ -1545,9 +1545,9 @@
     "location": "苗栗市國華路 347 號",
     "type": "運動賽事",
     "description": "大倫風雨籃球場場地B，標準半場籃球場，設有夜間 LED 照明及壓克力地坪。",
-    "mainImageUrl": "/assets/images/大倫風雨籃球場_02.jpg",
+    "mainImageUrl": "/assets/images/dalun-basketball-court_02.jpg",
     "gallery": [
-      "/assets/images/大倫風雨籃球場_02.jpg"
+      "/assets/images/dalun-basketball-court_02.jpg"
     ],
     "pricePerHour": 500,
     "facilities": [
@@ -1708,9 +1708,9 @@
     "location": "苗栗市國華路 347 號",
     "type": "運動賽事",
     "description": "大倫風雨籃球場場地C，目前進行地坪維護作業，預計 2026 年 5 月恢復開放。",
-    "mainImageUrl": "/assets/images/大倫風雨籃球場_01.jpg",
+    "mainImageUrl": "/assets/images/dalun-basketball-court_01.jpg",
     "gallery": [
-      "/assets/images/大倫風雨籃球場_01.jpg"
+      "/assets/images/dalun-basketball-court_01.jpg"
     ],
     "pricePerHour": 500,
     "facilities": [
@@ -1871,9 +1871,9 @@
     "location": "竹南鎮龍山路一段 12 號",
     "type": "運動賽事",
     "description": "照南球場場地A，標準棒壘球場，設有夜間照明設備。",
-    "mainImageUrl": "/assets/images/照南棒球場_01.jpg",
+    "mainImageUrl": "/assets/images/zhaonan-baseball-field_01.jpg",
     "gallery": [
-      "/assets/images/照南棒球場_01.jpg"
+      "/assets/images/zhaonan-baseball-field_01.jpg"
     ],
     "pricePerHour": 300,
     "facilities": [
@@ -2037,9 +2037,9 @@
     "location": "竹南鎮龍山路一段 12 號",
     "type": "運動賽事",
     "description": "照南球場場地B，標準棒壘球場，設有夜間照明設備。",
-    "mainImageUrl": "/assets/images/照南棒球場_02.jpg",
+    "mainImageUrl": "/assets/images/zhaonan-baseball-field_02.jpg",
     "gallery": [
-      "/assets/images/照南棒球場_02.jpg"
+      "/assets/images/zhaonan-baseball-field_02.jpg"
     ],
     "pricePerHour": 300,
     "facilities": [

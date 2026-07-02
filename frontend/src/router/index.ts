@@ -1,8 +1,8 @@
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 
-import PortalLayout from '@/layout/PortalLayout.vue'
-import AdminLayout from '@/layout/AdminLayout.vue'
-import FullScreenLayout from '@/layout/FullScreenLayout.vue'
+import PortalLayout from '@/layouts/PortalLayout.vue'
+import AdminLayout from '@/layouts/AdminLayout.vue'
+import FullScreenLayout from '@/layouts/FullScreenLayout.vue'
 
 const router = createRouter({
   history:
@@ -31,12 +31,12 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'portal-index',
+          name: 'home',
           component: () => import('@/views/portal/index.vue'),
         },
         {
           path: 'login',
-          name: 'portal-login',
+          name: 'login',
           component: () => import('@/views/portal/auth/Login.vue'),
         },
         // Auth
@@ -95,7 +95,7 @@ const router = createRouter({
         // Member
         {
           path: 'member',
-          name: 'member-index',
+          name: 'member',
           component: () => import('@/views/portal/member/MemberIndex.vue'),
         },
         {
@@ -164,7 +164,7 @@ const router = createRouter({
         {
           path: 'venues/:id/edit',
           name: 'admin-venue-edit',
-          component: () => import('@/views/admin/venues/edit.vue'),
+          component: () => import('@/views/admin/venues/edit/index.vue'),
           redirect: { name: 'admin-venue-edit-basic' },
           children: [
             {
@@ -180,7 +180,7 @@ const router = createRouter({
             {
               path: 'rental-items',
               name: 'admin-venue-edit-rental-items',
-              component: () => import('@/views/admin/venues/edit/rentalItems.vue'),
+              component: () => import('@/views/admin/venues/edit/rental-items.vue'),
             },
             {
               path: 'photos',
@@ -191,7 +191,7 @@ const router = createRouter({
         },
         {
           path: 'calendar',
-          name: 'admin-venues-calendar',
+          name: 'admin-calendar',
           component: () => import('@/views/admin/calendar/index.vue'),
         },
         {
