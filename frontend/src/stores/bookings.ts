@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
-import mockBookings from '../mocks/generateBookings'
-import mockVenues from '../mocks/venues.json'
-import { publicImageUrl } from '../utils/assets'
+import mockBookings from '@/mocks/generateBookings'
+import mockVenues from '@/mocks/venues.json'
+import { publicImageUrl } from '@/utils/assets'
 
 export interface RentalItemSelection {
   label: string

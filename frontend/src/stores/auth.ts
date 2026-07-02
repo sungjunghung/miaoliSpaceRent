@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import mockUsers from '../mocks/users.json'
+import mockUsers from '@/mocks/users.json'
 
 export interface User {
   id: string

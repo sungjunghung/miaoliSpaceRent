@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { Booking } from '../../stores/bookings'
+import type { Booking } from '@/stores/bookings'
 
 const props = defineProps<{
   booking: Booking
