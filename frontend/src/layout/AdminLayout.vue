@@ -337,10 +337,7 @@ watchEffect(() => {
 // 麵包屑：依當前路由推導祖先層級（詳情頁 → 其列表頁）
 const breadcrumbs = computed(() => {
 	const name = route.name as string
-	const id = route.params.id as string | undefined
 	const ancestors: Array<{ label: string; to: string }> = []
-
-	const entity = entityName.value
 
 	switch (name) {
 		case 'admin-venue-edit':

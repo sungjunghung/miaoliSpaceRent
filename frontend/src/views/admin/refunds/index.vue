@@ -353,10 +353,6 @@ watch(() => route.query, query => {
   }
 }, { immediate: true })
 
-function countByStatus(status: RefundStatus) {
-  return refunds.value.filter(refund => refund.status === status).length
-}
-
 function formatDate(date: string | null) {
   if (!date) return '—'
   return date.replaceAll('-', '/')

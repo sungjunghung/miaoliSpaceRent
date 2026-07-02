@@ -134,9 +134,6 @@ const STATUS_OPTIONS = [
 function statusLabel(s: string) {
   return { available: '開放中', maintenance: '維護中', closed: '已關閉' }[s] ?? s;
 }
-function statusClass(s: string) {
-  return { available: 'badge-success', maintenance: 'badge-warning', closed: 'badge-error' }[s] ?? '';
-}
 function dotClass(s: string) {
   return { available: 'bg-success', maintenance: 'bg-warning', closed: 'bg-error' }[s] ?? 'bg-base-300';
 }
