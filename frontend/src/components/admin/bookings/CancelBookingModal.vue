@@ -6,6 +6,8 @@ import { users as mockUsers } from '@/services/userService'
 
 const props = defineProps<{
   booking: Booking
+  /** 只發起退款，不執行取消（給已取消但當時未建退款單的訂單） */
+  refundOnly?: boolean
 }>()
 
 const bookingsStore = useBookingsStore()
@@ -31,14 +33,18 @@ const existingRefund = computed(() =>
 
 const askRefund = computed(() => isPaid.value && !existingRefund.value)
 
+const showRefundFields = computed(() =>
+  props.refundOnly || (askRefund.value && needRefund.value === 'yes')
+)
+
 const canConfirm = computed(() => {
   if (!cancelReason.value.trim()) return false
-  if (askRefund.value && needRefund.value === 'yes' && refundAmount.value <= 0) return false
+  if (showRefundFields.value && refundAmount.value <= 0) return false
   return true
 })
 
 function openModal() {
-  cancelReason.value = props.booking.status === 'cancellation_requested'
+  cancelReason.value = props.refundOnly || props.booking.status === 'cancellation_requested'
     ? (props.booking.cancelReason ?? '')
     : ''
   needRefund.value = 'yes'
@@ -54,7 +60,7 @@ function openModal() {
 function confirmCancel() {
   if (!canConfirm.value) return
 
-  if (askRefund.value && needRefund.value === 'yes') {
+  if (showRefundFields.value && !existingRefund.value) {
     const member = props.booking.userId ? mockUsers.find(u => u.id === props.booking.userId) : null
     const hasBankInput = bankName.value.trim() && accountName.value.trim() && accountNumber.value.trim()
     refundsStore.createBookingCancellationRefund({
@@ -77,7 +83,9 @@ function confirmCancel() {
     })
   }
 
-  bookingsStore.cancelBooking(props.booking.id, cancelReason.value.trim())
+  if (!props.refundOnly) {
+    bookingsStore.cancelBooking(props.booking.id, cancelReason.value.trim())
+  }
   modalOpen.value = false
 }
 
@@ -87,49 +95,52 @@ defineExpose({ openModal })
 <template>
   <dialog class="modal" :class="{ 'modal-open': modalOpen }">
     <div class="modal-box max-w-md">
-      <h3 class="font-bold mb-1">取消訂單</h3>
+      <h3 class="font-bold mb-1">{{ refundOnly ? '發起退款' : '取消訂單' }}</h3>
       <p class="text-sm text-base-content/60 mb-4">{{ booking.reservationId }}・{{ booking.venueName }}</p>
 
       <fieldset class="fieldset mb-3">
-        <legend class="fieldset-legend">取消原因（必填）</legend>
+        <legend class="fieldset-legend">{{ refundOnly ? '退款原因（必填）' : '取消原因（必填）' }}</legend>
         <textarea v-model="cancelReason" class="textarea textarea-bordered w-full" rows="2"
-          placeholder="例：場館臨時維修、會員來電要求取消⋯"></textarea>
+          :placeholder="refundOnly ? '例：會員申訴成功，補發退款⋯' : '例：場館臨時維修、會員來電要求取消⋯'"></textarea>
       </fieldset>
 
-      <!-- 未付款：直接取消 -->
-      <div v-if="!isPaid" class="alert alert-soft alert-info py-2 mb-3">
-        <span class="material-symbols-outlined text-base">info</span>
-        <span>此訂單尚未繳費，取消後不需退款。</span>
-      </div>
-
-      <!-- 已有退款單：不再重複建立 -->
-      <div v-else-if="existingRefund" class="alert alert-soft alert-warning py-2 mb-3">
-        <span class="material-symbols-outlined text-base">request_quote</span>
-        <span>此訂單已有退款單（{{ existingRefund.id }}），取消後請至退款作業處理。</span>
-      </div>
-
-      <!-- 已付款：詢問是否退款 -->
-      <template v-else>
-        <div v-if="!booking.paymentApprovedAt" class="alert alert-soft alert-warning py-2 mb-3">
-          <span class="material-symbols-outlined text-base">warning</span>
-          <span>此訂單已上傳匯款證明但尚未核准，款項可能已匯出，請先確認是否入帳。</span>
+      <template v-if="!refundOnly">
+        <!-- 未付款：直接取消 -->
+        <div v-if="!isPaid" class="alert alert-soft alert-info py-2 mb-3">
+          <span class="material-symbols-outlined text-base">info</span>
+          <span>此訂單尚未繳費，取消後不需退款。</span>
         </div>
 
-        <fieldset class="fieldset mb-3">
-          <legend class="fieldset-legend">是否退款</legend>
-          <div class="flex gap-4">
-            <label class="label cursor-pointer gap-2">
-              <input v-model="needRefund" type="radio" value="yes" class="radio radio-sm radio-primary" />
-              <span>建立退款單</span>
-            </label>
-            <label class="label cursor-pointer gap-2">
-              <input v-model="needRefund" type="radio" value="no" class="radio radio-sm" />
-              <span>不退款</span>
-            </label>
-          </div>
-        </fieldset>
+        <!-- 已有退款單：不再重複建立 -->
+        <div v-else-if="existingRefund" class="alert alert-soft alert-warning py-2 mb-3">
+          <span class="material-symbols-outlined text-base">request_quote</span>
+          <span>此訂單已有退款單（{{ existingRefund.id }}），取消後請至退款作業處理。</span>
+        </div>
 
-        <template v-if="needRefund === 'yes'">
+        <!-- 已付款：詢問是否退款 -->
+        <template v-else>
+          <div v-if="!booking.paymentApprovedAt" class="alert alert-soft alert-warning py-2 mb-3">
+            <span class="material-symbols-outlined text-base">warning</span>
+            <span>此訂單已上傳匯款證明但尚未核准，款項可能已匯出，請先確認是否入帳。</span>
+          </div>
+
+          <fieldset class="fieldset mb-3">
+            <legend class="fieldset-legend">是否退款</legend>
+            <div class="flex gap-4">
+              <label class="label cursor-pointer gap-2">
+                <input v-model="needRefund" type="radio" value="yes" class="radio radio-sm radio-primary" />
+                <span>建立退款單</span>
+              </label>
+              <label class="label cursor-pointer gap-2">
+                <input v-model="needRefund" type="radio" value="no" class="radio radio-sm" />
+                <span>不退款</span>
+              </label>
+            </div>
+          </fieldset>
+        </template>
+      </template>
+
+      <template v-if="showRefundFields">
           <div class="grid grid-cols-2 gap-3 mb-3">
             <fieldset class="fieldset">
               <legend class="fieldset-legend">申請金額</legend>
@@ -156,12 +167,13 @@ defineExpose({ openModal })
               <input v-model="accountNumber" type="text" class="input input-bordered w-full" placeholder="帳號" />
             </div>
           </fieldset>
-        </template>
       </template>
 
       <div class="modal-action">
         <button class="btn btn-ghost" @click="modalOpen = false">返回</button>
-        <button class="btn btn-error" :disabled="!canConfirm" @click="confirmCancel">確認取消訂單</button>
+        <button class="btn btn-error" :disabled="!canConfirm" @click="confirmCancel">
+          {{ refundOnly ? '確認發起退款' : '確認取消訂單' }}
+        </button>
       </div>
     </div>
     <form method="dialog" class="modal-backdrop" @click="modalOpen = false"></form>

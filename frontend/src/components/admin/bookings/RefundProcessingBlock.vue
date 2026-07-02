@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { Booking } from '@/stores/bookings'
 import {
   REFUND_STATUS_LABELS,
@@ -8,6 +8,7 @@ import {
   getRefundStepState,
   useRefundsStore,
 } from '@/stores/refunds'
+import CancelBookingModal from './CancelBookingModal.vue'
 
 const props = defineProps<{
   booking: Booking
@@ -21,6 +22,15 @@ const centralizedRefund = computed(() =>
     refund.bookingId === props.booking.id
   ) ?? null
 )
+
+// 已取消且曾繳費、但沒有退款單（取消當下選了不退款）→ 可事後補發起退款
+const canInitiateRefund = computed(() =>
+  ['cancelled', 'cancelled_expired', 'cancelled_rejected'].includes(props.booking.status) &&
+  (!!props.booking.remittance || !!props.booking.paymentApprovedAt) &&
+  !centralizedRefund.value
+)
+
+const refundModal = ref<InstanceType<typeof CancelBookingModal> | null>(null)
 
 function formatDate(date: string | null | undefined) {
   if (!date) return '—'
@@ -109,5 +119,25 @@ function formatDate(date: string | null | undefined) {
       </div>
     </div>
 
+    <!-- 已取消且曾繳費但未建退款單：可事後發起退款 -->
+    <div v-else-if="canInitiateRefund" class="card bg-base-100 border border-base-200 shadow-sm">
+      <div class="card-body">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h3 class="font-bold text-base flex items-center gap-2">
+              <span class="material-symbols-outlined">request_quote</span>
+              退款摘要
+            </h3>
+            <p class="text-sm text-base-content/60 mt-1">此訂單已取消且曾繳費，目前沒有退款單；如需退款可在此發起。</p>
+          </div>
+          <button class="btn btn-primary btn-sm" @click="refundModal?.openModal()">
+            <span class="material-symbols-outlined text-base">currency_exchange</span>
+            發起退款
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <CancelBookingModal ref="refundModal" :booking="booking" refund-only />
   </div>
 </template>
