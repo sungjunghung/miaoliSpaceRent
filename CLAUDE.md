@@ -77,6 +77,24 @@
 - **前台（portal）** — 給一般使用者：場地、文章、會員、登入
 - **後台（admin）** — 給管理員：`/admin/*` 路由
 
+### 目錄與資料流規範
+
+**資料存取：`mocks/` 只允許被 `services/` import。**
+views、components、layouts、stores 一律透過 `services/` 或 stores 取得資料，不得直接 import mock JSON。接 API 時只需改寫 services 內部實作。
+
+**元件歸位依使用範圍決定：**
+
+- 被兩個以上頁面使用 → `components/{admin,portal}/`
+- 只有一個頁面使用 → 該頁面自己的 `components/`（如 `views/admin/calendar/components/`）
+- 複合元件的子區塊跟著主元件放同一層，不再細分
+
+**命名慣例：**
+
+- SFC 檔名用 PascalCase；views 內的路由頁採「資料夾 + index/detail/edit.vue」（admin 區）
+- route name：portal 不加前綴（`home`、`login`、`venue-list`），admin 一律 `admin-` 前綴
+- 跨目錄 import 一律用 `@/` alias，同資料夾用 `./`
+- `composables/` 只放有響應式狀態的 `useXxx()`；純函式與常數表放 `utils/`
+- 圖片等靜態資源檔名用英文
 
 ### 樣式
 
