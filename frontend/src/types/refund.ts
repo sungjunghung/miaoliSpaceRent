@@ -22,7 +22,8 @@ export interface RefundRequest {
   amountApproved: number | null
   reason: string
   requestedAt: string
-  bankAccount: RefundBankAccount
+  /** 管理員代會員發起取消退款時可能尚未取得帳戶資料，null 表示待補 */
+  bankAccount: RefundBankAccount | null
   bankbookImage: string | null
   adminApprovedAt: string | null
   accountingApprovedAt: string | null
@@ -41,4 +42,16 @@ export interface NewRetainedDepositRefund {
   amount: number
   reason: string
   bankAccount: RefundBankAccount
+}
+
+export interface NewBookingCancellationRefund {
+  memberId: string
+  memberName: string
+  memberEmail: string
+  memberPhone: string
+  bookingId: number
+  amount: number
+  reason: string
+  refundMethod: 'transfer' | 'check' | null
+  bankAccount: RefundBankAccount | null
 }

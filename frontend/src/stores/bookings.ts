@@ -1,3 +1,4 @@
+import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import { rawBookings as mockBookings } from '@/services/bookingService'
 import { venues as mockVenues } from '@/services/venueService'
@@ -46,7 +47,7 @@ function addDays(dateStr: string, days: number): string {
 }
 
 export const useBookingsStore = defineStore('bookings', () => {
-  const bookings: Booking[] = mockBookings.map(({ refund: _refund, ...b }) => {
+  const bookings: Booking[] = reactive(mockBookings.map(({ refund: _refund, ...b }) => {
     const venue = mockVenues.find(v => v.id === b.venueId)
     const raw = b as any
     const baseFee = calcBaseFee(b, venue)
@@ -105,7 +106,7 @@ export const useBookingsStore = defineStore('bookings', () => {
         ? Math.max(1, Math.round((new Date(b.endDate).getTime() - new Date(b.startDate).getTime()) / 86400000) + 1)
         : undefined,
     }
-  })
+  }))
 
   function getByUserId(userId: string): Booking[] {
     return bookings.filter(b => b.userId === userId)
@@ -115,5 +116,12 @@ export const useBookingsStore = defineStore('bookings', () => {
     return bookings.find(b => b.id === id)
   }
 
-  return { bookings, getByUserId, getById }
+  function cancelBooking(id: number, reason: string) {
+    const booking = getById(id)
+    if (!booking) return
+    booking.status = 'cancelled'
+    booking.cancelReason = reason
+  }
+
+  return { bookings, getByUserId, getById, cancelBooking }
 })

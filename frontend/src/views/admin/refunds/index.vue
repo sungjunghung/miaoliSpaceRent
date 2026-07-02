@@ -147,9 +147,13 @@
                   </tr>
                   <tr>
                     <td class="text-base-content/50">收款帳戶</td>
-                    <td>
+                    <td v-if="selectedRefund.bankAccount">
                       {{ selectedRefund.bankAccount.bankName }} {{ selectedRefund.bankAccount.branchName }}<br>
                       {{ selectedRefund.bankAccount.accountName }} / {{ selectedRefund.bankAccount.accountNumber }}
+                    </td>
+                    <td v-else>
+                      <span class="badge badge-warning badge-outline">待補</span>
+                      <span class="text-base-content/50 ml-2">請向會員取得帳戶資料</span>
                     </td>
                   </tr>
                   <tr v-if="selectedRefund.bankbookImage">

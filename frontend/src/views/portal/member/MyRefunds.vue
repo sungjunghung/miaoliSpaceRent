@@ -69,7 +69,8 @@
                 </tr>
                 <tr>
                   <td class="text-base-content/50">收款帳戶</td>
-                  <td>{{ refund.bankAccount.bankName }} {{ refund.bankAccount.branchName }} / {{ refund.bankAccount.accountName }} / {{ refund.bankAccount.accountNumber }}</td>
+                  <td v-if="refund.bankAccount">{{ refund.bankAccount.bankName }} {{ refund.bankAccount.branchName }} / {{ refund.bankAccount.accountName }} / {{ refund.bankAccount.accountNumber }}</td>
+                  <td v-else class="text-base-content/50">待補（承辦人員將與您聯繫確認）</td>
                 </tr>
                 <tr v-if="refund.bookingId">
                   <td class="text-base-content/50">關聯訂單</td>

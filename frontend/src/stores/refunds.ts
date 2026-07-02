@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { refundRecords as mockRefunds } from '@/services/refundService'
 
-import type { RefundSourceType, RefundStatus, RefundRole, RefundRequest, NewRetainedDepositRefund } from '@/types/refund'
+import type { RefundSourceType, RefundStatus, RefundRole, RefundRequest, NewRetainedDepositRefund, NewBookingCancellationRefund } from '@/types/refund'
 
 export type {
   RefundSourceType,
@@ -11,6 +11,7 @@ export type {
   RefundBankAccount,
   RefundRequest,
   NewRetainedDepositRefund,
+  NewBookingCancellationRefund,
 } from '@/types/refund'
 
 export const REFUND_TYPE_LABELS: Record<RefundSourceType, string> = {
@@ -99,6 +100,34 @@ export const useRefundsStore = defineStore('refunds', () => {
     return refund
   }
 
+  function createBookingCancellationRefund(input: NewBookingCancellationRefund): RefundRequest {
+    const refund: RefundRequest = {
+      id: nextRefundId(records.value.length),
+      type: 'booking_cancellation',
+      status: 'admin_review',
+      memberId: input.memberId,
+      memberName: input.memberName,
+      memberEmail: input.memberEmail,
+      memberPhone: input.memberPhone,
+      bookingId: input.bookingId,
+      amountRequested: input.amount,
+      amountApproved: null,
+      reason: input.reason,
+      requestedAt: todayString(),
+      bankAccount: input.bankAccount,
+      bankbookImage: null,
+      adminApprovedAt: null,
+      accountingApprovedAt: null,
+      cashierCompletedAt: null,
+      rejectedAt: null,
+      rejectedReason: null,
+      notes: '由後台管理員取消訂單並發起退款。',
+      refundMethod: input.refundMethod,
+    }
+    records.value.unshift(refund)
+    return refund
+  }
+
   function approveAdmin(id: string, approvedAmount: number) {
     const refund = getById(id)
     if (!refund) return
@@ -136,6 +165,7 @@ export const useRefundsStore = defineStore('refunds', () => {
     getById,
     getByMemberId,
     createRetainedDepositRefund,
+    createBookingCancellationRefund,
     approveAdmin,
     approveAccounting,
     completeCashier,

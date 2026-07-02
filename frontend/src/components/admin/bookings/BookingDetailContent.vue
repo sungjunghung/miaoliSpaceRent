@@ -11,6 +11,7 @@ import FeeDetailsBlock from './FeeDetailsBlock.vue'
 import PaymentReviewBlock from './PaymentReviewBlock.vue'
 import AdminNoteBlock from './AdminNoteBlock.vue'
 import ScheduleEditModal from './ScheduleEditModal.vue'
+import CancelBookingModal from './CancelBookingModal.vue'
 
 const props = defineProps<{
   booking: Booking
@@ -21,10 +22,27 @@ const member = computed(() =>
 )
 
 const scheduleEditModal = ref<InstanceType<typeof ScheduleEditModal> | null>(null)
+const cancelBookingModal = ref<InstanceType<typeof CancelBookingModal> | null>(null)
+
+// 可取消 = 租借開始日前一天為止 + 非已完成/已取消
+const today = new Date().toISOString().slice(0, 10)
+const cancellable = computed(() => {
+  const start = props.booking.startDate ?? props.booking.date
+  if (start <= today) return false
+  return !['completed', 'cancelled', 'cancelled_expired', 'cancelled_rejected'].includes(props.booking.status)
+})
 </script>
 
 <template>
   <div class="space-y-4 p-4">
+    <!-- 管理員取消訂單 -->
+    <div v-if="cancellable" class="flex justify-end">
+      <button class="btn btn-error btn-outline btn-sm" @click="cancelBookingModal?.openModal()">
+        <span class="material-symbols-outlined text-base">event_busy</span>
+        {{ booking.status === 'cancellation_requested' ? '核准取消' : '取消訂單' }}
+      </button>
+    </div>
+
     <!-- 取消/退款摘要；實際退款作業集中於退款作業頁 -->
     <RefundProcessingBlock :booking="booking" />
 
@@ -48,5 +66,8 @@ const scheduleEditModal = ref<InstanceType<typeof ScheduleEditModal> | null>(nul
 
     <!-- 日期/時段異動 Modal -->
     <ScheduleEditModal ref="scheduleEditModal" :booking="booking" />
+
+    <!-- 取消訂單 Modal -->
+    <CancelBookingModal ref="cancelBookingModal" :booking="booking" />
   </div>
 </template>
