@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, ref, computed, type Ref, type ComputedRef } from 'vue';
-import OpeningHoursEditor from '@/components/admin/venue/OpeningHoursEditor.vue';
+import OpeningHoursEditor from './components/OpeningHoursEditor.vue';
 
 interface Venue {
   id: number;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { inject, computed, ref, type Ref } from 'vue';
-import RentalModeCollapse from './RentalModeCollapse.vue';
+import RentalModeCollapse from './components/RentalModeCollapse.vue';
 
 interface SessionDef {
   name: string;

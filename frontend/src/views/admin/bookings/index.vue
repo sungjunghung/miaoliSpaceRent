@@ -139,7 +139,7 @@ import { formatBookingDate, RENTAL_MODE_LABELS_SHORT } from '@/utils/bookingForm
 import { CANCELLED_STATUSES } from '@/utils/bookingStatus'
 import VenueFilterDropdown from '@/components/admin/VenueFilterDropdown.vue'
 import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue'
-import BookingDetailContent from './components/BookingDetailContent.vue'
+import BookingDetailContent from '@/components/admin/bookings/BookingDetailContent.vue'
 
 const bookingsStore = useBookingsStore()
 

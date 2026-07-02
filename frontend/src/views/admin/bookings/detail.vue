@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBookingsStore } from '@/stores/bookings'
-import BookingDetailContent from './components/BookingDetailContent.vue'
+import BookingDetailContent from '@/components/admin/bookings/BookingDetailContent.vue'
 
 const route = useRoute()
 const bookingsStore = useBookingsStore()

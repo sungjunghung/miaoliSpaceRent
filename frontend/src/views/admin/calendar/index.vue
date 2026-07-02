@@ -16,15 +16,15 @@ import { useEventTooltip } from '@/composables/useEventTooltip';
 import { useBookingsStore } from '@/stores/bookings';
 import { formatBookingDate } from '@/utils/bookingFormat';
 import type { CalendarEvent } from '@/types/calendar';
-import CalendarHeader from '@/components/admin/calendar/CalendarHeader.vue';
-import DayView from '@/components/admin/calendar/DayView.vue';
-import WeekView from '@/components/admin/calendar/WeekView.vue';
-import MonthView from '@/components/admin/calendar/MonthView.vue';
-import YearView from '@/components/admin/calendar/YearView.vue';
-import BookingTooltip from '@/components/admin/calendar/BookingTooltip.vue';
-import EventModal from '@/components/admin/calendar/EventModal.vue';
+import CalendarHeader from './components/CalendarHeader.vue';
+import DayView from './components/DayView.vue';
+import WeekView from './components/WeekView.vue';
+import MonthView from './components/MonthView.vue';
+import YearView from './components/YearView.vue';
+import BookingTooltip from './components/BookingTooltip.vue';
+import EventModal from './components/EventModal.vue';
 import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue';
-import BookingDetailContent from './bookings/components/BookingDetailContent.vue';
+import BookingDetailContent from '@/components/admin/bookings/BookingDetailContent.vue';
 import { rawBookings as mockBookings } from '@/services/bookingService'
 import { venues as mockVenues } from '@/services/venueService'
 import { calendarNotes as mockCalendarNotes } from '@/services/calendarNoteService'

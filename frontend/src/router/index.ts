@@ -143,7 +143,7 @@ const router = createRouter({
         {
           path: '',
           name: 'admin-login',
-          component: () => import('@/views/admin/login.vue'),
+          component: () => import('@/views/admin/login/index.vue'),
         },
       ],
     },
@@ -192,7 +192,7 @@ const router = createRouter({
         {
           path: 'calendar',
           name: 'admin-venues-calendar',
-          component: () => import('@/views/admin/calendar.vue'),
+          component: () => import('@/views/admin/calendar/index.vue'),
         },
         {
           path: 'bookings',
@@ -207,7 +207,7 @@ const router = createRouter({
         {
           path: 'refunds',
           name: 'admin-refunds',
-          component: () => import('@/views/admin/refunds.vue'),
+          component: () => import('@/views/admin/refunds/index.vue'),
         },
         {
           path: 'members',
@@ -242,12 +242,12 @@ const router = createRouter({
         {
           path: 'profile',
           name: 'admin-profile',
-          component: () => import('@/views/admin/profile.vue'),
+          component: () => import('@/views/admin/profile/index.vue'),
         },
         {
           path: 'reports',
           name: 'admin-reports',
-          component: () => import('@/views/admin/reports.vue'),
+          component: () => import('@/views/admin/reports/index.vue'),
         },
         {
           path: 'news',
