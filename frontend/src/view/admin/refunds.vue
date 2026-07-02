@@ -1,35 +1,12 @@
 <template>
-  <div class="space-y-4">
-    <RoleSimulationPanel v-model="currentRole" />
+  <div class="space-y-4 p-4">
+    <section >
 
-    <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="stat bg-base-100 border border-base-200 rounded-box">
-        <div class="stat-title">退款申請</div>
-        <div class="stat-value text-2xl">{{ refunds.length }}</div>
-      </div>
-      <div class="stat bg-base-100 border border-base-200 rounded-box">
-        <div class="stat-title">待承辦</div>
-        <div class="stat-value text-2xl">{{ countByStatus('admin_review') }}</div>
-      </div>
-      <div class="stat bg-base-100 border border-base-200 rounded-box">
-        <div class="stat-title">待會計</div>
-        <div class="stat-value text-2xl">{{ countByStatus('accounting_review') }}</div>
-      </div>
-      <div class="stat bg-base-100 border border-base-200 rounded-box">
-        <div class="stat-title">待出納</div>
-        <div class="stat-value text-2xl">{{ countByStatus('cashier_processing') }}</div>
-      </div>
-    </section>
-
-    <section class="card bg-base-100 border border-base-200 shadow-sm">
-      <div class="card-body gap-4">
-        <div class="flex items-center justify-between gap-2 flex-wrap">
-          <h2 class="card-title">退款作業清單</h2>
-          <p class="text-sm text-base-content/50">共 {{ filteredRefunds.length }} 筆符合條件</p>
-        </div>
-
-        <div class="flex flex-wrap gap-2">
-          <input v-model="search" type="text" class="input min-w-64 flex-1" placeholder="搜尋申請人、編號、Email、原因" />
+        <div class="flex flex-wrap gap-2 mb-4">
+          <label class="input">
+          <span class="material-symbols-outlined text-lg">search</span>
+          <input v-model="search" type="text"  placeholder="搜尋申請人、編號、Email、原因" />
+          </label>
           <select v-model="filterType" class="select w-fit min-w-44">
             <option value="">全部來源</option>
             <option value="booking_cancellation">訂單取消退款</option>
@@ -43,15 +20,9 @@
             <option value="completed">退款完成</option>
             <option value="rejected">已駁回</option>
           </select>
-          <select v-model="filterTodoRole" class="select w-fit min-w-40">
-            <option value="">全部待辦角色</option>
-            <option value="admin">承辦</option>
-            <option value="accounting">會計</option>
-            <option value="cashier">出納</option>
-          </select>
         </div>
 
-        <div class="overflow-x-auto border border-base-200 rounded-box">
+        <div class="basis-table-container">
           <table class="table">
             <thead>
               <tr>
@@ -62,11 +33,10 @@
                 <th>申請日期</th>
                 <th class="text-right">金額</th>
                 <th>待辦</th>
-                <th class="w-px"></th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="refund in filteredRefunds" :key="refund.id" class="hover">
+              <tr v-for="refund in filteredRefunds" :key="refund.id" class="hover" @click="openRefund(refund.id)">
                 <td>
                   <span :class="['badge', REFUND_STATUS_LABELS[refund.status].className]">
                     {{ REFUND_STATUS_LABELS[refund.status].label }}
@@ -91,11 +61,6 @@
                   </span>
                   <span v-else class="text-base-content/30">—</span>
                 </td>
-                <td>
-                  <button class="btn btn-ghost btn-square tooltip" title="檢視" data-tip="檢視" @click="openRefund(refund.id)">
-                    <span class="material-symbols-outlined">visibility</span>
-                  </button>
-                </td>
               </tr>
               <tr v-if="filteredRefunds.length === 0">
                 <td colspan="8" class="text-center text-base-content/40 py-10">找不到符合條件的退款申請</td>
@@ -103,7 +68,7 @@
             </tbody>
           </table>
         </div>
-      </div>
+   
     </section>
 
     <AdminSlideDrawer
@@ -120,7 +85,6 @@
             <span :class="['badge', REFUND_STATUS_LABELS[selectedRefund.status].className]">
               {{ REFUND_STATUS_LABELS[selectedRefund.status].label }}
             </span>
-            <span class="badge badge-ghost">目前角色：{{ ROLE_LABELS[currentRole] }}</span>
           </div>
 
           <ul v-if="selectedRefund.status !== 'rejected'" class="steps steps-vertical lg:steps-horizontal w-full">
@@ -252,7 +216,7 @@
               <h3 class="font-bold">簽核操作</h3>
 
               <template v-if="selectedRefund.status === 'admin_review'">
-                <div v-if="currentRole === 'admin'" class="space-y-3">
+                <div class="space-y-3">
                   <fieldset class="fieldset">
                     <label class="label">核定退款金額</label>
                     <label class="input w-full max-w-xs">
@@ -267,11 +231,10 @@
                     </button>
                   </div>
                 </div>
-                <LockedStage v-else stage="承辦初審" />
               </template>
 
               <template v-else-if="selectedRefund.status === 'accounting_review'">
-                <div v-if="currentRole === 'accounting'" class="space-y-3">
+                <div class="space-y-3">
                   <div class="alert alert-info alert-soft">
                     <span class="material-symbols-outlined">info</span>
                     <span>承辦核定金額：NT$ {{ (selectedRefund.amountApproved ?? 0).toLocaleString() }}</span>
@@ -281,11 +244,10 @@
                     <button class="btn btn-primary" @click="approveSelectedAccounting">核定無誤</button>
                   </div>
                 </div>
-                <LockedStage v-else stage="會計核定" />
               </template>
 
               <template v-else-if="selectedRefund.status === 'cashier_processing'">
-                <div v-if="currentRole === 'cashier'" class="space-y-3">
+                <div class="space-y-3">
                   <div class="alert alert-info alert-soft">
                     <span class="material-symbols-outlined">payments</span>
                     <span>請依收款帳戶完成撥款後再結案。</span>
@@ -294,7 +256,6 @@
                     <button class="btn btn-primary" @click="completeSelectedCashier">確認已撥款</button>
                   </div>
                 </div>
-                <LockedStage v-else stage="出納撥款" />
               </template>
 
               <div v-else class="alert alert-success alert-soft">
@@ -313,9 +274,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineComponent, h, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import RoleSimulationPanel from './bookings/components/RoleSimulationPanel.vue'
 import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue'
 import { useBookingsStore } from '@/stores/bookings'
 import {
@@ -325,37 +285,16 @@ import {
   getRefundStepState,
   refundTodoRole,
   useRefundsStore,
-  type RefundRole,
   type RefundSourceType,
   type RefundStatus,
 } from '@/stores/refunds'
-
-const LockedStage = defineComponent({
-  props: {
-    stage: { type: String, required: true },
-  },
-  setup(props) {
-    return () => h('div', { class: 'alert alert-warning alert-soft' }, [
-      h('span', { class: 'material-symbols-outlined' }, 'lock'),
-      h('span', `${props.stage} 階段僅對應角色可操作。`),
-    ])
-  },
-})
-
-const ROLE_LABELS: Record<RefundRole, string> = {
-  admin: '承辦',
-  accounting: '會計',
-  cashier: '出納',
-}
 
 const refundsStore = useRefundsStore()
 const bookingsStore = useBookingsStore()
 const route = useRoute()
 
-const currentRole = ref<RefundRole>('admin')
 const filterType = ref<'' | RefundSourceType>('')
 const filterStatus = ref<'' | RefundStatus>('')
-const filterTodoRole = ref<'' | RefundRole>('')
 const search = ref('')
 const selectedRefundId = ref<string | null>(null)
 const approvedAmountInput = ref<number | null>(null)
@@ -372,7 +311,6 @@ const filteredRefunds = computed(() =>
     .filter(refund => {
       if (filterType.value && refund.type !== filterType.value) return false
       if (filterStatus.value && refund.status !== filterStatus.value) return false
-      if (filterTodoRole.value && refundTodoRole(refund.status) !== filterTodoRole.value) return false
       const q = search.value.trim().toLowerCase()
       if (!q) return true
       return [

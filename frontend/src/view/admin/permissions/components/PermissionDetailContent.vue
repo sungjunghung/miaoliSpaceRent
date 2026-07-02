@@ -18,6 +18,7 @@ interface PermissionGroup {
   name: string
   description: string
   isSystem: boolean
+  isSuperAdmin: boolean
   memberCount: number
   permissions: string[]
   createdAt: string
@@ -30,6 +31,7 @@ function emptyGroup(): PermissionGroup {
     name: '',
     description: '',
     isSystem: false,
+    isSuperAdmin: false,
     memberCount: 0,
     permissions: [],
     createdAt: '',
@@ -198,7 +200,11 @@ function handleDelete() {
 </script>
 
 <template>
-  <div v-if="formData.isSystem" role="alert" class="alert alert-warning mb-4">
+  <div v-if="formData.isSuperAdmin" role="alert" class="alert alert-info mb-4">
+    <span class="material-symbols-outlined">verified_user</span>
+    <span>此為超級管理員，擁有系統全部權限，且不受權限設定約束。</span>
+  </div>
+  <div v-else-if="formData.isSystem" role="alert" class="alert alert-warning mb-4">
     <span class="material-symbols-outlined">info</span>
     <span>此為系統內建群組，無法修改權限設定或刪除。</span>
   </div>
@@ -226,7 +232,7 @@ function handleDelete() {
       </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm">
+    <div v-if="!formData.isSuperAdmin" class="card bg-base-100 shadow-sm">
       <div class="card-body">
         <div class="flex items-center justify-between mb-1">
           <h2 class="card-title text-base">

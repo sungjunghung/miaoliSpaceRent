@@ -120,7 +120,7 @@ function onDragEnd() {
       尚未新增任何圖片
     </div>
 
-    <div class="flex justify-end">
+    <div class="sticky bottom-0 z-10 mt-6 flex justify-end border-t border-base-300 bg-base-100/90 py-3 backdrop-blur">
       <button type="button" class="btn btn-primary px-8">儲存照片設定</button>
     </div>
   </div>

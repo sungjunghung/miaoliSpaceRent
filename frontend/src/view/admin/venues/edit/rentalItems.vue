@@ -57,7 +57,7 @@ function handleSave() {
 </script>
 
 <template>
-  <div class="space-y-3">
+  <div class="space-y-3 p-4 border">
     <div role="alert" class="alert alert-info">
       <span class="material-symbols-outlined">info</span>
       <span>設定場地可租借的設備或額外收費項目，金額為 0 表示免費提供；可拖曳排序。</span>
@@ -118,7 +118,7 @@ function handleSave() {
     <button type="button" class="btn btn-neutral w-fit" @click="addItem">＋ 新增項目</button>
   </div>
 
-  <div class="flex justify-end">
+  <div class="sticky bottom-0 z-10 flex justify-end border-t border-base-300 bg-base-100/90 py-3 backdrop-blur">
     <button type="button" class="btn btn-primary px-8" @click="handleSave">儲存附加項目</button>
   </div>
 </template>

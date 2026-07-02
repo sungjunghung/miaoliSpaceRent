@@ -4,7 +4,7 @@
 
 - **資料庫名稱**: miaoliSpaceRent
 - **資料庫類型**: PostgreSQL 16
-- **資料表數量**: 18 張
+- **資料表數量**: 21 張
 - **主要功能**: 場館/空間租借、會員管理、預約與系統後台營運
 - **特殊功能**:
   - 自動格式化 ID（透過觸發器）
@@ -24,6 +24,10 @@
 | `VenueRentalModes` | 場地租借模式設定表 | 🔴 高 |
 | `VenueTimeSlots` | 場地時段定義表 | 🔴 高 |
 | `VenuePrices` | 場地價格表（平日/假日） | 🔴 高 |
+| `VenueRentalItems` | 場館附加項目／設備租借表 | 🔴 高 |
+| `VenueRequiredDocuments` | 場館各模式需檢附文件表 | 🔴 高 |
+| `DocumentTemplates` | 文件範本主檔 | 🟡 中 |
+| `VenueImages` | 場館圖片表（多圖、排序、主圖） | 🔴 高 |
 | `SystemHolidays` | 系統國定假日表 | 🔴 高 |
 | `VenueHolidaySettings` | 場館假日設定表 | 🔴 高 |
 | `VenueDayTypeOverrides` | 場館自訂日別覆寫表 | 🔴 高 |
@@ -41,7 +45,6 @@
 |--------|------|--------|
 | `Payments` | 付款記錄表 | 🟢 低 |
 | `AuditLogs` | 操作記錄表 | 🟢 低 |
-| `VenueImages` | 場館圖片表（多圖） | 🟢 低 |
 | `Notifications` | 通知記錄表 | 🟢 低 |
 
 ---
@@ -96,26 +99,34 @@
 |---------|---------|------|
 | Id | SERIAL | 主鍵（自動遞增） |
 | Name | VARCHAR(200) | 場館名稱（必填） |
+| Type | VARCHAR(50) | 場館類別（例：運動賽事、藝文展演，可選） |
 | Description | VARCHAR(1000) | 場館介紹（可選） |
 | Location | VARCHAR(500) | 場館地址（必填） |
 | Capacity | INT | 容納人數（必填） |
-| ParentId | INT | 父層 ID（自我關聯，可選） |
+| ParentId | INT | 父層 ID（自我關聯，可選；NULL 表頂層） |
 | HasChildren | BOOLEAN | 是否有子空間（預設：false） |
 | IsRentable | BOOLEAN | 是否可租借（預設：true） |
-| AdvanceBookingDays | INT | 可提前預訂天數（可選） |
-| CancelBeforeHours | INT | 取消需提前幾小時（可選） |
 | LockChildrenWhenBooked | BOOLEAN | 租借時是否鎖定子空間（預設：false） |
-| Facilities | JSONB | 設施（JSON 陣列） |
-| Notices | JSONB | 預約須知（JSON 陣列） |
-| OpeningHours | JSONB | 營業時間（JSON 物件） |
-| Status | VARCHAR(20) | 狀態（正常/維護中/停用，預設：正常） |
-| IsActive | BOOLEAN | 是否啟用（預設：true） |
+| AdvanceBookingDays | INT | 最早可申請：使用日前 N 天（可選） |
+| LatestBookingDays | INT | 最晚可預約：使用日前 N 天（可選） |
+| CancellationDeadlineDays | INT | 最晚取消：使用日前 N 天（可選） |
+| ReceiptUploadDeadlineDays | INT | 匯款資料上傳期限：確認後 N 天內（可選） |
+| DocumentUploadDeadlineDays | INT | 文件上傳期限：審核通過後 N 天內（可選） |
+| Facilities | JSONB | 設施（JSON 字串陣列） |
+| Notices | JSONB | 預約須知（JSON 字串陣列） |
+| OpeningHours | JSONB | 營業時間（JSON 物件，鍵為 mon~sun） |
+| ClosedWeekdays | JSONB | 固定休館星期（JSON 數字陣列，0=日～6=六） |
+| ClosedDates | JSONB | 休館日期（JSON 日期字串陣列） |
+| Status | VARCHAR(20) | 狀態（available/maintenance/closed，預設：available） |
+| IsActive | BOOLEAN | 是否啟用（可空） |
 | CreatedAt | TIMESTAMPTZ | 建立時間（自動設定） |
 | UpdatedAt | TIMESTAMPTZ | 更新時間（自動更新） |
 
 **注意事項**:
 - `ParentId` 為 NULL 表示頂層場館
 - 階層結構由應用層維護，資料庫僅儲存父子關係
+- 各期限欄位（AdvanceBookingDays、LatestBookingDays、CancellationDeadlineDays、ReceiptUploadDeadlineDays、DocumentUploadDeadlineDays）為**場館層級**設定；後台編輯頁雖以「每租借模式」呈現，實際持久化於場館層級（各模式共用）
+- `ClosedWeekdays` / `ClosedDates` 為簡易休館設定；更細緻的單日開／閉館與日別覆寫另見 VenueDateOverrides / VenueDayTypeOverrides
 - 所有 JSONB 欄位在資料庫層面可為 NULL，實際使用時由應用層處理
 
 ---
@@ -129,9 +140,20 @@
 | VenueId | INT | 場館 ID（關聯 Venues） |
 | Mode | VARCHAR(20) | 租借模式（daily/timeslot/hourly） |
 | IsEnabled | BOOLEAN | 是否啟用此模式 |
-| MaxDays | INT | 最多可租借天數（daily 模式用） |
+| MinDays | INT | 最少租借天數（daily 模式用） |
+| MaxDays | INT | 最多租借天數（daily 模式用） |
 | MinHours | INT | 最少租借時數（hourly 模式用） |
 | MaxHours | INT | 最多租借時數（hourly 模式用） |
+| DepositEnabled | BOOLEAN | 是否需要保證金 |
+| DepositAmount | NUMERIC(10,2) | 保證金金額 |
+| RequireDocuments | BOOLEAN | 此模式是否需檢附文件 |
+| SetupAllowanceHours | NUMERIC(4,1) | 場佈容許時數（可 0.5 為單位） |
+| TeardownAllowanceHours | NUMERIC(4,1) | 撤場容許時數（可 0.5 為單位） |
+| SetupOverageUnitMinutes | INT | 場佈超時計費單位（分鐘） |
+| TeardownOverageUnitMinutes | INT | 撤場超時計費單位（分鐘） |
+| SetupOverageFeePerUnit | NUMERIC(10,2) | 場佈超時每單位費用 |
+| TeardownOverageFeePerUnit | NUMERIC(10,2) | 撤場超時每單位費用 |
+| OverageRoundingMode | VARCHAR(10) | 超時進位方式（ceil/floor/nearest） |
 | CreatedAt | TIMESTAMPTZ | 建立時間 |
 | UpdatedAt | TIMESTAMPTZ | 更新時間 |
 
@@ -139,7 +161,7 @@
 
 **Mode 說明**:
 - `daily`: 整日租借（以天為單位）
-- `timeslot`: 時段租借（上午/下午/夜間）
+- `timeslot`: 時段租借（上午/下午/夜間；前端程式內部 key 為 `session`，時段區間見 VenueTimeSlots）
 - `hourly`: 小時租借（以小時為單位）
 
 ---
@@ -177,23 +199,98 @@
 | Id | SERIAL | 主鍵（自動遞增） |
 | VenueId | INT | 場館 ID（關聯 Venues） |
 | Mode | VARCHAR(20) | 租借模式（daily/timeslot/hourly） |
-| DayType | VARCHAR(20) | 日期類型（weekday/holiday） |
-| TimeSlotCode | VARCHAR(20) | 時段代碼（timeslot 模式用，可為 NULL） |
-| Price | NUMERIC(10,2) | 價格 |
+| TimeSlotCode | VARCHAR(20) | 時段代碼（timeslot 模式用，其餘為 NULL） |
+| Price | NUMERIC(10,2) | 平日價 |
+| WeekendPrice | NUMERIC(10,2) | 假日價 |
 | CreatedAt | TIMESTAMPTZ | 建立時間 |
 | UpdatedAt | TIMESTAMPTZ | 更新時間 |
 
-**唯一約束**: `(VenueId, Mode, DayType, TimeSlotCode)` 確保價格設定不重複
+**唯一約束**: `(VenueId, Mode, TimeSlotCode)` 確保價格設定不重複
 
-**價格類型範例**:
-| Mode | DayType | TimeSlotCode | 說明 |
-|------|---------|--------------|------|
-| daily | weekday | NULL | 平日整日價 |
-| daily | holiday | NULL | 假日整日價 |
-| timeslot | weekday | morning | 平日上午時段價 |
-| timeslot | holiday | afternoon | 假日下午時段價 |
-| hourly | weekday | NULL | 平日每小時價 |
-| hourly | holiday | NULL | 假日每小時價 |
+**價格範例**:
+| Mode | TimeSlotCode | Price（平日） | WeekendPrice（假日） | 說明 |
+|------|--------------|------|------|------|
+| daily | NULL | 50000 | 50000 | 整日價 |
+| timeslot | morning | 3000 | 3000 | 上午時段價 |
+| timeslot | afternoon | 3000 | 3000 | 下午時段價 |
+| hourly | NULL | 500 | 600 | 每小時價 |
+
+**身份別價格（尚未落地）**:
+後台編輯頁已支援「身份別價格」（每列一種身份，如一般民眾／在地居民，各有平日、假日價），但**目前資料層尚未持久化此維度**（現行僅存一組基準價 Price/WeekendPrice）。未來若導入，建議擴充身份別維度——例如新增 `IdentityLabel` 欄位並將其納入唯一約束，或另建 `VenuePriceIdentities` 子表。
+
+---
+
+### VenueRentalItems - 場館附加項目／設備租借表
+**用途**: 設定場地可額外租借的設備或收費項目（金額 0 表示免費提供）
+
+| 欄位名稱 | 資料型別 | 說明 |
+|---------|---------|------|
+| Id | SERIAL | 主鍵（自動遞增） |
+| VenueId | INT | 場館 ID（關聯 Venues） |
+| Label | VARCHAR(100) | 項目名稱（如：折疊椅） |
+| Unit | VARCHAR(20) | 單位（張、台、組…） |
+| Amount | NUMERIC(10,2) | 金額（0 表示免費） |
+| Quantity | INT | 可租借總數量 |
+| MaxPerBooking | INT | 每次預約租借上限 |
+| SortOrder | INT | 排序（可為 NULL） |
+| CreatedAt | TIMESTAMPTZ | 建立時間 |
+| UpdatedAt | TIMESTAMPTZ | 更新時間 |
+
+---
+
+### VenueRequiredDocuments - 場館各模式需檢附文件表
+**用途**: 設定各場館各租借模式需檢附的文件與其範本檔
+
+| 欄位名稱 | 資料型別 | 說明 |
+|---------|---------|------|
+| Id | SERIAL | 主鍵（自動遞增） |
+| VenueId | INT | 場館 ID（關聯 Venues） |
+| Mode | VARCHAR(20) | 租借模式（daily/timeslot/hourly） |
+| TemplateKey | VARCHAR(50) | 文件範本鍵（關聯 DocumentTemplates.Key） |
+| Required | BOOLEAN | 是否必繳 |
+| TemplateFile | VARCHAR(255) | 已上傳的範本檔名（可為 NULL） |
+| AppliesTo | JSONB | 適用模式（JSON 字串陣列，如 `["daily"]`） |
+| CreatedAt | TIMESTAMPTZ | 建立時間 |
+| UpdatedAt | TIMESTAMPTZ | 更新時間 |
+
+**唯一約束**: `(VenueId, Mode, TemplateKey)`
+
+**注意事項**:
+- `Mode` 為此筆設定所歸屬的模式；`AppliesTo` 記錄同一份文件實際適用於哪些模式（前端支援跨模式套用同一文件）
+
+---
+
+### DocumentTemplates - 文件範本主檔
+**用途**: 定義系統可用的文件範本類型，供各場館各模式引用
+
+| 欄位名稱 | 資料型別 | 說明 |
+|---------|---------|------|
+| Id | SERIAL | 主鍵（自動遞增） |
+| Key | VARCHAR(50) | 範本鍵（唯一，如 application_form / agreement / payment_proof） |
+| Label | VARCHAR(100) | 文件名稱（如：租借申請書） |
+| Hint | VARCHAR(200) | 說明提示 |
+| CreatedAt | TIMESTAMPTZ | 建立時間 |
+| UpdatedAt | TIMESTAMPTZ | 更新時間 |
+
+**唯一約束**: `Key`
+
+---
+
+### VenueImages - 場館圖片表
+**用途**: 管理場館圖片、主圖與排序
+
+| 欄位名稱 | 資料型別 | 說明 |
+|---------|---------|------|
+| Id | SERIAL | 主鍵（自動遞增） |
+| VenueId | INT | 場館 ID（關聯 Venues） |
+| Url | VARCHAR(500) | 圖片 URL |
+| IsMain | BOOLEAN | 是否為主圖 |
+| SortOrder | INT | 排序 |
+| CreatedAt | TIMESTAMPTZ | 建立時間 |
+| CreatedBy | INT | 建立者 ID |
+
+**注意事項**:
+- 每個場館建議僅一張 `IsMain = true`（主圖）；前端另以 `SortOrder` 決定 gallery 顯示順序
 
 ---
 
@@ -229,19 +326,23 @@
 ---
 
 ### VenueHolidaySettings - 場館假日設定表
-**用途**: 設定各場館的假日判定規則（開關型設定），決定哪些日期適用假日價格
+**用途**: 設定各場館各租借模式的假日判定規則，決定哪些星期／日期適用假日價格
 
 | 欄位名稱 | 資料型別 | 說明 |
 |---------|---------|------|
 | Id | SERIAL | 主鍵（自動遞增） |
-| VenueId | INT | 場館 ID（關聯 Venues，唯一） |
-| UseSystemHolidays | BOOLEAN | 是否套用系統國定假日 |
-| SaturdayAsHoliday | BOOLEAN | 週六是否算假日價 |
-| SundayAsHoliday | BOOLEAN | 週日是否算假日價 |
+| VenueId | INT | 場館 ID（關聯 Venues） |
+| Mode | VARCHAR(20) | 租借模式（daily/timeslot/hourly） |
+| WeekendDays | JSONB | 視為假日價的星期（JSON 數字陣列，0=日～6=六） |
+| WeekendIncludeHolidays | BOOLEAN | 是否納入系統國定假日為假日價 |
 | CreatedAt | TIMESTAMPTZ | 建立時間 |
 | UpdatedAt | TIMESTAMPTZ | 更新時間 |
 
-**唯一約束**: `VenueId` 確保每個場館只有一筆設定
+**唯一約束**: `(VenueId, Mode)` 確保每個場館每種模式只有一筆設定
+
+**注意事項**:
+- 後台編輯頁目前將假日設定視為**場館層級共用**（各模式相同）；資料層則以 `(VenueId, Mode)` 儲存，保留未來各模式獨立設定的彈性
+- 是否「啟用假日價」由 `WeekendDays` 非空或 `WeekendIncludeHolidays` 為真推導，未另存旗標欄位
 
 ---
 
@@ -333,25 +434,25 @@
 
 ### 假日判定優先順序
 
-對於某場館某日期，DayType（weekday/holiday）的判定規則如下：
+對於某場館某租借模式在某日期，DayType（weekday/holiday）的判定規則如下：
 
 1. **VenueDayTypeOverrides** 最高優先 → 若該日有覆寫，直接採用（weekday/holiday）
-2. **SystemHolidays**（當 UseSystemHolidays=true）→ national 類型為假日，makeup_workday 為平日
-3. **SaturdayAsHoliday / SundayAsHoliday** → 週末判定
+2. **SystemHolidays**（當該模式 WeekendIncludeHolidays=true）→ national 類型為假日，makeup_workday 為平日
+3. **WeekendDays** → 若該日星期落在設定的假日星期清單，視為假日
 4. 其他日期 → 平日
 
 **判定邏輯偽代碼**:
 ```
-function getDayType(venueId, date):
-    setting = getVenueHolidaySetting(venueId)
+function getDayType(venueId, mode, date):
+    setting = getVenueHolidaySetting(venueId, mode)
 
     // 1. 場館自訂日別覆寫（最高優先）
     override = getVenueDayTypeOverride(venueId, date)
     if override exists:
         return override.DayType  // weekday/holiday
 
-    // 2. 系統國定假日（可由場館決定是否套用）
-    if setting.UseSystemHolidays:
+    // 2. 系統國定假日（可由場館各模式決定是否套用）
+    if setting.WeekendIncludeHolidays:
         systemHoliday = getSystemHoliday(date)
         if systemHoliday:
             if systemHoliday.HolidayType == 'national':
@@ -359,10 +460,8 @@ function getDayType(venueId, date):
             if systemHoliday.HolidayType == 'makeup_workday':
                 return 'weekday'
 
-    // 3. 週末判定
-    if date.isSaturday() and setting.SaturdayAsHoliday:
-        return 'holiday'
-    if date.isSunday() and setting.SundayAsHoliday:
+    // 3. 假日星期判定（WeekendDays：0=日～6=六）
+    if date.weekday() in setting.WeekendDays:
         return 'holiday'
 
     // 4. 預設為平日
@@ -564,29 +663,6 @@ function getDayType(venueId, date):
 | RequestUrl | VARCHAR(1000) | 請求 URL |
 | RequestMethod | VARCHAR(10) | 請求方法 |
 | CreatedAt | TIMESTAMPTZ | 建立時間 |
-
----
-
-### VenueImages - 場館圖片表
-**用途**: 管理場館圖片與排序
-
-| 欄位名稱 | 資料型別 | 說明 |
-|---------|---------|------|
-| Id | SERIAL | 主鍵（自動遞增） |
-| VenueId | INT | 場館 ID（關聯 Venues） |
-| ImageUrl | VARCHAR(500) | 圖片 URL |
-| ThumbnailUrl | VARCHAR(500) | 縮圖 URL |
-| Title | VARCHAR(200) | 圖片標題 |
-| Description | VARCHAR(500) | 圖片說明 |
-| Order | INT | 排序 |
-| ImageType | VARCHAR(20) | 類型（main/gallery/facility） |
-| IsMain | BOOLEAN | 是否主圖 |
-| FileName | VARCHAR(255) | 檔名 |
-| FileSize | BIGINT | 檔案大小 |
-| Width | INT | 寬度 |
-| Height | INT | 高度 |
-| CreatedAt | TIMESTAMPTZ | 建立時間 |
-| CreatedBy | INT | 建立者 ID |
 
 ---
 

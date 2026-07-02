@@ -145,7 +145,7 @@ function executeDelete() {
 </script>
 
 <template>
-  <div v-if="!isNew" role="tablist" class="tabs tabs-lift mb-4">
+  <div v-if="!isNew" role="tablist" class="tabs tabs-border bg-base-100 mb-4">
     <button role="tab" class="tab" :class="{ 'tab-active': activeTab === 'basic' }"
       @click="activeTab = 'basic'">基本資料</button>
     <button role="tab" class="tab" :class="{ 'tab-active': activeTab === 'bookings' }"

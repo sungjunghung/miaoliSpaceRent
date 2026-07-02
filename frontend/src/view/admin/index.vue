@@ -159,7 +159,7 @@ function formatTime(b: any) {
 
 <template>
   
-  <div class="space-y-5">
+  <div class="space-y-4 p-4">
 
     <!-- ── Filter ──────────────────────────────────────────────── -->
     <div class="flex items-center justify-end">

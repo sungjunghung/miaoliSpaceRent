@@ -52,7 +52,7 @@ function getEventLabel(type: 'rented' | 'unavailable' | 'closed' | 'maintenance'
       return '時段保留';
     case 'unavailable':
     default:
-      return '不開放租借';
+      return '預約處理中';
   }
 }
 
@@ -159,7 +159,7 @@ function selectionStyle() {
 
 <template>
   <div class="flex items-start gap-4">
-    <MiniCalendar mode="day" />
+  
     <div class="grid grid-cols-[50px_1fr] gap-x-2 flex-1">
       <div></div>
       <div class="border border-b-0 border-base-300 rounded-t-lg bg-base-200 px-4 py-2 text-sm font-semibold">
@@ -205,6 +205,6 @@ function selectionStyle() {
         </div>
       </div>
     </div>
-
+  <MiniCalendar mode="day" />
   </div>
 </template>

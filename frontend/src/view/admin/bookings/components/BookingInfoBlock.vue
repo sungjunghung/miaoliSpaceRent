@@ -14,7 +14,7 @@ const today = new Date().toISOString().slice(0, 10)
 const formatDate = (b: Booking) => formatBookingDate(b, true)
 </script>
 <template>
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card bg-base-100 shadow-sm basis-border">
       <div class="card-body">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">

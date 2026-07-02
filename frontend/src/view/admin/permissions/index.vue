@@ -1,15 +1,18 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 p-4">
 
     <div class="flex items-center justify-between">
-      <input v-model="search" type="text" class="input" placeholder="搜尋群組名稱" />
+       <label class="input">
+          <span class="material-symbols-outlined text-lg">search</span>
+      <input v-model="search" type="text" placeholder="搜尋群組名稱" />
+      </label>
       <button class="btn btn-primary" @click="openDrawer('new')">
         <span class="material-symbols-outlined text-lg">add</span>
         新增權限群組
       </button>
     </div>
 
-    <div class="card bg-base-100 border border-base-200 shadow-sm overflow-x-auto">
+    <div class="basis-table-container">
       <table class="table">
         <thead>
           <tr>
@@ -18,11 +21,10 @@
             <th>權限數</th>
             <th>成員數</th>
             <th>更新日期</th>
-            <th class="w-px"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="group in filtered" :key="group.id" class="hover">
+          <tr v-for="group in filtered" :key="group.id" class="hover" @click="openDrawer(group.id)">
             <td>
               <div class="flex items-center gap-2">
                 <span class="font-semibold">{{ group.name }}</span>
@@ -31,24 +33,16 @@
             </td>
             <td class="text-base-content/60 max-w-xs truncate">{{ group.description }}</td>
             <td>
-              <span class="badge badge-ghost">{{ group.permissions.length }} 項</span>
+              <span class="badge badge-ghost">
+                <template v-if="group.isSuperAdmin">全部</template>
+                <template v-else>{{ group.permissions.length }} 項</template>
+              </span>
             </td>
             <td>
               <span class="badge" :class="group.memberCount > 0 ? 'badge-info' : 'badge-ghost'">{{
                 group.memberCount }} 人</span>
             </td>
             <td class="text-base-content/60">{{ group.updatedAt }}</td>
-            <td>
-              <div class="flex gap-1">
-                <button class="btn btn-ghost btn-square tooltip" title="編輯" data-tip="編輯" @click="openDrawer(group.id)">
-                  <span class="material-symbols-outlined">edit</span>
-                </button>
-                <button class="btn btn-error btn-ghost btn-square tooltip" title="刪除" data-tip="刪除"
-                  :disabled="group.isSystem">
-                  <span class="material-symbols-outlined">delete</span>
-                </button>
-              </div>
-            </td>
           </tr>
           <tr v-if="filtered.length === 0">
             <td colspan="6" class="text-center text-base-content/40 py-10">找不到符合的權限群組</td>

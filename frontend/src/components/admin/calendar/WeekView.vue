@@ -39,6 +39,8 @@ function getEventColor(type: 'rented' | 'unavailable' | 'closed' | 'maintenance'
   }
 }
 
+const WEEKDAY_LABELS = ['日', '一', '二', '三', '四', '五', '六'];
+
 const emit = defineEmits<{
   eventClick: [event: CalendarEvent];
   createEvent: [date: Date, startMinutes: number, endMinutes: number];
@@ -143,82 +145,55 @@ function selectionStyle(date: Date) {
 
 <template>
   <div class="flex items-start gap-4">
-    <MiniCalendar mode="week" />
- 
-  <div class="grid grid-cols-[50px_1fr] gap-2 flex-1">
-    <div></div>
-    <div class="grid grid-cols-7 gap-2">
-      <div
-        v-for="day in calendar.weekDays.value"
-        :key="day.toISOString()"
-        class="px-2 py-2 text-sm font-semibold border border-base-300 rounded-lg bg-base-200"
-      >
-        {{ pad(day.getMonth() + 1) }}/{{ pad(day.getDate()) }}
+
+
+    <div class="grid grid-cols-[50px_1fr] gap-2 flex-1">
+      <div></div>
+      <div class="grid grid-cols-7 gap-2">
+        <div v-for="day in calendar.weekDays.value" :key="day.toISOString()"
+          class="px-2 py-2 text-sm font-semibold border border-base-300 rounded-lg bg-base-200">
+          {{ pad(day.getMonth() + 1) }}/{{ pad(day.getDate()) }}（{{ WEEKDAY_LABELS[day.getDay()] }}）
+        </div>
       </div>
-    </div>
-    <div class="text-xs text-base-content/50">
-      <div
-        v-for="label in timeLabels"
-        :key="label"
-        class="flex items-start"
-        :style="{ height: `${slotHeight * 2}px` }"
-      >
-        {{ formatTime(label) }}
+      <div class="text-xs text-base-content/50">
+        <div v-for="label in timeLabels" :key="label" class="flex items-start"
+          :style="{ height: `${slotHeight * 2}px` }">
+          {{ formatTime(label) }}
+        </div>
       </div>
-    </div>
-    <div class="bg-base-100">
-      <!-- 時間軸（整日 + 時段共存） -->
-      <div class="relative grid grid-cols-7 gap-2">
-        <div
-          v-if="nowIndicatorTop !== null"
-          class="absolute left-0 right-0 z-10 border-t-2 border-dashed border-red-400/60 pointer-events-none"
-          :style="{ top: `${nowIndicatorTop}%` }"
-        ></div>
-        <div
-          v-for="day in calendar.weekDays.value"
-          :key="day.toISOString()"
-          class="border border-base-300 rounded-lg overflow-hidden"
-        >
-          <div
-            class="relative bg-base-100"
-            :style="{ height: `${gridHeight}px` }"
-            @pointerdown="startDrag(day, $event)"
-          >
-            <div class="absolute inset-0">
-              <div
-                v-for="slot in timeSlots"
-                :key="slot"
-                :class="slot % 60 === 0 ? 'border-t border-base-300' : 'border-t border-base-200'"
-                :style="{ height: `${slotHeight}px` }"
-              ></div>
-            </div>
-            <div
-              class="absolute left-0 right-0 bg-primary/20"
-              :style="selectionStyle(day)"
-            ></div>
-            <!-- 所有事件統一排版 -->
-            <div
-              v-for="layout in getUnifiedLayouts(day)"
-              :key="layout.event.id"
-              class="absolute p-0.5"
-              :style="eventBlockStyle(layout)"
-            >
-              <button
-                class="w-full h-full text-left text-xs rounded border px-1 py-0.5 shadow-sm hover:shadow overflow-hidden"
-                :class="[getEventColor(layout.event.type), { '[writing-mode:vertical-lr]': layout.totalColumns >= 3 }]"
-                data-event-block="true"
-                @click.stop="emit('eventClick', layout.event)"
-                @mouseenter="eventTooltip.show(layout.event, $event.clientX, $event.clientY)"
-                @mousemove="eventTooltip.move($event.clientX, $event.clientY)"
-                @mouseleave="eventTooltip.hide()"
-              >
-                <div class="font-semibold truncate">{{ layout.event.title }}</div>
-              </button>
+      <div class="bg-base-100">
+        <!-- 時間軸（整日 + 時段共存） -->
+        <div class="relative grid grid-cols-7 gap-2">
+          <div v-if="nowIndicatorTop !== null"
+            class="absolute left-0 right-0 z-10 border-t-2 border-dashed border-red-400/60 pointer-events-none"
+            :style="{ top: `${nowIndicatorTop}%` }"></div>
+          <div v-for="day in calendar.weekDays.value" :key="day.toISOString()"
+            class="border border-base-300 rounded-lg overflow-hidden">
+            <div class="relative bg-base-100" :style="{ height: `${gridHeight}px` }"
+              @pointerdown="startDrag(day, $event)">
+              <div class="absolute inset-0">
+                <div v-for="slot in timeSlots" :key="slot"
+                  :class="slot % 60 === 0 ? 'border-t border-base-300' : 'border-t border-base-200'"
+                  :style="{ height: `${slotHeight}px` }"></div>
+              </div>
+              <div class="absolute left-0 right-0 bg-primary/20" :style="selectionStyle(day)"></div>
+              <!-- 所有事件統一排版 -->
+              <div v-for="layout in getUnifiedLayouts(day)" :key="layout.event.id" class="absolute p-0.5"
+                :style="eventBlockStyle(layout)">
+                <button
+                  class="w-full h-full text-left text-xs rounded border px-1 py-0.5 shadow-sm hover:shadow overflow-hidden"
+                  :class="[getEventColor(layout.event.type), { '[writing-mode:vertical-lr]': layout.totalColumns >= 3 }]"
+                  data-event-block="true" @click.stop="emit('eventClick', layout.event)"
+                  @mouseenter="eventTooltip.show(layout.event, $event.clientX, $event.clientY)"
+                  @mousemove="eventTooltip.move($event.clientX, $event.clientY)" @mouseleave="eventTooltip.hide()">
+                  <div class="font-semibold truncate">{{ layout.event.title }}</div>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <MiniCalendar mode="week" />
   </div>
 </template>

@@ -16,6 +16,7 @@ export interface CalendarState {
   events: Ref<CalendarEvent[]>
   filteredEvents: ComputedRef<CalendarEvent[]>
   selectedVenueIds: Ref<Set<number> | null>
+  selectedEventTypes: Ref<Set<string> | null>
   weekDays: ComputedRef<Date[]>
   monthWeeks: ComputedRef<Date[][]>
   yearMonths: ComputedRef<Date[]>
@@ -37,17 +38,33 @@ export function useCalendarState(_venueId?: number): CalendarState {
   const events = ref<CalendarEvent[]>([])
   // null = 顯示全部；空 Set = 全部隱藏；有 ID = 只顯示指定場館
   const selectedVenueIds = ref<Set<number> | null>(null)
+  // null = 顯示全部類型；有值 = 只顯示指定事件類型（rented/unavailable/closed/note/blocked）
+  const selectedEventTypes = ref<Set<string> | null>(null)
 
   const filteredEvents = computed<CalendarEvent[]>(() => {
-    const all = events.value ?? []
-    if (selectedVenueIds.value === null) return all
-    const ids = selectedVenueIds.value
-    if (ids.size === 0) return all.filter(e => e.metadata?.venueId == null)
-    return all.filter(e => {
-      const vid = e.metadata?.venueId
-      if (vid == null) return true  // global notes / closed days — always show
-      return ids.has(vid)
-    })
+    let result = events.value ?? []
+
+    // 場館過濾
+    if (selectedVenueIds.value !== null) {
+      const ids = selectedVenueIds.value
+      if (ids.size === 0) {
+        result = result.filter(e => e.metadata?.venueId == null)
+      } else {
+        result = result.filter(e => {
+          const vid = e.metadata?.venueId
+          if (vid == null) return true  // global notes / closed days — always show
+          return ids.has(vid)
+        })
+      }
+    }
+
+    // 事件類型過濾
+    if (selectedEventTypes.value !== null) {
+      const types = selectedEventTypes.value
+      result = result.filter(e => types.has(e.type))
+    }
+
+    return result
   })
 
   let timer: ReturnType<typeof setInterval> | null = null
@@ -122,6 +139,7 @@ export function useCalendarState(_venueId?: number): CalendarState {
     events,
     filteredEvents,
     selectedVenueIds,
+    selectedEventTypes,
     weekDays,
     monthWeeks,
     yearMonths,

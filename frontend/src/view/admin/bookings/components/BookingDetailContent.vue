@@ -3,7 +3,6 @@ import { computed, ref } from 'vue'
 import type { Booking } from '../../../../stores/bookings'
 import mockUsers from '../../../../mocks/users.json'
 
-import RoleSimulationPanel from './RoleSimulationPanel.vue'
 import RefundProcessingBlock from './RefundProcessingBlock.vue'
 import BookingInfoBlock from './BookingInfoBlock.vue'
 import ApplicantInfoBlock from './ApplicantInfoBlock.vue'
@@ -21,17 +20,11 @@ const member = computed(() =>
   props.booking.userId ? mockUsers.find(user => user.id === props.booking.userId) : null
 )
 
-// 角色切換（prototype 展示用，上線前改為從 auth store 讀取）
-const currentRole = ref<'admin' | 'cashier' | 'accounting'>('admin')
-
 const scheduleEditModal = ref<InstanceType<typeof ScheduleEditModal> | null>(null)
 </script>
 
 <template>
-  <div class="space-y-4">
-    <!-- 實機操作展示：對帳權限隔離機制 -->
-    <RoleSimulationPanel v-model="currentRole" />
-
+  <div class="space-y-4 p-4">
     <!-- 取消/退款摘要；實際退款作業集中於退款作業頁 -->
     <RefundProcessingBlock :booking="booking" />
 
@@ -42,13 +35,13 @@ const scheduleEditModal = ref<InstanceType<typeof ScheduleEditModal> | null>(nul
     <ApplicantInfoBlock :booking="booking" :member="member" />
 
     <!-- 申請文件 -->
-    <DocumentReviewBlock :booking="booking" :currentRole="currentRole" />
+    <DocumentReviewBlock :booking="booking" />
 
     <!-- 費用明細 -->
     <FeeDetailsBlock :booking="booking" />
 
     <!-- 匯款資訊 / 繳費狀態 -->
-    <PaymentReviewBlock :booking="booking" :currentRole="currentRole" />
+    <PaymentReviewBlock :booking="booking" />
 
     <!-- 管理員備注 -->
     <AdminNoteBlock :booking="booking" />

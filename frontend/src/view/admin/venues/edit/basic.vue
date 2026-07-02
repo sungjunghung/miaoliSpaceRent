@@ -145,7 +145,7 @@ function handleSave() {
 </script>
 
 <template>
-  <div class="space-y-4 px-4">
+  <div class="space-y-4 p-4">
     <!-- 基本資訊 -->
     <div class="card bg-base-100 shadow-sm">
       <div class="card-body">
@@ -242,9 +242,9 @@ function handleSave() {
       </div>
     </div>
 
-    <!-- 儲存 -->
-    <div class="flex justify-end">
-      <button type="button" class="btn btn-primary px-8" @click="handleSave">儲存基礎資料</button>
-    </div>
+  </div>
+  <!-- 儲存（sticky） -->
+  <div class="sticky bottom-0 z-10 flex justify-end border-t border-base-300 bg-base-100/90 py-3 backdrop-blur">
+    <button type="button" class="btn btn-primary px-8" @click="handleSave">儲存基礎資料</button>
   </div>
 </template>

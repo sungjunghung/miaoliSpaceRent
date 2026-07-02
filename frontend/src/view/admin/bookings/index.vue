@@ -1,33 +1,20 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 p-4">
 
     <!-- 年份 + 月份 + 篩選 -->
     <div class="flex items-center justify-between gap-2 flex-wrap">
-      <!-- 左：年份切換 + 月份 -->
-      <div class="flex items-center gap-2 flex-wrap">
-        <div class="flex items-center">
-          <button class="btn btn-ghost btn-square" @click="selectYear(filterYear - 1)">
-            <span class="material-symbols-outlined">chevron_left</span>
-          </button>
-          <span class="w-14 text-center font-medium">{{ filterYear }}</span>
-          <button class="btn btn-ghost btn-square" @click="selectYear(filterYear + 1)"
-            :disabled="filterYear >= today.getFullYear()">
-            <span class="material-symbols-outlined">chevron_right</span>
-          </button>
-        </div>
-        <div class="tabs tabs-box bg-base-300">
-          <button v-for="m in 12" :key="m" class="tab"
-            :class="[filterMonth === m ? 'tab-active' : 'btn-ghost', isMonthDisabled(m) ? 'opacity-30' : '']"
-            @click="filterMonth = m">{{ m }}月</button>
-        </div>
-      </div>
+   
 
-      <!-- 右：搜尋 + 場館 + 狀態 -->
-      <div class="flex-1 flex items-center justify-end gap-2 flex-wrap">
-        <input v-model="search" type="text" class="input" placeholder="搜尋申請人、場館或目的" />
-
+      <!-- 左：搜尋 + 場館 + 狀態 -->
+      <div class="flex-1 flex items-center gap-2 flex-wrap">
+      
         <!-- 場館複選 -->
-        <VenueFilterDropdown v-model="filterVenueIds" class="w-fit min-w-36" />
+        <VenueFilterDropdown v-model="filterVenueIds" class="w-fit min-w-36" :end="false" />
+        
+        <label class="input">
+          <span class="material-symbols-outlined text-lg">search</span>
+          <input v-model="search" type="text" placeholder="搜尋申請人、場館或目的" />
+        </label>
 
         <select v-model="filterStatus" class="select w-fit min-w-36">
           <option value="">全部狀態</option>
@@ -46,9 +33,28 @@
           <option value="wait_user">等待用戶</option>
         </select>
       </div>
+
+      <!-- 右：年份切換 + 月份 -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <div class="flex items-center">
+          <button class="btn btn-ghost btn-square" @click="selectYear(filterYear - 1)">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <span class="w-14 text-center font-medium">{{ filterYear }}</span>
+          <button class="btn btn-ghost btn-square" @click="selectYear(filterYear + 1)"
+            :disabled="filterYear >= today.getFullYear()">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+        <div class="tabs tabs-box bg-base-300">
+          <button v-for="m in 12" :key="m" class="tab"
+            :class="[filterMonth === m ? 'tab-active' : 'btn-ghost', isMonthDisabled(m) ? 'opacity-30' : '']"
+            @click="filterMonth = m">{{ m }}月</button>
+        </div>
+      </div>
     </div>
 
-    <div class="card bg-base-100 border border-base-200 shadow-sm overflow-x-auto">
+    <div class="basis-table-container">
       <table class="table">
         <thead>
           <tr>
@@ -60,11 +66,10 @@
             <th>申請人</th>
             <th>待辦</th>
             <th>金額</th>
-            <th class="w-px"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="b in paginated" :key="b.id" class="hover">
+          <tr v-for="b in paginated" :key="b.id" class="hover" @click="openBookingDrawer(b.id)">
             <td>
               <span :class="['badge ', statusLabel(b).cls]">{{ statusLabel(b).label }}</span>
             </td>
@@ -94,17 +99,6 @@
               </template>
             </td>
             <td class="font-semibold whitespace-nowrap">NT$ {{ b.totalPrice.toLocaleString() }}</td>
-            <td>
-              <div class="flex gap-1">
-                <button class="btn btn-ghost btn-square tooltip" title="檢視" data-tip="檢視"
-                  @click="openBookingDrawer(b.id)">
-                  <span class="material-symbols-outlined">visibility</span>
-                </button>
-                <button class="btn btn-error btn-ghost btn-square tooltip" title="刪除" data-tip="刪除">
-                  <span class="material-symbols-outlined">delete</span>
-                </button>
-              </div>
-            </td>
           </tr>
           <tr v-if="filtered.length === 0">
             <td colspan="9" class="text-center text-base-content/40 py-10">找不到符合的預約</td>

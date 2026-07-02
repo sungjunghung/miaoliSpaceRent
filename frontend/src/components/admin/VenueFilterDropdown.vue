@@ -4,6 +4,8 @@ import mockVenues from '@/mocks/venues.json'
 
 const model = defineModel<number[]>({ default: () => [] })
 
+const { end = true } = defineProps<{ end?: boolean }>()
+
 const parentVenues = mockVenues.filter(v => v.parentId === null)
 function childrenOf(parentId: number) {
   return mockVenues.filter(v => v.parentId === parentId)
@@ -69,7 +71,7 @@ const filterLabel = computed(() => {
 </script>
 
 <template>
-  <details class="dropdown dropdown-end">
+  <details class="dropdown" :class="{ 'dropdown-end': end }">
     <summary class="select">
       <span class="flex-1 text-left truncate">{{ filterLabel }}</span>
     </summary>

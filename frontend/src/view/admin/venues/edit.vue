@@ -158,38 +158,42 @@ function confirmDelete() {
 </script>
 
 <template>
-  <!-- 場館層級動作列：名稱 + 狀態變更 + 刪除 -->
-  <div class="flex flex-wrap items-center gap-3 bg-base-100 px-4 py-3">
-    <div class="flex items-center gap-2">
-      <!-- <span class="text-sm text-base-content/60">狀態</span> -->
-      <div class="dropdown">
-        <button type="button" tabindex="0" class="btn btn-sm btn-outline gap-2">
-          <span class="inline-block w-2 h-2 rounded-full" :class="dotClass(formData.status)"></span>
-          {{ statusLabel(formData.status) }}
-          <span class="material-symbols-outlined text-base">expand_more</span>
-        </button>
-        <ul tabindex="0" class="dropdown-content menu z-10 mt-1 w-36 rounded-box bg-base-100 p-1 shadow border border-base-300">
-          <li v-for="s in STATUS_OPTIONS" :key="s.value">
-            <a :class="{ active: formData.status === s.value }" @click="setStatus(s.value)">
-              <span class="inline-block w-2 h-2 rounded-full" :class="dotClass(s.value)"></span>{{ s.label }}
-            </a>
-          </li>
-        </ul>
+  <!-- 頁籤以上區塊（動作列 + 頁籤）固定在頂部 -->
+  <div class="sticky top-0 z-20 bg-base-100 border-b border-base-300 ">
+    <!-- 場館層級動作列：名稱 + 狀態變更 + 刪除 -->
+    <div class="flex flex-wrap items-center gap-3 bg-base-100 px-4 py-3">
+      <div class="flex items-center gap-2">
+        <!-- <span class="text-sm text-base-content/60">狀態</span> -->
+        <div class="dropdown">
+          <button type="button" tabindex="0" class="btn btn-sm btn-outline gap-2">
+            <span class="inline-block w-2 h-2 rounded-full" :class="dotClass(formData.status)"></span>
+            {{ statusLabel(formData.status) }}
+            <span class="material-symbols-outlined text-base">expand_more</span>
+          </button>
+          <ul tabindex="0"
+            class="dropdown-content menu z-10 mt-1 w-36 rounded-box bg-base-100 p-1 shadow border border-base-300">
+            <li v-for="s in STATUS_OPTIONS" :key="s.value">
+              <a :class="{ active: formData.status === s.value }" @click="setStatus(s.value)">
+                <span class="inline-block w-2 h-2 rounded-full" :class="dotClass(s.value)"></span>{{ s.label }}
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
+      <h1 class="text-lg font-bold truncate">{{ formData.name || '未命名場館' }}</h1>
+      <button type="button" class="btn btn-error btn-outline btn-sm ml-auto gap-1" @click="deleteOpen = true">
+        <span class="material-symbols-outlined text-sm">delete</span>
+        刪除場館
+      </button>
     </div>
-    <h1 class="text-lg font-bold truncate">{{ formData.name || '未命名場館' }}</h1>
-    <button type="button" class="btn btn-error btn-outline btn-sm ml-auto gap-1" @click="deleteOpen = true">
-      <span class="material-symbols-outlined text-sm">delete</span>
-      刪除場館
-    </button>
-  </div>
 
-  <!-- Tabs -->
-  <div role="tablist" class="tabs tabs-border bg-base-100 mb-4 px-2">
-    <button v-for="tab in tabs" :key="tab.key" role="tab" class="tab" :class="{ 'tab-active': activeTab === tab.key }"
-      @click="navigateTab(tab)">
-      {{ tab.label }}
-    </button>
+    <!-- Tabs -->
+    <div role="tablist" class="tabs tabs-border bg-base-100 px-2">
+      <button v-for="tab in tabs" :key="tab.key" role="tab" class="tab" :class="{ 'tab-active': activeTab === tab.key }"
+        @click="navigateTab(tab)">
+        {{ tab.label }}
+      </button>
+    </div>
   </div>
   <!-- Sub-page content -->
   <router-view />

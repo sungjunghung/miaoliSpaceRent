@@ -21,9 +21,9 @@ function formatEventTime(iso: string): string {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4  gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4  gap-1">
     <button v-for="month in calendar.yearMonths.value" :key="month.toISOString()"
-      class="border border-base-300 rounded-lg p-4 hover:bg-base-200 transition"
+      class="border border-base-300 rounded-lg p-4 hover:bg-base-200 transition bg-base-100"
       @click="calendar.handleMonthClick(month)">
       <div class="text-sm font-semibold mb-3">{{ month.getFullYear() }} / {{ pad(month.getMonth() + 1) }}</div>
       <div class="grid grid-cols-7 gap-1 text-[10px] text-base-content/50">
@@ -33,10 +33,10 @@ function formatEventTime(iso: string): string {
         <span v-for="day in getMiniMonthGrid(month)" :key="day.toISOString()"
           class="relative text-center py-1 rounded flex flex-col items-center group" :class="{
             'text-base-content/30': !isSameMonth(day, month),
-            'bg-primary/10 text-primary': isSameDay(day, new Date()),
+            'bg-primary/10 text-primary': isSameDay(day, new Date()) && isSameMonth(day, month),
           }">
           {{ day.getDate() }}
-          <span v-if="hasEvents(day)" class="status status-sm status-success"></span>
+          <span v-if="hasEvents(day)" class="status status-md status-success"></span>
           <!-- hover tooltip -->
           <div
             v-if="hasEvents(day)"

@@ -48,43 +48,25 @@ function isWeekend(day: Date): boolean {
 }
 
 function getDayBackgroundClass(day: Date): string {
-  const dayEvents = getMonthCellEvents(calendar.filteredEvents.value ?? [], day);
-  const allDayEvent = dayEvents.find(event => event.allDay);
-
-  if (allDayEvent) {
-    if (allDayEvent.type === 'rented') {
-      return 'bg-orange-50';
-    } else if (allDayEvent.type === 'unavailable') {
-      return 'bg-base-200';
-    } else if (allDayEvent.type === 'closed') {
-      // 開館覆寫使用正常背景色（不改變）
-      if (allDayEvent.metadata?.overrideType === 'open') {
-        return isWeekend(day) ? 'bg-base-200/50' : '';
-      }
-      return 'bg-red-50';
-    }
-  }
-
-  // 如果沒有全天事件，週末顯示淺灰色背景
+  // 格子背景僅以週末淺灰底標示；事件顏色改由格子內的事件條呈現，不套用於整格
   if (isWeekend(day)) {
     return 'bg-base-200/50';
   }
-
   return '';
 }
 </script>
 
 <template>
-  <div class="grid grid-cols-7 text-sm text-base-content/60">
+  <div class="grid grid-cols-7 text-sm text-base-content/60  bg-base-300">
     <div v-for="label in weekDayLabels" :key="label" class="px-2 py-2 font-medium">
       {{ label }}
     </div>
   </div>
-  <div class="border border-base-300 overflow-hidden">
+  <div class="overflow-hidden">
     <div v-for="(week, weekIndex) in calendar.monthWeeks.value" :key="`week-${weekIndex}`"
       class="grid grid-cols-7 border-b border-base-300 last:border-b-0">
       <button v-for="day in week" :key="day.toISOString()"
-        class="border border-base-200 p-2 min-h-30 text-left transition flex flex-col bg-base-100"
+        class="border border-base-300 p-2 min-h-30 text-left transition flex flex-col bg-base-100"
         :class="[getDayBackgroundClass(day) || 'hover:bg-base-200']" @click="calendar.handleDayClick(day)"
         @dblclick.stop="emit('createEvent', day)">
         <div class="flex items-center justify-between mb-2">

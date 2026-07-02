@@ -190,9 +190,9 @@ const router = createRouter({
           ],
         },
         {
-          path: 'venues/calendar',
+          path: 'calendar',
           name: 'admin-venues-calendar',
-          component: () => import('../view/admin/venues/calendar.vue'),
+          component: () => import('../view/admin/calendar.vue'),
         },
         {
           path: 'bookings',

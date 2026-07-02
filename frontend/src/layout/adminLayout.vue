@@ -1,15 +1,17 @@
 <template>
 	<div class="drawer lg:drawer-open ">
 		<input id="my-drawer-4" type="checkbox" class="drawer-toggle peer" v-model="drawerOpen" />
-		<div class="drawer-content h-full flex flex-col">
+		<div class="drawer-content h-screen flex flex-col">
 
 			<!-- Navbar -->
-			<nav class="navbar w-full bg-base-100 sticky top-0 z-30 border-b border-b-base-300">
+			<nav class="w-full bg-base-100 border-b border-b-base-300 flex py-1 px-4 ">
+				<!-- 左側：返回鍵（非一級頁才顯示）＋ 麵包屑 -->
 				<div class="flex-1 flex items-center gap-1 min-w-0">
-					<button v-if="!isTopLevel" class="btn btn-ghost btn-circle shrink-0" @click="back()">
+					<button v-if="!isTopLevel" class="btn btn-ghost btn-sm btn-square shrink-0 tooltip tooltip-bottom"
+						data-tip="返回上一頁" @click="back()">
 						<span class="material-symbols-outlined text-xl">arrow_back</span>
 					</button>
-					<div class="breadcrumbs text-sm min-w-0 py-0 pl-4">
+					<div class="breadcrumbs text-sm min-w-0">
 						<ul>
 							<li><router-link to="/admin" class="text-base-content/50">後台管理</router-link></li>
 							<li v-for="ancestor in breadcrumbs.ancestors" :key="ancestor.to">
@@ -19,62 +21,52 @@
 						</ul>
 					</div>
 				</div>
+				<!-- 右側：回前台、今日日期、字體縮放、使用者選單 -->
 				<div class="flex-none space-x-2 flex items-center">
-					<span class="font-mono text-base text-base-content/70 tracking-wide pr-2 flex items-center gap-2">
-						<span class="material-symbols-outlined inline-block">calendar_month</span>
+					<RouterLink class="btn btn-ghost btn-sm btn-square tooltip tooltip-bottom" data-tip="回前台首頁" to="/">
+						<span class="material-symbols-outlined text-xl">home</span>
+					</RouterLink>
+					<span class="font-mono text-base  tracking-wide pr-2 flex items-center gap-2">
+						<span class="material-symbols-outlined inline-block text-xl">calendar_month</span>
 						{{ todayLabel }}</span>
+					<!-- 字體縮放：縮小 / 還原 / 放大 -->
 					<div class="join border border-base-300 mr-2 items-center">
-						<button class="join-item btn btn-sm px-3 btn-ghost" @click="decreaseFontSize" :disabled="fontSize <= minFontSize" title="縮小字體">A-</button>
-						<button class="join-item btn btn-sm px-2 btn-ghost font-mono text-xs w-14" @click="resetFontSize" title="還原預設">
+						<button class="join-item btn btn-square btn-sm px-3 btn-ghost tooltip tooltip-bottom"
+							data-tip="縮小字體" @click="decreaseFontSize" :disabled="fontSize <= minFontSize">
+							<span class="material-symbols-outlined inline-block">remove</span>
+						</button>
+						<button class="join-item btn btn-sm px-2 btn-ghost font-mono text-xs w-14 tooltip tooltip-bottom"
+							data-tip="還原預設" @click="resetFontSize">
 							{{ Math.round((fontSize / 16) * 100) }}%
 						</button>
-						<button class="join-item btn btn-sm px-3 btn-ghost" @click="increaseFontSize" :disabled="fontSize >= maxFontSize" title="放大字體">A+</button>
+						<button class="join-item btn btn-square btn-sm px-3 btn-ghost tooltip tooltip-bottom"
+							data-tip="放大字體" @click="increaseFontSize" :disabled="fontSize >= maxFontSize">
+							<span class="material-symbols-outlined inline-block">add</span>
+						</button>
 					</div>
-					<RouterLink class="btn btn-ghost btn-circle" to="/">
-						<span class="material-symbols-outlined">home</span>
-					</RouterLink>
-					<div class="dropdown dropdown-end">
-						<div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
-							<div class="avatar avatar-placeholder">
-								<div class="bg-neutral text-neutral-content w-8 rounded-full">
-									<span class="text-xs">UI</span>
-								</div>
-							</div>
-						</div>
-						<ul tabindex="-1"
-							class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-							<li>
-								<router-link to="/admin/profile" class="justify-between">
-									個人資料
-								</router-link>
-							</li>
-							<li><router-link to="/admin/login">登出</router-link></li>
-						</ul>
-					</div>
+
 				</div>
 			</nav>
 			<!-- Page content here -->
-			<div class="bg-base-200 flex-1">
+			<div class="bg-linear-to-bl from-base-100 to-base-200 flex-1 overflow-y-auto">
 				<router-view />
 			</div>
 		</div>
 
-		<div class="drawer-side is-drawer-close:overflow-visible shadow-xl z-50 transition-transform duration-200 ease-out">
+		<!-- 側邊選單（drawer）：Logo + 分組導覽 + 收合鈕 -->
+		<div class="drawer-side overflow-visible shadow-xl z-50 transition-transform duration-200 ease-out ">
 			<label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
 			<div
-				class="flex min-h-full flex-col items-start bg-base-100 border-r border-base-300 transition-[width] duration-200 ease-out is-drawer-close:w-fit is-drawer-open:w-64">
+				class="flex min-h-full flex-col items-start border-r border-base-300 transition-[width] duration-200 ease-out is-drawer-close:w-fit is-drawer-open:w-64">
 				<!-- 網站名稱 -->
 				<div
-					class=" is-drawer-close:px-2 px-4 py-3 border-b border-base-300 w-full flex items-center gap-3 overflow-hidden">
-					<!-- 假圓形 Logo -->
-					<div
-						class="w-10 h-10 rounded-full bg-primary shrink-0 flex items-center justify-center shadow-sm is-drawer-close:mx-auto">
-						<span class="text-primary-content font-bold text-lg">苗</span>
-					</div>
+					class=" is-drawer-close:px-2 px-4 py-3 border-b border-base-300 w-full flex items-center  overflow-hidden gap-2">
+					<!-- 圓形 Logo -->
+					<img src="../assets/images/logo.svg" alt="苗栗縣體育場館預約系統" class="w-9 h-9 shrink-0 is-drawer-close:mx-auto">
 
 					<div class="is-drawer-close:hidden min-w-0">
-						<p class="font-bold text-sm truncate">苗栗縣體育場館預約系統</p>
-						<p class="text-xs text-base-content/40 truncate">後台管理系統</p>
+						<p class="font-bold truncate">苗栗縣體育場館預約系統</p>
+						<p class="text-xs text-base-content/60 truncate">後台管理系統</p>
 					</div>
 				</div>
 				<!-- Sidebar content here -->
@@ -91,20 +83,49 @@
 						<!-- 選單項目 -->
 						<li v-for="item in group.items" :key="item.name">
 							<router-link :to="{ name: item.name }"
-								class="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center"
-								:class="{ 'menu-active': isMenuActive(item) }"
-								:data-tip="item.label">
+								class="is-drawer-close:tooltip is-drawer-close:tooltip-right flex items-center is-drawer-close:size-11 is-drawer-close:justify-center is-drawer-close:p-0"
+								:class="{ 'menu-active bg-primary text-primary-content shadow-none': isMenuActive(item) }" :data-tip="item.label">
 								<span class="material-symbols-outlined inline-block text-xl">{{ item.icon }}</span>
 								<span class="is-drawer-close:hidden">{{ item.label }}</span>
 							</router-link>
 						</li>
 					</template>
 				</ul>
+				<!-- 使用者選單：個人資料 / 登出（向右展出） -->
+				<div class="w-full is-drawer-close:px-1 px-2 py-1">
+					<div class="dropdown dropdown-right dropdown-end w-full is-drawer-open:p-2 is-drawer-open:bg-base-200">
+						<div tabindex="0" role="button"
+							class="w-full justify-start items-center flex cursor-pointer gap-3 is-drawer-close:justify-center is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-close:aspect-square"
+							data-tip="帳號">
+							<!-- <div class="avatar avatar-placeholder">
+								<div class="bg-neutral text-neutral-content w-8 rounded-full">
+									<span class="text-xs">UI</span>
+								</div>
+							</div> -->
+							<div class="avatar">
+								<div class="ring-secondary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2 avatar-placeholder">
+									<div class="bg-secondary text-neutral-content aspect-square rounded-full">
+										<span class="text-xs">UI</span>
+									</div>
+								</div>
+							</div>
+							<span class="is-drawer-close:hidden flex-1">管理員</span>
+							<span class="material-symbols-outlined is-drawer-close:hidden">arrow_right</span>
+						</div>
+						<ul tabindex="0"
+							class="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 w-52 p-2 shadow border border-base-300">
+							<li><router-link to="/admin/profile">個人資料</router-link></li>
+							<li><router-link to="/admin/login">登出</router-link></li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- 底部：側邊選單收合／展開鈕 -->
 				<ul class="menu w-full border-t border-base-300">
 					<li>
-						<label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost w-full">
-							<span v-if="!drawerOpen" class="material-symbols-outlined">arrow_menu_open</span>
-							<span v-else class="material-symbols-outlined">arrow_menu_close</span>
+						<label for="my-drawer-4" aria-label="open sidebar" class="btn btn-sm btn-square btn-ghost w-full">
+							<span v-if="!drawerOpen" class="material-symbols-outlined text-xl">arrow_menu_open</span>
+							<span v-else class="material-symbols-outlined text-xl">arrow_menu_close</span>
 						</label>
 					</li>
 				</ul>
@@ -125,11 +146,23 @@ import mockAdmins from '@/mocks/admins.json'
 import mockNews from '@/mocks/news.json'
 import mockPermissions from '@/mocks/permissionGroups.json'
 
+/**
+ * 後台主佈局（admin layout）
+ *
+ * 所有 /admin/* 頁面的外框：
+ *  - 頂部 navbar：返回鍵、麵包屑、回前台、今日日期、字體縮放、使用者選單
+ *  - 側邊選單（drawer）：依 menuGroups 分組的導覽，可收合
+ *  - 依當前路由計算 active 選單項、麵包屑與分頁標題（document.title）
+ * 內容區由 <router-view /> 呈現。
+ */
+
 const route = useRoute()
 const router = useRouter()
 
+// 側邊選單開合狀態（綁定 drawer checkbox）
 const drawerOpen = ref(false)
 
+// ── 字體縮放：記憶於 localStorage，套用到根元素 font-size（12–24px）──
 const savedSize = localStorage.getItem('app-font-size')
 const parsedSize = Number(savedSize)
 const fontSize = ref(parsedSize && !isNaN(parsedSize) ? parsedSize : 16)
@@ -159,10 +192,12 @@ watchEffect(() => {
 	document.documentElement.style.fontSize = `${fontSize.value}px`
 })
 
+// 返回上一頁
 const back = () => {
 	router.back()
 }
 
+// navbar 顯示的今日日期
 const todayLabel = new Date().toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' })
 
 interface MenuItem {
@@ -177,6 +212,7 @@ interface MenuGroup {
 	items: MenuItem[]
 }
 
+// 側邊導覽選單（分組）；item.owns 決定哪些子頁仍高亮所屬選單
 const menuGroups: MenuGroup[] = [
 	{
 		title: '營運概況',
@@ -226,10 +262,12 @@ function isMenuActive(item: MenuItem): boolean {
 	return activeMenuName.value === item.name
 }
 
+// 當前路由是否為選單一級頁（用於決定是否顯示返回鍵）
 const isTopLevel = computed(() => {
 	return menuGroups.some(group => group.items.some(item => item.name === route.name))
 })
 
+// 路由 name → 頁面標題對照（供 document.title 與麵包屑使用）
 const TITLES: Record<string, string> = {
 	'admin-index': '儀表板',
 	'admin-venues': '場館管理',
@@ -254,6 +292,7 @@ const TITLES: Record<string, string> = {
 	'admin-profile': '個人資料',
 }
 
+// 詳情／編輯頁的實體名稱（場館名、預約、會員名…），供標題與麵包屑顯示
 const entityName = computed(() => {
 	const name = route.name as string
 	const id = route.params.id as string | undefined
@@ -284,6 +323,7 @@ const entityName = computed(() => {
 	}
 })
 
+// 分頁標題：基礎標題（＋實體名）；同步寫入 document.title
 const pageTitle = computed(() => {
 	const base = TITLES[route.name as string] ?? '後台管理'
 	const entity = entityName.value
@@ -294,6 +334,7 @@ watchEffect(() => {
 	document.title = `${pageTitle.value} - 苗栗場館租借平台`
 })
 
+// 麵包屑：依當前路由推導祖先層級（詳情頁 → 其列表頁）
 const breadcrumbs = computed(() => {
 	const name = route.name as string
 	const id = route.params.id as string | undefined

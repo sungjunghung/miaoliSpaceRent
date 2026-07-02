@@ -27,6 +27,18 @@ function daysBetween(a: string, b: string) {
 function getDay(dateStr: string) {
   return new Date(dateStr).getDay()
 }
+// 將日期順延到該場館最近的開館日（避開固定休館星期與特定休館日期）
+function nextOpenDate(venue: typeof mockVenues[0], dateStr: string): string {
+  const cw = (venue.closedWeekdays ?? []) as number[]
+  const cd = (venue.closedDates ?? []) as string[]
+  let d = dateStr
+  let guard = 0
+  while ((cw.includes(getDay(d)) || cd.includes(d)) && guard < 30) {
+    d = addDays(d, 1)
+    guard++
+  }
+  return d
+}
 
 const PURPOSES: Record<number, string[]> = {
   1: ['全國青少年籃球錦標賽', '縣長盃排球賽', '苗栗縣民眾運動大會', '企業團建運動會', '原住民族文化祭', '音樂演唱會', '慈善晚會暨義賣活動', '藝人粉絲見面會', '全國高中排球聯賽', '縣長盃柔道錦標賽', '苗栗好物展覽', '大型商品展售會'],
@@ -276,13 +288,16 @@ export function generateBookings(): RawBooking[] {
       const mode = pick(availableModes) as 'daily' | 'session' | 'hourly'
       let date = generateDate(startRange, endRange)
 
-      // Avoid closed weekdays
+      // 休館日（固定休館星期 + 特定休館日期）不產生預約
       const closedWeekdays: number[] = (venue.closedWeekdays ?? []) as number[]
+      const closedDates: string[] = (venue.closedDates ?? []) as string[]
+      const isClosed = (d: string) => closedWeekdays.includes(getDay(d)) || closedDates.includes(d)
       let attempts = 0
-      while (closedWeekdays.includes(getDay(date)) && attempts < 20) {
+      while (isClosed(date) && attempts < 20) {
         date = generateDate(startRange, endRange)
         attempts++
       }
+      if (isClosed(date)) continue
 
       // Build slot
       let session: string | null = null
@@ -305,6 +320,17 @@ export function generateBookings(): RawBooking[] {
         const days = rand(1, Math.min(maxDays, 3))
         startDate = date
         endDate = addDays(date, days - 1)
+      }
+
+      // daily 跨日：整個租借區間不得壓到任何休館日
+      if (mode === 'daily' && startDate && endDate) {
+        let cur = startDate
+        let spanClosed = false
+        while (cur <= endDate) {
+          if (isClosed(cur)) { spanClosed = true; break }
+          cur = addDays(cur, 1)
+        }
+        if (spanClosed) continue
       }
 
       const slot: Slot = { venueId: venue.id, date, session: session ?? undefined, startTime: startTime ?? undefined, endTime: endTime ?? undefined }
@@ -490,7 +516,8 @@ export function generateBookings(): RawBooking[] {
 
     for (const status of missing) {
       const isPast = PAST_ONLY.includes(status)
-      const date = isPast ? addDays('2026-03-01', rand(0, 28)) : addDays('2026-04-15', rand(0, 40))
+      let date = isPast ? addDays('2026-03-01', rand(0, 28)) : addDays('2026-04-15', rand(0, 40))
+      date = nextOpenDate(templateVenue, date)
       const createdAt = addDays(date, -rand(10, 25))
       const baseFee = rand(2000, 8000)
       const deposit = templateDeposit
@@ -654,7 +681,7 @@ export function generateBookings(): RawBooking[] {
 
   // cancellation_requested 已在全狀態保證區塊處理，但確認一下
   if (!u1CancellationRequested) {
-    const date = addDays('2026-04-20', rand(0, 20))
+    const date = nextOpenDate(scenarioVenue, addDays('2026-04-20', rand(0, 20)))
     const createdAt = addDays(date, -rand(15, 25))
     const baseFee = rand(2000, 8000)
     const deposit = scenarioDeposit > 0 ? scenarioDeposit : 5000

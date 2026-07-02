@@ -3,7 +3,6 @@ import type { Booking } from '../../../../stores/bookings'
 
 defineProps<{
   booking: Booking
-  currentRole: 'admin' | 'cashier' | 'accounting'
 }>()
 </script>
 <template>
@@ -43,7 +42,7 @@ defineProps<{
                 <span>匯款已確認，確認日期：{{ booking.paymentApprovedAt }}</span>
               </div>
             </template>
-            <template v-else-if="currentRole === 'cashier'">
+            <template v-else>
               <div class="divider"></div>
               <div class="flex justify-end gap-2">
                 <button class="btn">帳款不符退回</button>

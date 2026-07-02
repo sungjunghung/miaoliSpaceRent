@@ -131,7 +131,7 @@ function exportInvoice() {
 </script>
 
 <template>
-  <div class="space-y-5">
+  <div class="space-y-4 p-4">
 
     <!-- Header + 篩選 -->
     <div class="flex items-center justify-between flex-wrap gap-3">

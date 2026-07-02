@@ -4,7 +4,6 @@ import type { Booking } from '../../../../stores/bookings'
 
 const props = defineProps<{
   booking: Booking
-  currentRole: 'admin' | 'cashier' | 'accounting'
 }>()
 
 const rejectReasonEdit = ref(false)
@@ -49,7 +48,7 @@ watch(() => props.booking, b => {
           <span class="material-symbols-outlined text-base shrink-0">check_circle</span>
           <span>文件已全數上傳並審核通過！審核通過：{{ booking.documentApprovedAt }}</span>
         </div>
-        <template v-if="booking.status === 'document_review' && currentRole === 'admin'">
+        <template v-if="booking.status === 'document_review'">
           <div class="divider"></div>
           <div v-if="!rejectReasonEdit" class="flex justify-end gap-2">
             <button class="btn" @click="rejectReasonEdit = true">退件</button>

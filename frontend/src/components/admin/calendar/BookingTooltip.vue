@@ -16,23 +16,20 @@ const MODE_LABEL: Record<string, string> = {
   hourly: '計時租借',
 };
 
-const STATUS_MAP: Record<string, { label: string; class: string }> = {
-  reserved: { label: '已接受預訂', class: 'badge-neutral' },
-  document_review: { label: '文件審核', class: 'badge-info' },
-  documents_rejected: { label: '文件退件', class: 'badge-error' },
-  payment_review: { label: '繳費審核', class: 'badge-info' },
-  confirmed: { label: '預訂成功', class: 'badge-success' },
-  completed: { label: '已完成', class: 'badge-primary' },
-  cancelled: { label: '已取消', class: 'badge-error' },
-  cancelled_expired: { label: '逾期取消', class: 'badge-error' },
-  cancelled_rejected: { label: '退件取消', class: 'badge-error' },
+// 與日曆事件顏色／圖例一致的統一標示（不暴露內部細狀態）
+const TYPE_STATUS: Record<string, { label: string; class: string }> = {
+  rented: { label: '已租借', class: 'badge-success' },
+  unavailable: { label: '預約處理中', class: 'badge-neutral' },
+  closed: { label: '休館日', class: 'badge-error' },
+  note: { label: '註記', class: 'badge-info' },
+  blocked: { label: '時段保留', class: 'badge-warning' },
 };
 
 const meta = computed(() => tooltip.activeEvent.value?.metadata ?? {});
 
 const statusInfo = computed(() => {
-  const s = meta.value.status as string;
-  return STATUS_MAP[s] ?? { label: s ?? '—', class: 'badge-ghost' };
+  const t = tooltip.activeEvent.value?.type as string;
+  return TYPE_STATUS[t] ?? { label: '—', class: 'badge-ghost' };
 });
 
 const timeDisplay = computed(() => {

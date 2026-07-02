@@ -4,6 +4,7 @@
     "name": "超級管理員",
     "description": "擁有所有系統權限，可管理其他管理員帳號與權限群組",
     "isSystem": true,
+    "isSuperAdmin": true,
     "memberCount": 1,
     "permissions": [
       "venues.view", "venues.create", "venues.edit", "venues.delete",
@@ -22,6 +23,7 @@
     "name": "管理員",
     "description": "可管理場館、預約及會員，但無法調整權限設定",
     "isSystem": true,
+    "isSuperAdmin": false,
     "memberCount": 2,
     "permissions": [
       "venues.view", "venues.create", "venues.edit",
@@ -38,6 +40,7 @@
     "name": "檢視者",
     "description": "僅可檢視資料，無法進行新增、編輯或刪除操作",
     "isSystem": false,
+    "isSuperAdmin": false,
     "memberCount": 1,
     "permissions": [
       "venues.view",
@@ -54,6 +57,7 @@
     "name": "場館管理員",
     "description": "負責場館日常維運與預約管理",
     "isSystem": false,
+    "isSuperAdmin": false,
     "memberCount": 0,
     "permissions": [
       "venues.view", "venues.edit",
@@ -69,6 +73,7 @@
     "name": "活動企劃",
     "description": "負責最新消息與活動內容管理",
     "isSystem": false,
+    "isSuperAdmin": false,
     "memberCount": 0,
     "permissions": [
       "venues.view",

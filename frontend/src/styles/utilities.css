@@ -48,3 +48,18 @@
 .basis-ccontainer-flush {
   @apply container mx-auto pt-8 pb-6 lg:pb-12;
 }
+
+.basis-table-container {
+  @apply overflow-x-auto bg-base-100 rounded-box overflow-hidden border border-black/20 shadow;
+  th {
+    @apply bg-base-300 text-base-content/70 text-xs
+  }
+  tbody > tr {
+    @apply  hover:cursor-pointer hover:bg-base-200;
+  }
+}
+
+
+.basis-border {
+  @apply border border-black/10 rounded-box overflow-hidden;
+}

@@ -1,9 +1,12 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 p-4">
 
     <div class="flex items-center justify-between">
       <div class="flex-1 flex gap-2 flex-wrap">
-        <input v-model="search" type="text" class="input" placeholder="搜尋標題或摘要" />
+         <label class="input">
+          <span class="material-symbols-outlined text-lg">search</span>
+        <input v-model="search" type="text" placeholder="搜尋標題或摘要" />
+        </label>
         <select v-model="filterCategory" class="select">
           <option value="">全部類別</option>
           <option v-for="c in categories" :key="c" :value="c">{{ c }}</option>
@@ -15,7 +18,7 @@
       </button>
     </div>
 
-    <div class="card bg-base-100 border border-base-200 shadow-sm overflow-x-auto">
+    <div class="basis-table-container">
       <table class="table">
         <thead>
           <tr>
@@ -23,11 +26,10 @@
             <th>類別</th>
             <th>發布日期</th>
             <th>置頂</th>
-            <th class="w-px"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in filtered" :key="item.id" class="hover">
+          <tr v-for="item in filtered" :key="item.id" class="hover" @click="router.push({ name: 'admin-news-edit', params: { id: item.id } })">
             <td>
               <div class="flex items-center gap-3">
                 <figure v-if="item.imageUrl" class="shrink-0">
@@ -47,17 +49,6 @@
             <td>
               <span v-if="item.pinned" class="badge badge-warning">置頂</span>
               <span v-else class="text-base-content/30">—</span>
-            </td>
-            <td>
-              <div class="flex gap-1">
-                <button class="btn btn-ghost btn-square tooltip" title="編輯" data-tip="編輯"
-                  @click="router.push({ name: 'admin-news-edit', params: { id: item.id } })">
-                  <span class="material-symbols-outlined">edit</span>
-                </button>
-                <button class="btn btn-error btn-ghost btn-square tooltip" title="刪除" data-tip="刪除">
-                  <span class="material-symbols-outlined">delete</span>
-                </button>
-              </div>
             </td>
           </tr>
           <tr v-if="filtered.length === 0">

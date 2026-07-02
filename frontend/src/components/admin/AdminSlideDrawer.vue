@@ -12,7 +12,7 @@ withDefaults(defineProps<{
   ariaLabel?: string
 }>(), {
   maxWidthClass: 'max-w-4xl',
-  bodyClass: 'p-6 bg-base-200 min-h-[calc(100%-73px)]',
+  bodyClass: 'bg-base-200 min-h-[calc(100%-73px)]',
   ariaLabel: '關閉側邊欄',
 })
 

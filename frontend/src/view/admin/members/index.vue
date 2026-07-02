@@ -1,9 +1,12 @@
 <template>
-  <div class="space-y-4">
+  <div class="space-y-4 p-4">
 
     <div class="flex items-center justify-between">
       <div class="flex-1 flex gap-2">
-        <input v-model="search" type="text" class="input" placeholder="搜尋姓名、信箱或電話" />
+        <label class="input">
+          <span class="material-symbols-outlined text-lg">search</span>
+          <input v-model="search" type="text"  placeholder="搜尋姓名、信箱或電話" />
+        </label>
       </div>
       <button class="btn btn-primary" @click="openDrawer('new')">
         <span class="material-symbols-outlined text-lg">person_add</span>
@@ -11,7 +14,7 @@
       </button>
     </div>
 
-    <div class="card bg-base-100 border border-base-200 shadow-sm overflow-x-auto">
+    <div class="basis-table-container">
       <table class="table">
         <thead>
           <tr>
@@ -20,19 +23,14 @@
             <th>電子信箱</th>
             <th>電話</th>
             <th class="text-right">留存保證金</th>
-            <th class="w-px"></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in paginated" :key="user.id" class="hover">
+          <tr v-for="user in paginated" :key="user.id" class="hover" @click="openDrawer(user.id)">
             <td>
               <div class="flex items-center gap-3">
-                <div class="avatar avatar-placeholder">
-                  <div class="bg-neutral text-neutral-content w-8 rounded-full">
-                    <span>{{ user.name.charAt(0) }}</span>
-                  </div>
-                </div>
-                <span class="font-semibold">{{ user.name }}</span>
+       
+                <strong class="font-semibold">{{ user.name }}</strong>
               </div>
             </td>
             <td>
@@ -44,21 +42,6 @@
             <td class="text-right tabular-nums">
               <span v-if="user.retainedDeposit" class="text-info font-medium">NT$ {{ user.retainedDeposit.toLocaleString() }}</span>
               <span v-else class="text-base-content/30">—</span>
-            </td>
-            <td>
-              <div class="flex gap-1">
-                <button
-                  class="btn btn-ghost btn-square tooltip"
-                  title="編輯"
-                  data-tip="編輯"
-                  @click="openDrawer(user.id)"
-                >
-                  <span class="material-symbols-outlined">edit</span>
-                </button>
-                <button class="btn btn-error btn-ghost btn-square tooltip" title="刪除" data-tip="刪除">
-                  <span class="material-symbols-outlined">delete</span>
-                </button>
-              </div>
             </td>
           </tr>
           <tr v-if="filtered.length === 0">

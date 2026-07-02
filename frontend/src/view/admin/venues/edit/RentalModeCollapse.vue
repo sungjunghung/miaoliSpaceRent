@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { inject, computed, ref, watch, type Ref } from 'vue';
+import { inject, computed, ref, type Ref } from 'vue';
 
 interface RequiredDocument {
   key: string;
@@ -11,14 +11,15 @@ interface RequiredDocument {
 
 interface RentalModeBase {
   enabled: boolean;
+  depositEnabled: boolean;
   depositAmount: number;
+  setupTeardownEnabled: boolean;
   setupAllowanceHours: number;
   teardownAllowanceHours: number;
   setupOverageUnitMinutes: number;
   teardownOverageUnitMinutes: number;
   setupOverageFeePerUnit: number;
   teardownOverageFeePerUnit: number;
-  overageRoundingMode: 'ceil' | 'floor' | 'nearest';
   // 申請與期限（每模式各自設定）
   advanceBookingDays: number;
   latestBookingDays: number;
@@ -32,7 +33,6 @@ interface RentalModeBase {
 
 const props = defineProps<{
   modeKey: 'daily' | 'session' | 'hourly';
-  label: string;
 }>();
 
 const emit = defineEmits<{ (e: 'copy', payload: { from: string; to: string }): void }>();
@@ -62,22 +62,6 @@ const overageUnitOptions = Array.from({ length: 8 }, (_, i) => {
 // 需檢附文件（此模式各自管理）
 if (!Array.isArray(mode.value.requiredDocuments)) mode.value.requiredDocuments = [];
 if (typeof mode.value.requireDocuments !== 'boolean') mode.value.requireDocuments = false;
-
-// 超時費用開關（進階，預設依現值判定；關閉時歸零，隱藏細項）
-const chargeOverage = ref(false);
-watch(
-  () => mode.value,
-  (m) => {
-    chargeOverage.value = m.setupOverageFeePerUnit > 0 || m.teardownOverageFeePerUnit > 0;
-  },
-  { immediate: true },
-);
-function onToggleOverage() {
-  if (!chargeOverage.value) {
-    mode.value.setupOverageFeePerUnit = 0;
-    mode.value.teardownOverageFeePerUnit = 0;
-  }
-}
 
 const newDocLabel = ref('');
 
@@ -117,24 +101,20 @@ function copyTo(to: string) {
   <div class="bg-base-100">
     <!-- 標題列：啟用 + 套用到其他模式 -->
     <div class="flex flex-wrap items-center gap-3 border-b border-base-300 px-4 py-3">
-      <span class="text-lg font-medium">{{ label }}</span>
-      <span v-if="mode.enabled" class="badge badge-success badge-sm">已啟用</span>
-      <div class="ml-auto flex items-center gap-3">
-        <label class="label cursor-pointer gap-2">
-          <input type="checkbox" v-model="mode.enabled" class="toggle toggle-primary toggle-sm mb-0!" />
-          <span class="text-sm">啟用此模式</span>
-        </label>
-        <div v-if="mode.enabled" class="dropdown dropdown-end">
-          <button type="button" tabindex="0" class="btn btn-sm btn-outline gap-1">
-            <span class="material-symbols-outlined text-sm">content_copy</span>
-            套用到其他模式
-          </button>
-          <ul tabindex="0" class="dropdown-content menu z-10 mt-1 w-52 rounded-box bg-base-100 p-2 shadow border border-base-300">
-            <li class="menu-title text-xs">複製此模式的規則設定</li>
-            <li><a @click="copyTo('all')">全部其他模式</a></li>
-            <li v-for="m in otherModes" :key="m.key"><a @click="copyTo(m.key)">複製到「{{ m.label }}」</a></li>
-          </ul>
-        </div>
+      <label class="label cursor-pointer gap-2">
+        <input type="checkbox" v-model="mode.enabled" class="toggle toggle-primary mb-0!" />
+        <span class="text-sm">啟用此模式</span>
+      </label>
+      <div v-if="mode.enabled" class="ml-auto dropdown dropdown-end">
+        <button type="button" tabindex="0" class="btn btn-sm btn-outline gap-1">
+          <span class="material-symbols-outlined text-sm">content_copy</span>
+          套用到其他模式
+        </button>
+        <ul tabindex="0" class="dropdown-content menu z-10 mt-1 w-52 rounded-box bg-base-100 p-2 shadow border border-base-300">
+          <li class="menu-title text-xs">複製此模式的規則設定</li>
+          <li><a @click="copyTo('all')">全部其他模式</a></li>
+          <li v-for="m in otherModes" :key="m.key"><a @click="copyTo(m.key)">複製到「{{ m.label }}」</a></li>
+        </ul>
       </div>
     </div>
 
@@ -157,13 +137,17 @@ function copyTo(to: string) {
           <span class="material-symbols-outlined text-primary">shield</span>
           保證金
         </h3>
-        <fieldset class="fieldset append">
+        <label class="label cursor-pointer w-fit gap-2">
+          <input type="checkbox" v-model="mode.depositEnabled" class="toggle toggle-primary toggle-sm mb-0!" />
+          <span class="text-sm">此租借模式需要保證金</span>
+        </label>
+        <fieldset v-if="mode.depositEnabled" class="fieldset append">
           <label class="label">保證金金額</label>
           <div class="input">
             <input v-model.number="mode.depositAmount" type="number" min="0" step="1000" class="grow text-end" />
             <span>元</span>
           </div>
-          <p class="label text-base-content/50">輸入 0 表示不需要保證金；活動結束且場地復原確認後可申請退還</p>
+          <p class="label text-base-content/50">活動結束且場地復原確認後可申請退還</p>
         </fieldset>
       </div>
 
@@ -171,9 +155,10 @@ function copyTo(to: string) {
       <div class="bg-base-200/30 rounded-box p-4 space-y-3">
         <h3 class="font-bold text-base border-b border-base-300 pb-2 flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">event_available</span>
-          申請與期限
+          租借規則與期限
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
+          <slot name="limits" />
           <fieldset class="fieldset append">
             <label class="label">最早可申請時間</label>
             <div class="input">
@@ -206,70 +191,75 @@ function copyTo(to: string) {
               <span>天內</span>
             </div>
           </fieldset>
+          <fieldset v-if="mode.requireDocuments" class="fieldset append">
+            <label class="label">文件上傳期限</label>
+            <div class="input">
+              審核通過後
+              <input v-model.number="mode.documentUploadDeadlineDays" type="number" min="1" class="grow text-end" />
+              <span>天內</span>
+            </div>
+          </fieldset>
         </div>
       </div>
 
-      <!-- ── 場佈與撤場（超時計費為進階，預設收合） ── -->
+      <!-- ── 場佈與撤場 ── -->
       <div class="bg-base-200/30 rounded-box p-4 space-y-3">
         <h3 class="font-bold text-base border-b border-base-300 pb-2 flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">construction</span>
           場佈與撤場
         </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
-          <fieldset class="fieldset">
-            <label class="label">場佈容許時數</label>
-            <select v-model.number="mode.setupAllowanceHours" class="select">
-              <option v-for="opt in halfHourOptions" :key="`setup-allowance-${opt.value}`" :value="opt.value">{{ opt.label }}</option>
-            </select>
-          </fieldset>
-          <fieldset class="fieldset">
-            <label class="label">撤場容許時數</label>
-            <select v-model.number="mode.teardownAllowanceHours" class="select">
-              <option v-for="opt in halfHourOptions" :key="`teardown-allowance-${opt.value}`" :value="opt.value">{{ opt.label }}</option>
-            </select>
-          </fieldset>
-        </div>
-
         <label class="label cursor-pointer w-fit gap-2">
-          <input type="checkbox" v-model="chargeOverage" @change="onToggleOverage" class="toggle toggle-primary toggle-sm mb-0!" />
-          <span class="text-sm">超過容許時數需另外收費</span>
+          <input type="checkbox" v-model="mode.setupTeardownEnabled" class="toggle toggle-primary toggle-sm mb-0!" />
+          <span class="text-sm">此租借模式需要場佈與撤場時間</span>
         </label>
+        <div v-if="mode.setupTeardownEnabled" class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+          <!-- 場佈 -->
+          <div class="space-y-1">
+            <p class="font-medium border-b border-base-300 pb-1">場佈</p>
+            <fieldset class="fieldset">
+              <label class="label">容許時數</label>
+              <select v-model.number="mode.setupAllowanceHours" class="select">
+                <option v-for="opt in halfHourOptions" :key="`setup-allowance-${opt.value}`" :value="opt.value">{{ opt.label }}</option>
+              </select>
+            </fieldset>
+            <fieldset class="fieldset">
+              <label class="label">超時計費單位</label>
+              <select v-model.number="mode.setupOverageUnitMinutes" class="select">
+                <option v-for="opt in overageUnitOptions" :key="`setup-unit-${opt.value}`" :value="opt.value">{{ opt.label }}</option>
+              </select>
+            </fieldset>
+            <fieldset class="fieldset append">
+              <label class="label">超時每單位費用</label>
+              <div class="input">
+                <input v-model.number="mode.setupOverageFeePerUnit" type="number" min="0" step="1" class="grow text-end" />
+                <span>元</span>
+              </div>
+            </fieldset>
+          </div>
 
-        <div v-if="chargeOverage" class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 pt-1">
-          <fieldset class="fieldset">
-            <label class="label">場佈超時計費單位</label>
-            <select v-model.number="mode.setupOverageUnitMinutes" class="select">
-              <option v-for="opt in overageUnitOptions" :key="`setup-unit-${opt.value}`" :value="opt.value">{{ opt.label }}</option>
-            </select>
-          </fieldset>
-          <fieldset class="fieldset append">
-            <label class="label">場佈超時每單位費用</label>
-            <div class="input">
-              <input v-model.number="mode.setupOverageFeePerUnit" type="number" min="0" step="1" class="grow text-end" />
-              <span>元</span>
-            </div>
-          </fieldset>
-          <fieldset class="fieldset">
-            <label class="label">撤場超時計費單位</label>
-            <select v-model.number="mode.teardownOverageUnitMinutes" class="select">
-              <option v-for="opt in overageUnitOptions" :key="`teardown-unit-${opt.value}`" :value="opt.value">{{ opt.label }}</option>
-            </select>
-          </fieldset>
-          <fieldset class="fieldset append">
-            <label class="label">撤場超時每單位費用</label>
-            <div class="input">
-              <input v-model.number="mode.teardownOverageFeePerUnit" type="number" min="0" step="1" class="grow text-end" />
-              <span>元</span>
-            </div>
-          </fieldset>
-          <fieldset class="fieldset sm:col-span-2">
-            <label class="label">超時進位規則</label>
-            <select v-model="mode.overageRoundingMode" class="select">
-              <option value="ceil">無條件進位</option>
-              <option value="nearest">四捨五入</option>
-              <option value="floor">無條件捨去</option>
-            </select>
-          </fieldset>
+          <!-- 撤場 -->
+          <div class="space-y-1">
+            <p class="font-medium border-b border-base-300 pb-1">撤場</p>
+            <fieldset class="fieldset">
+              <label class="label">容許時數</label>
+              <select v-model.number="mode.teardownAllowanceHours" class="select">
+                <option v-for="opt in halfHourOptions" :key="`teardown-allowance-${opt.value}`" :value="opt.value">{{ opt.label }}</option>
+              </select>
+            </fieldset>
+            <fieldset class="fieldset">
+              <label class="label">超時計費單位</label>
+              <select v-model.number="mode.teardownOverageUnitMinutes" class="select">
+                <option v-for="opt in overageUnitOptions" :key="`teardown-unit-${opt.value}`" :value="opt.value">{{ opt.label }}</option>
+              </select>
+            </fieldset>
+            <fieldset class="fieldset append">
+              <label class="label">超時每單位費用</label>
+              <div class="input">
+                <input v-model.number="mode.teardownOverageFeePerUnit" type="number" min="0" step="1" class="grow text-end" />
+                <span>元</span>
+              </div>
+            </fieldset>
+          </div>
         </div>
       </div>
 
@@ -286,15 +276,6 @@ function copyTo(to: string) {
         <p class="text-xs text-base-content/50">各租借模式的申請書與範本可不同，於此獨立設定</p>
 
         <template v-if="mode.requireDocuments">
-          <fieldset class="fieldset append w-fit">
-            <label class="label">文件上傳期限</label>
-            <div class="input">
-              審核通過後
-              <input v-model.number="mode.documentUploadDeadlineDays" type="number" min="1" class="grow text-end" />
-              <span>天內須上傳</span>
-            </div>
-          </fieldset>
-
           <div class="flex gap-2 mt-2">
             <input v-model="newDocLabel" type="text" placeholder="輸入文件名稱後按 Enter 或點擊新增"
               class="input input-bordered flex-1" @keyup.enter="addDocument" />
@@ -305,13 +286,12 @@ function copyTo(to: string) {
             <div v-for="(doc, index) in mode.requiredDocuments" :key="doc.key"
               class="flex items-center gap-3 p-3 bg-base-100 rounded-lg border border-base-300">
               <button type="button" class="btn btn-ghost btn-circle btn-sm" @click="removeDocument(index)">✕</button>
-              <span class="badge badge-neutral">{{ index + 1 }}</span>
               <p class="flex-1 text-base truncate font-medium">{{ doc.label }}</p>
-              <label class="label cursor-pointer gap-1.5">
+              <label class="label cursor-pointer gap-1.5 w-16 justify-center shrink-0">
                 <input type="checkbox" class="checkbox checkbox-sm checkbox-primary" v-model="doc.required" />
                 <span class="text-sm">必繳</span>
               </label>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center justify-end gap-2 w-72 shrink-0">
                 <span v-if="!doc.templateFile" class="text-xs text-base-content/50">尚未上傳範本</span>
                 <div v-else class="flex items-center gap-1.5 bg-base-100 px-2 py-1 rounded border border-base-300">
                   <span class="material-symbols-outlined text-sm text-primary">description</span>
