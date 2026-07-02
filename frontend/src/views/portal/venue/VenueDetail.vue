@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import venues from "@/mocks/venues.json";
-import allBookings from "@/mocks/generateBookings";
-import calendarNotes from "@/mocks/calendarNotes.json";
+import { venues as venues } from "@/services/venueService"
+import { rawBookings as allBookings } from "@/services/bookingService"
+import { calendarNotes as calendarNotes } from "@/services/calendarNoteService"
 import WeekCalendar from "@/components/portal/calendar/WeekCalendar.vue";
 import MonthCalendar from "@/components/portal/calendar/MonthCalendar.vue";
 import { publicImageUrl } from "@/utils/assets";

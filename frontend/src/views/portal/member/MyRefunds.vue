@@ -99,7 +99,7 @@ import {
   getRefundStepState,
   useRefundsStore,
 } from '@/stores/refunds'
-import mockUsers from '@/mocks/users.json'
+import { users as mockUsers } from '@/services/userService'
 
 const authStore = useAuthStore()
 const refundsStore = useRefundsStore()

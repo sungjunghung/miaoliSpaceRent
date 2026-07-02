@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, provide, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getAllVenueBaseRecords, getVenueEditFormData, type VenueEditFormData } from '@/mocks/venue-edit/adapter';
+import { getAllVenueBaseRecords, getVenueEditFormData, type VenueEditFormData } from '@/services/venueEditService';
 
 const route = useRoute();
 const router = useRouter();

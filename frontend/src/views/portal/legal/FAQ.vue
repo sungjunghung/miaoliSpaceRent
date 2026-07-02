@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import faqData from '@/mocks/faq.json'
+import { faqCategories as faqData } from '@/services/faqService'
 
 interface FaqItem {
   question: string

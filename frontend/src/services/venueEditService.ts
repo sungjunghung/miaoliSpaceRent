@@ -8,6 +8,8 @@ import venueRentalItems from '@/mocks/venue-edit/venueRentalItems.json';
 import venueRequiredDocuments from '@/mocks/venue-edit/venueRequiredDocuments.json';
 import venueTimeSlots from '@/mocks/venue-edit/venueTimeSlots.json';
 
+export { venueRentalModes };
+
 export interface RequiredDocument {
   key: string;
   label: string;

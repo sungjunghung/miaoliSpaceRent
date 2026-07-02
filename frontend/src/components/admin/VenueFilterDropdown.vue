@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, nextTick } from 'vue'
-import mockVenues from '@/mocks/venues.json'
+import { venues as mockVenues } from '@/services/venueService'
 
 const model = defineModel<number[]>({ default: () => [] })
 

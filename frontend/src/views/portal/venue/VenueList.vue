@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import allVenues from '@/mocks/venues.json'
+import { venues as allVenues } from '@/services/venueService'
 import { publicImageUrl } from '@/utils/assets'
 
 const router = useRouter()

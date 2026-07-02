@@ -80,7 +80,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import mockUsers from '@/mocks/users.json'
+import { users as mockUsers } from '@/services/userService'
 import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue'
 import MemberDetailContent from './components/MemberDetailContent.vue'
 

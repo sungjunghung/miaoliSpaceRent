@@ -72,7 +72,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import mockGroups from '@/mocks/permissionGroups.json'
+import { permissionGroups as mockGroups } from '@/services/permissionService'
 import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue'
 import PermissionDetailContent from './components/PermissionDetailContent.vue'
 

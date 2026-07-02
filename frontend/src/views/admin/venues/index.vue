@@ -156,8 +156,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import mockVenues from '@/mocks/venues.json'
-import mockAdmins from '@/mocks/admins.json'
+import { venues as mockVenues } from '@/services/venueService'
+import { admins as mockAdmins } from '@/services/adminService'
 import { publicImageUrl } from '@/utils/assets'
 
 type Venue = (typeof mockVenues)[number]

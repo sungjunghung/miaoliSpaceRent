@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { Booking } from '@/stores/bookings'
-import mockUsers from '@/mocks/users.json'
+import { users as mockUsers } from '@/services/userService'
 
 import RefundProcessingBlock from './RefundProcessingBlock.vue'
 import BookingInfoBlock from './BookingInfoBlock.vue'

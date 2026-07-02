@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import mockUsers from '@/mocks/users.json'
-import mockBookings from '@/mocks/generateBookings'
-import mockVenues from '@/mocks/venues.json'
+import { users as mockUsers } from '@/services/userService'
+import { rawBookings as mockBookings } from '@/services/bookingService'
+import { venues as mockVenues } from '@/services/venueService'
 
 const props = defineProps<{
   id: string

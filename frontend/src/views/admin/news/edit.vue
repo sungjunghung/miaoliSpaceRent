@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import mockNews from '@/mocks/news.json'
+import { newsItems as mockNews } from '@/services/newsService'
 import { publicImageUrl } from '@/utils/assets'
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css'

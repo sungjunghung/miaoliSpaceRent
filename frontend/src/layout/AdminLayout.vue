@@ -140,11 +140,11 @@
 import { ref, computed, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useBookingsStore } from '@/stores/bookings'
-import mockVenues from '@/mocks/venues.json'
-import mockUsers from '@/mocks/users.json'
-import mockAdmins from '@/mocks/admins.json'
-import mockNews from '@/mocks/news.json'
-import mockPermissions from '@/mocks/permissionGroups.json'
+import { venues as mockVenues } from '@/services/venueService'
+import { users as mockUsers } from '@/services/userService'
+import { admins as mockAdmins } from '@/services/adminService'
+import { newsItems as mockNews } from '@/services/newsService'
+import { permissionGroups as mockPermissions } from '@/services/permissionService'
 
 /**
  * 後台主佈局（admin layout）

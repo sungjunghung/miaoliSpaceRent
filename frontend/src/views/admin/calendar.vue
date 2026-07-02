@@ -25,9 +25,9 @@ import BookingTooltip from '@/components/admin/calendar/BookingTooltip.vue';
 import EventModal from '@/components/admin/calendar/EventModal.vue';
 import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue';
 import BookingDetailContent from './bookings/components/BookingDetailContent.vue';
-import mockBookings from '@/mocks/generateBookings';
-import mockVenues from '@/mocks/venues.json';
-import mockCalendarNotes from '@/mocks/calendarNotes.json';
+import { rawBookings as mockBookings } from '@/services/bookingService'
+import { venues as mockVenues } from '@/services/venueService'
+import { calendarNotes as mockCalendarNotes } from '@/services/calendarNoteService'
 
 // 網址帶 ?id=場館ID 時，行事曆初始聚焦該場館；否則顯示全部
 const route = useRoute();

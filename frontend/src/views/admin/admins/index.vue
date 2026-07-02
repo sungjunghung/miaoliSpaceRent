@@ -78,9 +78,9 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import mockAdmins from '@/mocks/admins.json'
-import mockGroups from '@/mocks/permissionGroups.json'
-import mockVenues from '@/mocks/venues.json'
+import { admins as mockAdmins } from '@/services/adminService'
+import { permissionGroups as mockGroups } from '@/services/permissionService'
+import { venues as mockVenues } from '@/services/venueService'
 import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue'
 import AdminDetailContent from './components/AdminDetailContent.vue'
 

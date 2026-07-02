@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useBookingsStore } from '@/stores/bookings'
-import mockVenues from '@/mocks/venues.json'
+import { venues as mockVenues } from '@/services/venueService'
 import { RENTAL_MODE_LABELS } from '@/utils/bookingFormat'
 import { CANCELLED_STATUSES } from '@/utils/bookingStatus'
 

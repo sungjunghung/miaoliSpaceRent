@@ -2,7 +2,7 @@
 import { reactive, ref, computed } from 'vue';
 import type { CalendarEvent } from '@/types/calendar';
 import { buildISO, formatInputDate, formatTime, parseISO, dayStartMinutes, slotMinutes } from '@/utils/calendar';
-import mockVenues from '@/mocks/venues.json';
+import { venues as mockVenues } from '@/services/venueService'
 
 const props = defineProps<{
   /** When set, venue is fixed (opened from a venue page) */

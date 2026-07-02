@@ -8,7 +8,7 @@ import {
   ArcElement, Tooltip, Legend, Filler,
 } from 'chart.js'
 import { useBookingsStore } from '@/stores/bookings'
-import mockVenues from '@/mocks/venues.json'
+import { venues as mockVenues } from '@/services/venueService'
 import { RENTAL_MODE_LABELS, formatBookingTime } from '@/utils/bookingFormat'
 import { getBookingStatusDisplay, CANCELLED_STATUSES } from '@/utils/bookingStatus'
 import VenueFilterDropdown from '@/components/admin/VenueFilterDropdown.vue'

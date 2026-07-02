@@ -1,16 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import mockUsers from '@/mocks/users.json'
+import { users as mockUsers } from '@/services/userService'
+import type { User } from '@/types/user'
 
-export interface User {
-  id: string
-  name: string
-  email: string
-  phone: string
-  avatar: string
-  retainedDeposit?: number
-  provider?: 'email' | 'google' | 'line'
-}
+export type { User } from '@/types/user'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)

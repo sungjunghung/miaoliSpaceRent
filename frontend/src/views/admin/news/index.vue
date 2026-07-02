@@ -65,7 +65,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import mockNews from '@/mocks/news.json'
+import { newsItems as mockNews } from '@/services/newsService'
 import { publicImageUrl } from '@/utils/assets'
 
 const router = useRouter()

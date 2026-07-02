@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useBookingsStore, type Booking } from '@/stores/bookings'
 import BookingProgress from '@/components/portal/BookingProgress.vue'
-import mockVenues from '@/mocks/venues.json'
+import { venues as mockVenues } from '@/services/venueService'
 import {
   toZhDate, formatBookingDate, formatBookingTime, RENTAL_MODE_LABELS,
 } from '@/utils/bookingFormat'

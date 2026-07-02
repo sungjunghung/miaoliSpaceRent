@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import type { Booking } from '@/stores/bookings'
 import { RENTAL_MODE_LABELS } from '@/utils/bookingFormat'
-import mockVenues from '@/mocks/venues.json'
+import { venues as mockVenues } from '@/services/venueService'
 
 const props = defineProps<{
   booking: Booking

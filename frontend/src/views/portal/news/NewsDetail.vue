@@ -128,7 +128,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import mockNews from '@/mocks/news.json'
+import { newsItems as mockNews } from '@/services/newsService'
 import { publicImageUrl } from '@/utils/assets'
 
 const route = useRoute()

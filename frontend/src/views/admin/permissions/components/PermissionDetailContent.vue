@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import mockGroups from '@/mocks/permissionGroups.json'
-import mockAdmins from '@/mocks/admins.json'
+import { permissionGroups as mockGroups } from '@/services/permissionService'
+import { admins as mockAdmins } from '@/services/adminService'
 
 const props = defineProps<{
   id: string

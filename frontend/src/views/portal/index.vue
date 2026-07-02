@@ -317,9 +317,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import mockNews from "@/mocks/news.json";
-import mockBookings from "@/mocks/generateBookings";
-import mockVenues from "@/mocks/venues.json";
+import { newsItems as mockNews } from "@/services/newsService"
+import { rawBookings as mockBookings } from "@/services/bookingService"
+import { venues as mockVenues } from "@/services/venueService"
 import MonthCalendar from '@/components/portal/calendar/MonthCalendar.vue';
 import QuickSearch from '@/components/portal/QuickSearch.vue';
 import { publicImageUrl } from '@/utils/assets'
