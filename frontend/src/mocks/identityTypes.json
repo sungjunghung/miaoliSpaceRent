@@ -1,0 +1,7 @@
+[
+  { "id": "identity-001", "name": "一般民眾", "requiresDocument": false, "isDefault": true },
+  { "id": "identity-002", "name": "政府機關 / 公部門", "requiresDocument": true, "isDefault": false },
+  { "id": "identity-003", "name": "學校單位 / 學生組織", "requiresDocument": true, "isDefault": false },
+  { "id": "identity-004", "name": "企業法人 / 公司行號", "requiresDocument": true, "isDefault": false },
+  { "id": "identity-005", "name": "非營利組織 / 人民團體", "requiresDocument": true, "isDefault": false }
+]

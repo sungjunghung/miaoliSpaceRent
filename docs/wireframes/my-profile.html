@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 我的帳戶／保證金</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 我的帳戶／保證金（MyProfile）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label>狀態 <select id="wf-state" class="select select-xs"></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="member-profile" data-sub="會員中心 / 我的帳戶"></header>
+
+  <main class="flex flex-col gap-8 p-4 max-w-2xl mx-auto w-full">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 留存保證金餘額</span>
+      <p class="wf-note">核心價值：錢在哪、能不能拿回（也是退款金額上限依據）</p>
+      <div class="stats shadow border w-full"><div class="stat">
+        <div class="stat-title">留存保證金餘額</div>
+        <div class="stat-value" data-bind="banner">—</div>
+        <div class="stat-desc" data-bind="meta"></div>
+      </div></div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">申請退款</span>
+      <button class="btn btn-primary" data-bind="cta">申請保證金退款</button>
+    </div>
+
+    <div class="wf-region" data-states="has_balance">
+      <span class="wf-region__label badge badge-neutral badge-sm">退款申請表</span>
+      <p class="wf-note">金額（不可超過餘額）、原因、銀行帳戶 — 含即時金額校驗</p>
+      <div class="flex flex-col gap-2">
+        <label class="input input-bordered flex items-center gap-2">退款金額 <input type="number" class="grow" placeholder="≤ 5,000"></label>
+        <input class="input input-bordered" placeholder="退款原因">
+        <input class="input input-bordered" placeholder="銀行帳戶">
+        <div class="alert alert-warning"><span>金額超過餘額或資料不全將阻擋送出。</span></div>
+      </div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 帳戶基本資料</span>
+      <div class="collapse collapse-arrow border"><input type="checkbox"><div class="collapse-title text-sm">個資 / 聯絡方式維護</div>
+        <div class="collapse-content"><input class="input input-bordered input-sm w-full" placeholder="聯絡電話"></div></div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 送出後預告</span>
+      <ul class="steps text-xs w-full"><li class="step step-primary">承辦核定</li><li class="step">會計核定</li><li class="step">出納撥款</li><li class="step">完成</li></ul>
+    </div>
+
+  </main>
+</div>
+
+<script type="application/json" id="wf-states">
+{ "default":"has_balance",
+  "states":{
+    "has_balance":{ "label":"有餘額", "banner":"NT$ 5,000", "meta":"可申請退款上限 NT$ 5,000", "cta":"申請保證金退款" },
+    "zero":{ "label":"餘額為 0", "banner":"NT$ 0", "meta":"目前無可退保證金", "cta":"" }
+  } }
+</script>
+<script src="wireframe.js"></script>
+</body>
+</html>

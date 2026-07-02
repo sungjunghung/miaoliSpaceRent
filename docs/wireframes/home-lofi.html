@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 首頁（素線框版）</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 首頁（素線框版 · 灰階）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+
+  <!-- 素線框 Header：LOGO 左上、無彩、深灰主按鈕（對齊 Figma Kit 調性） -->
+  <header class="flex items-center justify-between border-b border-base-300 px-4 sm:px-6 py-3 bg-base-100">
+    <div class="flex items-center gap-6">
+      <a href="index.html" class="font-bold tracking-wide text-base-content/80">LOGO</a>
+      <nav class="hidden sm:flex gap-5 text-sm text-base-content/60">
+        <a class="hover:text-base-content" href="venue-list.html">場館資訊</a>
+        <a class="hover:text-base-content" href="news-list.html">最新消息</a>
+        <a class="hover:text-base-content" href="faq.html">常見問題</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-2">
+      <a class="btn btn-sm btn-ghost" href="login.html">登入</a>
+      <a class="btn btn-sm btn-outline" href="register.html">註冊</a>
+    </div>
+  </header>
+
+  <main class="flex flex-col gap-12 p-4 sm:p-6">
+
+    <!-- HERO + 搜尋 -->
+    <section class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">★ 第一眼焦點 · Hero + 場地搜尋</span>
+      <p class="wf-note">首頁唯一的工作是「把人導向找場地」— 搜尋直接壓在主視覺，其餘都是輔助</p>
+      <div class="border border-base-300 rounded-2xl bg-base-200/40 px-6 py-10 sm:px-10 sm:py-14 text-center">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-2">苗栗縣場地租借</h1>
+        <p class="text-base-content/60 mb-6">線上查詢、申請、繳費，一站完成</p>
+        <div class="join w-full max-w-2xl mx-auto border border-base-300 rounded-lg overflow-hidden">
+          <input class="input join-item flex-1 border-0 focus:outline-none" placeholder="搜尋場地名稱 / 關鍵字">
+          <input type="date" class="input join-item border-0 border-l border-base-300 hidden sm:block focus:outline-none">
+          <select class="select join-item border-0 border-l border-base-300 hidden sm:block focus:outline-none">
+            <option>全部模式</option><option>整租</option><option>時段</option><option>包月</option>
+          </select>
+          <button class="btn btn-neutral join-item rounded-none">搜尋</button>
+        </div>
+        <div class="flex gap-2 justify-center mt-4 flex-wrap">
+          <span class="text-xs text-base-content/50">熱門：</span>
+          <a href="venue-list.html" class="badge badge-outline">演藝廳</a>
+          <a href="venue-list.html" class="badge badge-outline">展演室</a>
+          <a href="venue-list.html" class="badge badge-outline">會議室</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 場地分類快速入口 -->
+    <section class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">場地分類（讓人快速分流）</span>
+      <p class="wf-note">不知道要搜什麼的人，給他現成分類直接點進列表</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <a href="venue-list.html" class="border border-base-300 rounded-box p-4 flex flex-col items-center gap-2 hover:bg-base-200 transition">
+          <span class="wf-ph w-10 h-10 rounded-full"></span><span class="text-sm">演藝廳</span></a>
+        <a href="venue-list.html" class="border border-base-300 rounded-box p-4 flex flex-col items-center gap-2 hover:bg-base-200 transition">
+          <span class="wf-ph w-10 h-10 rounded-full"></span><span class="text-sm">展演空間</span></a>
+        <a href="venue-list.html" class="border border-base-300 rounded-box p-4 flex flex-col items-center gap-2 hover:bg-base-200 transition">
+          <span class="wf-ph w-10 h-10 rounded-full"></span><span class="text-sm">會議室</span></a>
+        <a href="venue-list.html" class="border border-base-300 rounded-box p-4 flex flex-col items-center gap-2 hover:bg-base-200 transition">
+          <span class="wf-ph w-10 h-10 rounded-full"></span><span class="text-sm">教室</span></a>
+        <a href="venue-list.html" class="border border-base-300 rounded-box p-4 flex flex-col items-center gap-2 hover:bg-base-200 transition">
+          <span class="wf-ph w-10 h-10 rounded-full"></span><span class="text-sm">戶外場地</span></a>
+        <a href="venue-list.html" class="border border-base-300 rounded-box p-4 flex flex-col items-center gap-2 hover:bg-base-200 transition">
+          <span class="wf-ph w-10 h-10 rounded-full"></span><span class="text-sm">運動設施</span></a>
+      </div>
+    </section>
+
+    <!-- 租借流程 三步 -->
+    <section class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">租借流程（降低首次使用者的不確定感）</span>
+      <p class="wf-note">三步說明讓頁面有節奏，也讓人知道「租這件事不難」</p>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div class="border border-base-300 rounded-box p-5 text-center">
+          <div class="w-8 h-8 mx-auto mb-2 rounded-full border border-base-content/30 flex items-center justify-center text-sm font-bold">1</div>
+          <h3 class="font-bold">挑選場地</h3><p class="text-sm text-base-content/50">依模式、時段、價格篩選</p></div>
+        <div class="border border-base-300 rounded-box p-5 text-center">
+          <div class="w-8 h-8 mx-auto mb-2 rounded-full border border-base-content/30 flex items-center justify-center text-sm font-bold">2</div>
+          <h3 class="font-bold">線上申請</h3><p class="text-sm text-base-content/50">填資料、上傳文件</p></div>
+        <div class="border border-base-300 rounded-box p-5 text-center">
+          <div class="w-8 h-8 mx-auto mb-2 rounded-full border border-base-content/30 flex items-center justify-center text-sm font-bold">3</div>
+          <h3 class="font-bold">繳費成立</h3><p class="text-sm text-base-content/50">核帳後預約成立</p></div>
+      </div>
+    </section>
+
+    <!-- 熱門場館 -->
+    <section class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">熱門場館</span>
+      <div class="flex items-end justify-between mb-3">
+        <h2 class="text-xl font-bold">熱門場館</h2>
+        <a class="link text-sm text-base-content/60" href="venue-list.html">查看全部場館 →</a>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <a class="border border-base-300 rounded-box overflow-hidden hover:bg-base-200 transition" href="venue-detail.html">
+          <figure class="wf-ph h-28 rounded-none">照片</figure>
+          <div class="p-3 flex flex-col gap-1"><h3 class="font-bold text-sm">中興堂演藝廳</h3>
+            <span class="badge badge-outline badge-xs w-fit">整租</span><div class="text-xs text-base-content/50">NT$ 8,000 起</div></div></a>
+        <a class="border border-base-300 rounded-box overflow-hidden hover:bg-base-200 transition" href="venue-detail.html">
+          <figure class="wf-ph h-28 rounded-none">照片</figure>
+          <div class="p-3 flex flex-col gap-1"><h3 class="font-bold text-sm">藝文中心展演室</h3>
+            <span class="badge badge-outline badge-xs w-fit">時段</span><div class="text-xs text-base-content/50">NT$ 600 起</div></div></a>
+        <a class="border border-base-300 rounded-box overflow-hidden hover:bg-base-200 transition" href="venue-detail.html">
+          <figure class="wf-ph h-28 rounded-none">照片</figure>
+          <div class="p-3 flex flex-col gap-1"><h3 class="font-bold text-sm">第二演講廳</h3>
+            <span class="badge badge-outline badge-xs w-fit">包月</span><div class="text-xs text-base-content/50">NT$ 20,000 起</div></div></a>
+        <a class="border border-base-300 rounded-box overflow-hidden hover:bg-base-200 transition" href="venue-detail.html">
+          <figure class="wf-ph h-28 rounded-none">照片</figure>
+          <div class="p-3 flex flex-col gap-1"><h3 class="font-bold text-sm">多功能會議室</h3>
+            <span class="badge badge-outline badge-xs w-fit">時段</span><div class="text-xs text-base-content/50">NT$ 400 起</div></div></a>
+      </div>
+    </section>
+
+    <!-- 最新消息 -->
+    <section class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">最新消息</span>
+      <div class="flex items-end justify-between mb-3">
+        <h2 class="text-xl font-bold">最新消息</h2>
+        <a class="link text-sm text-base-content/60" href="news-list.html">檢視更多 →</a>
+      </div>
+      <div class="divide-y divide-base-300 border border-base-300 rounded-box overflow-hidden">
+        <a class="flex items-center gap-3 p-3 hover:bg-base-200 transition" href="news-detail.html">
+          <span class="badge badge-outline badge-sm shrink-0">公告</span>
+          <span class="flex-1 truncate font-medium">113年度場地租借收費調整公告</span>
+          <span class="text-xs text-base-content/40 shrink-0">06-10</span></a>
+        <a class="flex items-center gap-3 p-3 hover:bg-base-200 transition" href="news-detail.html">
+          <span class="badge badge-outline badge-sm shrink-0">活動</span>
+          <span class="flex-1 truncate font-medium">暑期藝文檔期開放申請</span>
+          <span class="text-xs text-base-content/40 shrink-0">06-05</span></a>
+        <a class="flex items-center gap-3 p-3 hover:bg-base-200 transition" href="news-detail.html">
+          <span class="badge badge-outline badge-sm shrink-0">維護</span>
+          <span class="flex-1 truncate font-medium">線上預約系統維護通知（6/1 凌晨）</span>
+          <span class="text-xs text-base-content/40 shrink-0">05-28</span></a>
+        <a class="flex items-center gap-3 p-3 hover:bg-base-200 transition" href="news-detail.html">
+          <span class="badge badge-outline badge-sm shrink-0">活動</span>
+          <span class="flex-1 truncate font-medium">親子藝術節志工招募中</span>
+          <span class="text-xs text-base-content/40 shrink-0">05-20</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 素線框 Footer -->
+  <footer class="border-t border-base-300 px-6 py-8 mt-4">
+    <div class="grid gap-6 sm:grid-cols-3 text-sm text-base-content/60">
+      <div>
+        <div class="font-bold text-base-content/80 mb-1">LOGO</div>
+        <p>苗栗縣場地租借服務</p>
+        <p class="text-xs">線上查詢 · 申請 · 繳費</p>
+      </div>
+      <div>
+        <div class="font-bold text-base-content/80 mb-2">服務</div>
+        <ul class="space-y-1">
+          <li><a class="hover:text-base-content" href="venue-list.html">場館資訊</a></li>
+          <li><a class="hover:text-base-content" href="news-list.html">最新消息</a></li>
+          <li><a class="hover:text-base-content" href="faq.html">常見問題</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="font-bold text-base-content/80 mb-2">法務</div>
+        <ul class="space-y-1">
+          <li><a class="hover:text-base-content" href="terms.html">服務條款</a></li>
+          <li><a class="hover:text-base-content" href="privacy.html">隱私政策</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-xs text-base-content/40 mt-6 pt-4 border-t border-base-300">© 2026 苗栗縣政府</div>
+  </footer>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

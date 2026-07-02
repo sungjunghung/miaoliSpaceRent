@@ -1,0 +1,114 @@
+[
+  {
+    "id": "user-001",
+    "name": "王小明",
+    "email": "xiaoming@example.com",
+    "password": "password123",
+    "phone": "0912-345-678",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
+    "retainedDeposit": 3000,
+    "identityType": "identity-002",
+    "identityDocument": "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2564&auto=format&fit=crop",
+    "provider": "email"
+  },
+  {
+    "id": "user-002",
+    "name": "陳美玲",
+    "email": "meiling@example.com",
+    "password": "password123",
+    "phone": "0923-456-789",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    "retainedDeposit": 5000,
+    "identityType": "identity-002",
+    "identityDocument": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop",
+    "provider": "google"
+  },
+  {
+    "id": "user-003",
+    "name": "林志豪",
+    "email": "zhihao@example.com",
+    "password": "password123",
+    "phone": "0934-567-890",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1494790108377-be9c29b29330.webp"
+  },
+  {
+    "id": "user-004",
+    "name": "張雅婷",
+    "email": "yating.chang@example.com",
+    "password": "password123",
+    "phone": "0956-111-222",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1609692814858-f7cd2f0afa4f.webp"
+  },
+  {
+    "id": "user-005",
+    "name": "黃建宏",
+    "email": "jianhong.huang@example.com",
+    "password": "password123",
+    "phone": "0967-222-333",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1560800452-f2d475982b96.webp"
+  },
+  {
+    "id": "user-006",
+    "name": "劉怡君",
+    "email": "yijun.liu@example.com",
+    "password": "password123",
+    "phone": "0978-333-444",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1565030961839-25fdfdefd0e9.webp"
+  },
+  {
+    "id": "user-007",
+    "name": "吳政霖",
+    "email": "zhenglin.wu@example.com",
+    "password": "password123",
+    "phone": "0912-444-555",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1472099645785-5658abf4ff4e.webp"
+  },
+  {
+    "id": "user-008",
+    "name": "許淑芬",
+    "email": "shufen.hsu@example.com",
+    "password": "password123",
+    "phone": "0923-555-666",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1587033411391-5d9e51cce126.webp"
+  },
+  {
+    "id": "user-009",
+    "name": "蔡宗翰",
+    "email": "zonghan.tsai@example.com",
+    "password": "password123",
+    "phone": "0934-666-777",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1507003211169-0a1dd7228f2d.webp"
+  },
+  {
+    "id": "user-010",
+    "name": "鄭佳穎",
+    "email": "jiaying.cheng@example.com",
+    "password": "password123",
+    "phone": "0945-777-888",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1559862559-a37e3e3f29f6.webp"
+  },
+  {
+    "id": "user-011",
+    "name": "楊俊傑",
+    "email": "junjie.yang@example.com",
+    "password": "password123",
+    "phone": "0956-888-999",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1500648767791-00dcc994a43e.webp"
+  },
+  {
+    "id": "user-012",
+    "name": "謝雨晴",
+    "email": "yuching.hsieh@example.com",
+    "password": "password123",
+    "phone": "0967-999-000",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1502685104226-ee32379fefbe.webp"
+  },
+  {
+    "id": "user-013",
+    "name": "洪明哲",
+    "email": "mingzhe.hong@example.com",
+    "password": "password123",
+    "phone": "0978-000-111",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1463453091185-61582044d556.webp"
+  }
+]

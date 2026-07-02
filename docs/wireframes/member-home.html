@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 會員中心首頁</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 會員中心首頁（/member）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="" data-sub="會員中心"></header>
+
+  <main class="flex flex-col gap-8 p-4">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 待辦提醒</span>
+      <p class="wf-note">會員中心首頁的價值是「有沒有事要我處理」，不是歡迎詞</p>
+      <div class="flex flex-col gap-2">
+        <div class="alert alert-warning"><span>1 筆預約待繳費 · 剩 2 天</span><a class="btn btn-sm btn-primary" href="my-bookings.html">前往</a></div>
+        <div class="alert alert-error"><span>1 筆文件被退件，需補件</span><a class="btn btn-sm btn-primary" href="booking-detail.html">前往</a></div>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">帳戶概況</span>
+      <div class="stats stats-vertical sm:stats-horizontal shadow border w-full">
+        <div class="stat"><div class="stat-title">進行中預約</div><div class="stat-value text-2xl">2</div></div>
+        <div class="stat"><div class="stat-title">留存保證金</div><div class="stat-value text-2xl">5,000</div></div>
+        <div class="stat"><div class="stat-title">退款處理中</div><div class="stat-value text-2xl">1</div></div>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">功能入口</span>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <a class="card bg-base-100 border text-center" href="my-profile.html"><div class="card-body p-4 items-center gap-1"><span>👤</span><span class="text-sm">我的帳戶</span></div></a>
+        <a class="card bg-base-100 border text-center" href="my-bookings.html"><div class="card-body p-4 items-center gap-1"><span>📋</span><span class="text-sm">我的預訂</span></div></a>
+        <a class="card bg-base-100 border text-center" href="my-refunds.html"><div class="card-body p-4 items-center gap-1"><span>💰</span><span class="text-sm">我的退款</span></div></a>
+      </div>
+    </div>
+
+    <div class="wf-region opacity-80">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 帳戶操作</span>
+      <div class="flex gap-2"><button class="btn btn-sm btn-ghost">修改密碼</button><button class="btn btn-sm btn-ghost">登出</button></div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

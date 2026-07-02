@@ -1,0 +1,198 @@
+[
+  {
+    "venueId": 1,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 1,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 1,
+    "slotCode": "evening",
+    "name": "夜間",
+    "startTime": "18:00",
+    "endTime": "22:00"
+  },
+  {
+    "venueId": 3,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 3,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 3,
+    "slotCode": "evening",
+    "name": "夜間",
+    "startTime": "18:00",
+    "endTime": "22:00"
+  },
+  {
+    "venueId": 4,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 4,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 4,
+    "slotCode": "evening",
+    "name": "夜間",
+    "startTime": "18:00",
+    "endTime": "22:00"
+  },
+  {
+    "venueId": 5,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 5,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 6,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 6,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 7,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 7,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 7,
+    "slotCode": "evening",
+    "name": "夜間",
+    "startTime": "18:00",
+    "endTime": "22:00"
+  },
+  {
+    "venueId": 101,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 101,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 102,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 102,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 103,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 103,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 201,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 201,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 201,
+    "slotCode": "evening",
+    "name": "夜間",
+    "startTime": "18:00",
+    "endTime": "22:00"
+  },
+  {
+    "venueId": 202,
+    "slotCode": "morning",
+    "name": "上午",
+    "startTime": "08:00",
+    "endTime": "12:00"
+  },
+  {
+    "venueId": 202,
+    "slotCode": "afternoon",
+    "name": "下午",
+    "startTime": "13:00",
+    "endTime": "17:00"
+  },
+  {
+    "venueId": 202,
+    "slotCode": "evening",
+    "name": "夜間",
+    "startTime": "18:00",
+    "endTime": "22:00"
+  }
+]

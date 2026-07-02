@@ -1,0 +1,82 @@
+[
+  {
+    "id": "role-001",
+    "name": "超級管理員",
+    "description": "擁有所有系統權限，可管理其他管理員帳號與權限群組",
+    "isSystem": true,
+    "memberCount": 1,
+    "permissions": [
+      "venues.view", "venues.create", "venues.edit", "venues.delete",
+      "bookings.view", "bookings.create", "bookings.edit", "bookings.cancel",
+      "members.view", "members.create", "members.edit", "members.delete",
+      "admins.view", "admins.create", "admins.edit", "admins.delete",
+      "permissions.view", "permissions.edit",
+      "news.view", "news.create", "news.edit", "news.delete",
+      "reports.view", "reports.export"
+    ],
+    "createdAt": "2024-01-15",
+    "updatedAt": "2024-01-15"
+  },
+  {
+    "id": "role-002",
+    "name": "管理員",
+    "description": "可管理場館、預約及會員，但無法調整權限設定",
+    "isSystem": true,
+    "memberCount": 2,
+    "permissions": [
+      "venues.view", "venues.create", "venues.edit",
+      "bookings.view", "bookings.create", "bookings.edit", "bookings.cancel",
+      "members.view", "members.create", "members.edit",
+      "news.view", "news.create", "news.edit", "news.delete",
+      "reports.view"
+    ],
+    "createdAt": "2024-01-15",
+    "updatedAt": "2024-03-01"
+  },
+  {
+    "id": "role-003",
+    "name": "檢視者",
+    "description": "僅可檢視資料，無法進行新增、編輯或刪除操作",
+    "isSystem": false,
+    "memberCount": 1,
+    "permissions": [
+      "venues.view",
+      "bookings.view",
+      "members.view",
+      "news.view",
+      "reports.view"
+    ],
+    "createdAt": "2024-06-10",
+    "updatedAt": "2024-06-10"
+  },
+  {
+    "id": "role-004",
+    "name": "場館管理員",
+    "description": "負責場館日常維運與預約管理",
+    "isSystem": false,
+    "memberCount": 0,
+    "permissions": [
+      "venues.view", "venues.edit",
+      "bookings.view", "bookings.create", "bookings.edit", "bookings.cancel",
+      "members.view",
+      "news.view"
+    ],
+    "createdAt": "2025-02-20",
+    "updatedAt": "2025-09-15"
+  },
+  {
+    "id": "role-005",
+    "name": "活動企劃",
+    "description": "負責最新消息與活動內容管理",
+    "isSystem": false,
+    "memberCount": 0,
+    "permissions": [
+      "venues.view",
+      "bookings.view",
+      "news.view", "news.create", "news.edit", "news.delete",
+      "reports.view"
+    ],
+    "createdAt": "2025-05-01",
+    "updatedAt": "2025-05-01"
+  }
+]

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+                  id="Definitions_DocReview"
+                  targetNamespace="http://bpmn.io/schema/bpmn">
+  <bpmn:collaboration id="Collaboration_1">
+    <bpmn:participant id="Participant_1" name="文件審核與補件" processRef="Process_DocReview" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_DocReview" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Member" name="會員">
+        <bpmn:flowNodeRef>UserTask_U2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UserTask_U3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_T1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Officer" name="承辦">
+        <bpmn:flowNodeRef>UserTask_A1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_G2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>UserTask_A2</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_System" name="系統">
+        <bpmn:flowNodeRef>StartEvent_E0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_S1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_S2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_S4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_E1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ServiceTask_S3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_E2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:startEvent id="StartEvent_E0" name="預約建立&#10;requireDocuments=true">
+      <bpmn:outgoing>Flow_E0_S1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="ServiceTask_S1" name="建立文件清單與上傳期限">
+      <bpmn:incoming>Flow_E0_S1</bpmn:incoming>
+      <bpmn:outgoing>Flow_S1_U2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="UserTask_U2" name="上傳必要文件">
+      <bpmn:incoming>Flow_S1_U2</bpmn:incoming>
+      <bpmn:outgoing>Flow_U2_S2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="ServiceTask_S2" name="進入 document_review">
+      <bpmn:incoming>Flow_U2_S2</bpmn:incoming>
+      <bpmn:incoming>Flow_U3_S2</bpmn:incoming>
+      <bpmn:outgoing>Flow_S2_A1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="UserTask_A1" name="審核文件內容">
+      <bpmn:incoming>Flow_S2_A1</bpmn:incoming>
+      <bpmn:outgoing>Flow_A1_G2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="Gateway_G2" name="是否符合要求">
+      <bpmn:incoming>Flow_A1_G2</bpmn:incoming>
+      <bpmn:outgoing>Flow_G2_S4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_G2_A2</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="UserTask_A2" name="退件並填寫原因">
+      <bpmn:incoming>Flow_G2_A2</bpmn:incoming>
+      <bpmn:outgoing>Flow_A2_U3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="UserTask_U3" name="補件後重新上傳">
+      <bpmn:incoming>Flow_A2_U3</bpmn:incoming>
+      <bpmn:outgoing>Flow_U3_S2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:boundaryEvent id="BoundaryEvent_T1" name="補件截止" attachedToRef="UserTask_U3" cancelActivity="true">
+      <bpmn:outgoing>Flow_T1_S3</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerDef_1" />
+    </bpmn:boundaryEvent>
+    <bpmn:task id="ServiceTask_S3" name="更新 cancelled_rejected">
+      <bpmn:incoming>Flow_T1_S3</bpmn:incoming>
+      <bpmn:outgoing>Flow_S3_E2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="ServiceTask_S4" name="更新 pending_payment">
+      <bpmn:incoming>Flow_G2_S4</bpmn:incoming>
+      <bpmn:outgoing>Flow_S4_E1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_E1" name="文件通過">
+      <bpmn:incoming>Flow_S4_E1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="EndEvent_E2" name="文件逾期取消">
+      <bpmn:incoming>Flow_S3_E2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_E0_S1" sourceRef="StartEvent_E0" targetRef="ServiceTask_S1" />
+    <bpmn:sequenceFlow id="Flow_S1_U2" sourceRef="ServiceTask_S1" targetRef="UserTask_U2" />
+    <bpmn:sequenceFlow id="Flow_U2_S2" sourceRef="UserTask_U2" targetRef="ServiceTask_S2" />
+    <bpmn:sequenceFlow id="Flow_S2_A1" sourceRef="ServiceTask_S2" targetRef="UserTask_A1" />
+    <bpmn:sequenceFlow id="Flow_A1_G2" sourceRef="UserTask_A1" targetRef="Gateway_G2" />
+    <bpmn:sequenceFlow id="Flow_G2_S4" name="符合" sourceRef="Gateway_G2" targetRef="ServiceTask_S4" />
+    <bpmn:sequenceFlow id="Flow_G2_A2" name="不符合" sourceRef="Gateway_G2" targetRef="UserTask_A2" />
+    <bpmn:sequenceFlow id="Flow_A2_U3" sourceRef="UserTask_A2" targetRef="UserTask_U3" />
+    <bpmn:sequenceFlow id="Flow_U3_S2" name="重新審核" sourceRef="UserTask_U3" targetRef="ServiceTask_S2" />
+    <bpmn:sequenceFlow id="Flow_T1_S3" sourceRef="BoundaryEvent_T1" targetRef="ServiceTask_S3" />
+    <bpmn:sequenceFlow id="Flow_S4_E1" sourceRef="ServiceTask_S4" targetRef="EndEvent_E1" />
+    <bpmn:sequenceFlow id="Flow_S3_E2" sourceRef="ServiceTask_S3" targetRef="EndEvent_E2" />
+  </bpmn:process>
+
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1">
+      <bpmndi:BPMNShape id="Participant_1_di" bpmnElement="Participant_1" isHorizontal="true">
+        <dc:Bounds x="150" y="60" width="1480" height="640" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Member_di" bpmnElement="Lane_Member" isHorizontal="true">
+        <dc:Bounds x="180" y="60" width="1450" height="210" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Officer_di" bpmnElement="Lane_Officer" isHorizontal="true">
+        <dc:Bounds x="180" y="270" width="1450" height="210" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_System_di" bpmnElement="Lane_System" isHorizontal="true">
+        <dc:Bounds x="180" y="480" width="1450" height="220" />
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNShape id="StartEvent_E0_di" bpmnElement="StartEvent_E0">
+        <dc:Bounds x="222" y="572" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="198" y="615" width="84" height="27" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_S1_di" bpmnElement="ServiceTask_S1">
+        <dc:Bounds x="320" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_U2_di" bpmnElement="UserTask_U2">
+        <dc:Bounds x="460" y="125" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_S2_di" bpmnElement="ServiceTask_S2">
+        <dc:Bounds x="600" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_A1_di" bpmnElement="UserTask_A1">
+        <dc:Bounds x="740" y="335" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_G2_di" bpmnElement="Gateway_G2" isMarkerVisible="true">
+        <dc:Bounds x="895" y="350" width="50" height="50" />
+        <bpmndi:BPMNLabel><dc:Bounds x="884" y="320" width="72" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_A2_di" bpmnElement="UserTask_A2">
+        <dc:Bounds x="1010" y="335" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="UserTask_U3_di" bpmnElement="UserTask_U3">
+        <dc:Bounds x="1150" y="125" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_T1_di" bpmnElement="BoundaryEvent_T1">
+        <dc:Bounds x="1182" y="187" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1224" y="194" width="48" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_S3_di" bpmnElement="ServiceTask_S3">
+        <dc:Bounds x="1290" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_S4_di" bpmnElement="ServiceTask_S4">
+        <dc:Bounds x="1010" y="550" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_E1_di" bpmnElement="EndEvent_E1">
+        <dc:Bounds x="1182" y="572" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1170" y="615" width="60" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_E2_di" bpmnElement="EndEvent_E2">
+        <dc:Bounds x="1462" y="572" width="36" height="36" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1444" y="615" width="72" height="14" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+
+      <bpmndi:BPMNEdge id="Flow_E0_S1_di" bpmnElement="Flow_E0_S1">
+        <di:waypoint x="258" y="590" />
+        <di:waypoint x="320" y="590" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_S1_U2_di" bpmnElement="Flow_S1_U2">
+        <di:waypoint x="420" y="590" />
+        <di:waypoint x="510" y="590" />
+        <di:waypoint x="510" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_U2_S2_di" bpmnElement="Flow_U2_S2">
+        <di:waypoint x="560" y="165" />
+        <di:waypoint x="650" y="165" />
+        <di:waypoint x="650" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_S2_A1_di" bpmnElement="Flow_S2_A1">
+        <di:waypoint x="700" y="590" />
+        <di:waypoint x="790" y="590" />
+        <di:waypoint x="790" y="415" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_A1_G2_di" bpmnElement="Flow_A1_G2">
+        <di:waypoint x="840" y="375" />
+        <di:waypoint x="895" y="375" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_G2_S4_di" bpmnElement="Flow_G2_S4">
+        <di:waypoint x="920" y="400" />
+        <di:waypoint x="920" y="590" />
+        <di:waypoint x="1010" y="590" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_G2_A2_di" bpmnElement="Flow_G2_A2">
+        <di:waypoint x="945" y="375" />
+        <di:waypoint x="1010" y="375" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_A2_U3_di" bpmnElement="Flow_A2_U3">
+        <di:waypoint x="1060" y="335" />
+        <di:waypoint x="1060" y="165" />
+        <di:waypoint x="1150" y="165" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_U3_S2_di" bpmnElement="Flow_U3_S2">
+        <di:waypoint x="1200" y="125" />
+        <di:waypoint x="1200" y="90" />
+        <di:waypoint x="650" y="90" />
+        <di:waypoint x="650" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_T1_S3_di" bpmnElement="Flow_T1_S3">
+        <di:waypoint x="1200" y="223" />
+        <di:waypoint x="1200" y="510" />
+        <di:waypoint x="1340" y="510" />
+        <di:waypoint x="1340" y="550" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_S4_E1_di" bpmnElement="Flow_S4_E1">
+        <di:waypoint x="1110" y="590" />
+        <di:waypoint x="1182" y="590" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_S3_E2_di" bpmnElement="Flow_S3_E2">
+        <di:waypoint x="1390" y="590" />
+        <di:waypoint x="1462" y="590" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

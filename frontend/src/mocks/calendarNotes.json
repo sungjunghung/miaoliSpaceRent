@@ -1,0 +1,113 @@
+[
+  {
+    "id": 1,
+    "venueId": null,
+    "title": "場地消毒作業",
+    "date": "2026-04-14",
+    "allDay": true,
+    "startTime": null,
+    "endTime": null,
+    "description": "全館進行消毒與清潔作業，請提前通知租借單位",
+    "createdBy": "admin-001",
+    "createdAt": "2026-03-20"
+  },
+  {
+    "id": 2,
+    "venueId": 1,
+    "title": "空調系統維護",
+    "date": "2026-04-16",
+    "allDay": false,
+    "startTime": "09:00",
+    "endTime": "12:00",
+    "description": "巨蛋體育館空調年度保養，冷氣暫停供應",
+    "createdBy": "admin-001",
+    "createdAt": "2026-03-25"
+  },
+  {
+    "id": 3,
+    "venueId": null,
+    "title": "縣府長官視察",
+    "date": "2026-04-18",
+    "allDay": false,
+    "startTime": "14:00",
+    "endTime": "16:00",
+    "description": "縣長及教育處長蒞臨視察場館設施",
+    "createdBy": "admin-001",
+    "createdAt": "2026-04-01"
+  },
+  {
+    "id": 4,
+    "venueId": 2,
+    "title": "草皮養護期間",
+    "date": "2026-04-20",
+    "allDay": true,
+    "startTime": null,
+    "endTime": null,
+    "description": "田徑場草皮施肥養護，內野區域禁止進入",
+    "createdBy": "admin-002",
+    "createdAt": "2026-04-02"
+  },
+  {
+    "id": 5,
+    "venueId": null,
+    "title": "管理員教育訓練",
+    "date": "2026-04-22",
+    "allDay": false,
+    "startTime": "09:00",
+    "endTime": "11:30",
+    "description": "全體場館管理員安全講習暨消防演練",
+    "createdBy": "admin-001",
+    "createdAt": "2026-04-05"
+  },
+  {
+    "id": 6,
+    "venueId": 1,
+    "title": "備忘：確認五月活動排程",
+    "date": "2026-04-25",
+    "allDay": true,
+    "startTime": null,
+    "endTime": null,
+    "description": "需與體育總會確認五月各項賽事場地需求",
+    "createdBy": "admin-001",
+    "createdAt": "2026-04-08"
+  },
+  {
+    "id": 7,
+    "venueId": 1,
+    "type": "blocked",
+    "title": "場地保留：縣府活動",
+    "date": "2026-04-28",
+    "allDay": false,
+    "startTime": "13:00",
+    "endTime": "17:00",
+    "description": "配合縣府大型活動保留場地",
+    "createdBy": "admin-001",
+    "createdAt": "2026-04-10"
+  },
+  {
+    "id": 8,
+    "venueId": 2,
+    "type": "blocked",
+    "title": "賽事保留",
+    "date": "2026-04-30",
+    "allDay": true,
+    "startTime": null,
+    "endTime": null,
+    "description": "全國田徑賽保留場地",
+    "createdBy": "admin-001",
+    "createdAt": "2026-04-12"
+  },
+  {
+    "id": 9,
+    "venueId": 1,
+    "type": "blocked",
+    "title": "場地保留：學校運動會",
+    "date": "2026-05-05",
+    "allDay": false,
+    "startTime": "08:00",
+    "endTime": "12:00",
+    "description": "學校運動會使用",
+    "createdBy": "admin-002",
+    "createdAt": "2026-04-15"
+  }
+]

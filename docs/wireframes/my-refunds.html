@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 我的退款</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 我的退款（MyRefunds）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="member-refunds" data-sub="會員中心 / 我的退款"></header>
+
+  <main class="flex flex-col gap-8 p-4">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 退款案件列表</span>
+      <p class="wf-note">會員最在意「我的錢處理到哪了」— 每筆以進度 + 目前階段呈現</p>
+      <div class="flex flex-col gap-3">
+        <div class="card border"><div class="card-body p-4 gap-2">
+          <div class="flex items-center justify-between"><div><span class="badge badge-sm">保證金</span> <b>NT$ 5,000</b></div><span class="text-xs opacity-60">申請 6/10</span></div>
+          <ul class="steps text-xs w-full"><li class="step step-primary">承辦</li><li class="step step-primary">會計</li><li class="step">出納</li><li class="step">完成</li></ul>
+        </div></div>
+        <div class="card border"><div class="card-body p-4 gap-2">
+          <div class="flex items-center justify-between"><div><span class="badge badge-sm">訂單取消</span> <b>NT$ 1,200</b></div><span class="text-xs opacity-60">申請 5/28</span></div>
+          <ul class="steps text-xs w-full"><li class="step step-primary">承辦</li><li class="step step-primary">會計</li><li class="step step-primary">出納</li><li class="step step-primary">完成</li></ul>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">進度時間軸（單筆展開）</span>
+      <ul class="steps steps-vertical sm:steps-horizontal w-full text-xs">
+        <li class="step step-primary">admin_review</li><li class="step step-primary">accounting_review</li><li class="step">cashier_processing</li><li class="step">completed</li>
+      </ul>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">結果 / 原因</span>
+      <p class="wf-note">completed 顯示撥款資訊；rejected 的駁回原因屬高情緒，需明顯置前</p>
+      <div class="flex flex-col gap-2">
+        <div class="alert alert-success"><span>已完成 · 撥款 NT$ 1,200 至 ****1234</span></div>
+        <div class="alert alert-error"><span>已駁回 · 原因：帳戶資訊有誤。<a class="link">聯絡客服 / 重新申請</a></span></div>
+      </div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 類型篩選</span>
+      <div role="tablist" class="tabs tabs-bordered"><a role="tab" class="tab tab-active">全部</a><a role="tab" class="tab">保證金</a><a role="tab" class="tab">訂單取消</a></div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 空狀態</span>
+      <div class="alert"><span>無退款案件時的說明。</span></div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

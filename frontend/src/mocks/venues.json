@@ -1,0 +1,2197 @@
+[
+  {
+    "id": 1,
+    "parentId": null,
+    "name": "苗栗巨蛋體育館",
+    "status": "available",
+    "capacity": 7500,
+    "location": "苗栗市福麗里國華路 1121 號",
+    "type": "運動賽事",
+    "description": "苗栗巨蛋體育館於九十年完工啟用，是一座可容納 7,500 多人之多功能綜合體育館。提供空間供各類體育活動、教學、比賽、演唱會、音樂會、商業展覽等使用，並設有地下停車場等多項功能，歡迎各界踴躍申請租用。",
+    "mainImageUrl": "/assets/images/苗栗巨蛋體育館_01.jpg",
+    "gallery": [
+      "/assets/images/苗栗巨蛋體育館_01.jpg",
+      "/assets/images/苗栗巨蛋體育館_02.jpg",
+      "/assets/images/arena/Arena_1.jpg",
+      "/assets/images/arena/Arena_2.jpg",
+      "/assets/images/arena/Arena_3.jpg",
+      "/assets/images/arena/Arena_4.jpg",
+      "/assets/images/arena/Arena_5.jpg",
+      "/assets/images/arena/Arena_6.jpg",
+      "/assets/images/arena/Arena_7.jpg",
+      "/assets/images/arena/Arena_8.jpg",
+      "/assets/images/arena/Arena_9.jpg",
+      "/assets/images/arena/Arena_10.jpg"
+    ],
+    "pricePerHour": 3000,
+    "facilities": [
+      "觀眾席 7,960 位",
+      "地下停車場 489 位",
+      "室內游泳池",
+      "多用途球場",
+      "會議室",
+      "韻律教室",
+      "貴賓室",
+      "高壓電力空調"
+    ],
+    "openingHours": {
+      "mon": "08:00 - 22:00",
+      "tue": "08:00 - 22:00",
+      "wed": "08:00 - 22:00",
+      "thu": "08:00 - 22:00",
+      "fri": "08:00 - 22:00",
+      "sat": "08:00 - 22:00",
+      "sun": "08:00 - 22:00"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": true,
+        "minDays": 1,
+        "maxDays": 3,
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 10000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 3000,
+            "weekend": 3000
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 3000,
+            "weekend": 3000
+          },
+          {
+            "name": "夜間",
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "weekday": 3000,
+            "weekend": 3000
+          }
+        ],
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 10000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": false,
+        "minHours": 0,
+        "requireDocuments": true,
+        "maxHours": 0,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {
+        "weekday": 50000,
+        "weekend": 50000
+      },
+      "session": {},
+      "hourly": {}
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "嚴禁酗酒者、攜帶動物或危險物品者、穿著木屐、拖鞋或釘鞋者進入",
+      "不得作為民眾婚喪喜慶之場所",
+      "嚴禁抽煙、嚼檳榔、拋棄果皮紙屑或口香糖殘渣",
+      "館內佈置須經同意，不得擅自變更固定設備",
+      "損壞須負責修復或按時價賠償",
+      "使用單位負責場地佈置、接待、宣傳、售票、對號、環境整理及安全維護",
+      "申請未核准前，不得在新聞媒體或宣傳品上發布消息"
+    ],
+    "advanceBookingDays": 14,
+    "receiptUploadDeadlineDays": 3,
+    "documentUploadDeadlineDays": 14,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "高壓電力空調",
+        "unit": "每 2 日",
+        "amount": 50000,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "折疊椅",
+        "unit": "張",
+        "amount": 0,
+        "quantity": 200,
+        "maxPerBooking": 200
+      },
+      {
+        "label": "摺疊桌",
+        "unit": "張",
+        "amount": 0,
+        "quantity": 50,
+        "maxPerBooking": 50
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "parentId": null,
+    "name": "田徑場",
+    "status": "available",
+    "capacity": 15000,
+    "location": "苗栗市嘉盛里經國路 4 段 79 號",
+    "type": "運動賽事",
+    "description": "本場地處市區邊緣，視野佳且四周道路便捷可直達苗栗市中心及苗栗頭份交流道，地理條件優越。現有四百公尺標準 PU 跑道八道供比賽使用，田賽場地亦符合比賽標準，無論是全國性比賽或縣內活動都是最佳場所。",
+    "mainImageUrl": "/assets/images/田徑場_01.jpg",
+    "gallery": [
+      "/assets/images/田徑場_01.jpg",
+      "/assets/images/stadium/stadium_1.jpg",
+      "/assets/images/stadium/stadium_2.jpg",
+      "/assets/images/stadium/stadium_3.jpg",
+      "/assets/images/stadium/stadium_4.jpg",
+      "/assets/images/stadium/stadium_5.jpg",
+      "/assets/images/stadium/stadium_6.jpg",
+      "/assets/images/stadium/stadium_7.jpg",
+      "/assets/images/stadium/stadium_8.jpg",
+      "/assets/images/stadium/stadium_9.jpg",
+      "/assets/images/stadium/stadium_10.jpg"
+    ],
+    "pricePerHour": 5000,
+    "facilities": [
+      "400m PU 跑道 8 道",
+      "標準田賽場地",
+      "智能地墊教室",
+      "觀眾看台",
+      "無障礙設施"
+    ],
+    "openingHours": {
+      "mon": null,
+      "tue": "08:30 - 17:30",
+      "wed": "08:30 - 17:30",
+      "thu": "08:30 - 17:30",
+      "fri": "08:30 - 17:30",
+      "sat": "08:30 - 17:30",
+      "sun": "08:30 - 17:30"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": true,
+        "minDays": 1,
+        "maxDays": 3,
+        "requireDocuments": true,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 5000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": false,
+        "sessions": [],
+        "requireDocuments": true,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 5000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": false,
+        "minHours": 0,
+        "requireDocuments": true,
+        "maxHours": 0,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {
+        "weekday": 5000,
+        "weekend": 5000
+      },
+      "session": {},
+      "hourly": {}
+    },
+    "closedWeekdays": [
+      1
+    ],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "使用跑鞋其釘子長度不得超過 0.9 公分",
+      "嚴禁酗酒、抽煙、嚼檳榔、拋棄果皮紙屑、口香糖",
+      "嚴禁攜帶危險物品進入",
+      "不准設攤",
+      "各種車輛不得進入人工跑道",
+      "場地佈置需經同意，以 1 天為原則，用畢須負責清理並恢復原狀",
+      "運動器材及附屬設備僅供場地自辦活動使用；不易損壞之器材經核定後可借用，但不得攜出場外，損壞須照價賠償",
+      "不得作為民眾婚喪喜慶之場所",
+      "每場入場券發行總數不得超過 15,000 張"
+    ],
+    "advanceBookingDays": 30,
+    "receiptUploadDeadlineDays": 5,
+    "documentUploadDeadlineDays": 7,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "三角錐（含連桿）",
+        "unit": "組",
+        "amount": 0,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "parentId": null,
+    "name": "棒壘球場（照南球場）",
+    "status": "available",
+    "capacity": 500,
+    "location": "竹南鎮龍山路一段 12 號",
+    "type": "運動賽事",
+    "description": "為提供本縣竹南、頭份、苗栗地區棒球重點發展學校球隊平日培訓場地，特興建照南、頭屋、大倫三處球場。現有棒壘球場共六面，可作為辦理全國型、全縣型、縣代表隊選拔、競技團隊集訓等相關體育活動，平時採預約租借方式開放民眾使用。",
+    "mainImageUrl": "/assets/images/照南棒球場_01.jpg",
+    "gallery": [
+      "/assets/images/照南棒球場_01.jpg",
+      "/assets/images/照南棒球場_02.jpg"
+    ],
+    "pricePerHour": 300,
+    "facilities": [
+      "6 面棒壘球場",
+      "夜間照明設備",
+      "冷氣設備",
+      "停車場",
+      "觀眾看台"
+    ],
+    "openingHours": {
+      "mon": "08:00 - 21:30",
+      "tue": "08:00 - 21:30",
+      "wed": "08:00 - 21:30",
+      "thu": "08:00 - 21:30",
+      "fri": "08:00 - 21:30",
+      "sat": "08:00 - 21:30",
+      "sun": "08:00 - 21:30"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 3000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 1350,
+            "weekend": 1350
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 1350,
+            "weekend": 1350
+          },
+          {
+            "name": "夜間",
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "weekday": 2700,
+            "weekend": 2700
+          }
+        ],
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 3000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": false,
+        "minHours": 0,
+        "requireDocuments": true,
+        "maxHours": 0,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {}
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "嚴禁酗酒",
+      "禁止車輛進入",
+      "禁止攜帶動物（工作犬除外）",
+      "禁止吸菸、嚼檳榔",
+      "禁止亂丟垃圾、攜帶危險物品",
+      "借用單位負責場地器材維護、佈置、環境清潔（含垃圾帶離）及安全維護",
+      "借用優先順序：代表隊集訓 > 全國性競賽 > 縣長盃 > 理事長盃 > 其他社團球隊",
+      "未經同意私自轉讓、變更項目或未繳費即擅自使用者，得停止借用權利三個月",
+      "取消或更改活動性質／臨時取消，所繳費用不予退還"
+    ],
+    "advanceBookingDays": 14,
+    "receiptUploadDeadlineDays": 3,
+    "documentUploadDeadlineDays": 10,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "夜間水電費",
+        "unit": "次",
+        "amount": 1500,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "音響",
+        "unit": "組",
+        "amount": 0,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "摺疊椅",
+        "unit": "張",
+        "amount": 0,
+        "quantity": 12,
+        "maxPerBooking": 12
+      },
+      {
+        "label": "計分板",
+        "unit": "個",
+        "amount": 0,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "長桌",
+        "unit": "張",
+        "amount": 0,
+        "quantity": 8,
+        "maxPerBooking": 8
+      },
+      {
+        "label": "沙耙",
+        "unit": "支",
+        "amount": 0,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "毛刷",
+        "unit": "支",
+        "amount": 0,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "割草機",
+        "unit": "台",
+        "amount": 0,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "parentId": null,
+    "name": "苗栗縣立體育館",
+    "status": "available",
+    "capacity": 3000,
+    "location": "苗栗市中正路 191 號",
+    "type": "運動賽事",
+    "description": "本體育館位於建功國小旁，為室內多功能運動場地。二樓設有羽球場供羽球比賽及室內運動使用，地下室提供桌球及跆拳道場地，一樓不定期出租供展示活動使用，並設有智能地墊教室供學生上課及民眾體驗。",
+    "mainImageUrl": "/assets/images/苗栗巨蛋體育館_01.jpg",
+    "gallery": [
+      "/assets/images/苗栗巨蛋體育館_01.jpg",
+      "/assets/images/苗栗巨蛋體育館_02.jpg"
+    ],
+    "pricePerHour": 1500,
+    "facilities": [
+      "羽球場（二樓）",
+      "桌球場（地下室）",
+      "跆拳道場地（地下室）",
+      "智能地墊教室",
+      "展示空間（一樓）",
+      "空調設備"
+    ],
+    "openingHours": {
+      "mon": "05:30 - 21:00",
+      "tue": "05:30 - 21:00",
+      "wed": "05:30 - 21:00",
+      "thu": "05:30 - 21:00",
+      "fri": "05:30 - 21:00",
+      "sat": "08:00 - 21:00",
+      "sun": "08:00 - 17:00"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 8000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 6000,
+            "weekend": 6000
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 6000,
+            "weekend": 6000
+          },
+          {
+            "name": "夜間",
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "weekday": 6000,
+            "weekend": 6000
+          }
+        ],
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 8000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": false,
+        "minHours": 0,
+        "requireDocuments": true,
+        "maxHours": 0,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {}
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-04-04",
+      "2026-04-05",
+      "2026-05-01"
+    ],
+    "notices": [
+      "本館為非營利單位，禁止任何營利行為（如收費授課）",
+      "禁止吸菸、嚼食檳榔、飲食（含拋棄果皮食物殘渣）",
+      "禁止車輛進入、燃放鞭炮、攜帶危險物品",
+      "禁止未經同意擅自移動或變更館內設備",
+      "佈置禁止使用鐵釘、鐵絲、鐵器等金屬物拴釘牆柱、門窗及地板",
+      "使用後須立即清掃完畢",
+      "未清潔者由管理單位僱工處理並自保證金扣除清潔費",
+      "音量須符合環保署「擴音設施噪音管制標準」",
+      "若損壞設備須照價賠償或照原狀修復",
+      "登記後無故未使用達二次者，停止借用權一年",
+      "入場須攜帶識別證或個人身分證件供管理人員核對"
+    ],
+    "advanceBookingDays": 7,
+    "receiptUploadDeadlineDays": 7,
+    "documentUploadDeadlineDays": 14,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "空調費",
+        "unit": "小時",
+        "amount": 1200,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "parentId": null,
+    "name": "大倫風雨籃球場",
+    "status": "available",
+    "capacity": 300,
+    "location": "苗栗市國華路 347 號",
+    "type": "運動賽事",
+    "description": "本球場興建於民國 89 年，於 110 年獲教育部體育署補助全面改建，設有 3 面籃球場、風雨頂蓋、夜間 LED 照明、壓克力地坪及無障礙廁所。符合教育部運動設施規範及分級分類標準，可供訓練、教學及競賽使用，平時開放式管理供民眾休閒運動。",
+    "mainImageUrl": "/assets/images/大倫風雨籃球場_01.jpg",
+    "gallery": [
+      "/assets/images/大倫風雨籃球場_01.jpg",
+      "/assets/images/大倫風雨籃球場_02.jpg"
+    ],
+    "pricePerHour": 500,
+    "facilities": [
+      "3 面籃球場",
+      "夜間 LED 照明",
+      "壓克力地坪",
+      "風雨頂蓋",
+      "無障礙廁所"
+    ],
+    "openingHours": {
+      "mon": "07:00 - 21:00",
+      "tue": "07:00 - 21:00",
+      "wed": "07:00 - 21:00",
+      "thu": "07:00 - 21:00",
+      "fri": "07:00 - 21:00",
+      "sat": "07:00 - 21:00",
+      "sun": "07:00 - 21:00"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": true,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 2000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 1350,
+            "weekend": 1350
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 1350,
+            "weekend": 1350
+          }
+        ],
+        "requireDocuments": true,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 2000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": true,
+        "minHours": 1,
+        "requireDocuments": true,
+        "maxHours": 8,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {
+        "weekday": 500,
+        "weekend": 500
+      }
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "須穿著整齊運動服裝及球鞋",
+      "禁止穿皮鞋、高跟鞋、拖鞋或赤膊打球",
+      "嚴禁飲酒、抽菸、喧嘩、打架或從事任何違法行為",
+      "禁止以利器破壞場地或籃球框架",
+      "嚴禁亂丟垃圾、果皮、菸蒂",
+      "使用後須自行將垃圾帶離，並負責廁所清潔沖洗",
+      "毀損須負賠償責任",
+      "代表隊集訓、全國性或縣級競賽活動優先使用"
+    ],
+    "advanceBookingDays": 21,
+    "receiptUploadDeadlineDays": 2,
+    "documentUploadDeadlineDays": 7,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "夜間水電費",
+        "unit": "小時",
+        "amount": 200,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "parentId": null,
+    "name": "苗栗縣立網球場",
+    "status": "available",
+    "capacity": 1000,
+    "location": "苗栗市和平路 54 號",
+    "type": "運動賽事",
+    "description": "本場地處市區，地理條件優越，現有標準富麗克網球場九面，可供網球及軟式網球作為比賽場地。平時採會員制開放，提供愛好網球運動之朋友使用，讓廣大民眾從事各類休閒運動。",
+    "mainImageUrl": "/assets/images/苗栗縣立網球場_01.jpg",
+    "gallery": [
+      "/assets/images/苗栗縣立網球場_01.jpg",
+      "/assets/images/苗栗縣立網球場_02.jpg"
+    ],
+    "pricePerHour": 100,
+    "facilities": [
+      "9 面標準富麗克網球場",
+      "感應磁卡門禁",
+      "投幣式照明燈光",
+      "停車空間"
+    ],
+    "openingHours": {
+      "mon": "06:00 - 20:00",
+      "tue": "06:00 - 20:00",
+      "wed": "06:00 - 20:00",
+      "thu": "06:00 - 20:00",
+      "fri": "06:00 - 20:00",
+      "sat": "06:00 - 19:00",
+      "sun": "06:00 - 19:00"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 1000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 500,
+            "weekend": 500
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 500,
+            "weekend": 500
+          }
+        ],
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 1000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": true,
+        "minHours": 1,
+        "requireDocuments": true,
+        "maxHours": 8,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": true,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {
+        "weekday": 100,
+        "weekend": 100
+      }
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-04-04",
+      "2026-05-01"
+    ],
+    "notices": [
+      "使用者須憑感應磁卡進場",
+      "磁卡不得轉借，違者停權三個月",
+      "入場不得穿皮鞋、背心",
+      "禁止赤膊或赤足",
+      "6 歲以下兒童不得進入球場",
+      "禁止攜帶寵物進入",
+      "場內禁止吸菸、嚼食檳榔或口香糖",
+      "非開放時間設有門禁，未經許可不得進入",
+      "照明投幣後自動開關，需在時間終止前續投",
+      "若燈光熄滅，30 分鐘內不得再行投幣開啟",
+      "磁卡遺失補發需繳 200 元",
+      "取消／延期需於原訂日期 2 週前辦理撤銷或延期，逾期不退還保證金"
+    ],
+    "advanceBookingDays": 7,
+    "receiptUploadDeadlineDays": 3,
+    "documentUploadDeadlineDays": 21,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "感應磁卡費",
+        "unit": "張",
+        "amount": 200,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "照明燈光費",
+        "unit": "小時",
+        "amount": 100,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "音響",
+        "unit": "組",
+        "amount": 0,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "摺疊桌",
+        "unit": "張",
+        "amount": 0,
+        "quantity": 10,
+        "maxPerBooking": 10
+      },
+      {
+        "label": "摺疊椅",
+        "unit": "張",
+        "amount": 0,
+        "quantity": 50,
+        "maxPerBooking": 50
+      },
+      {
+        "label": "計分牌",
+        "unit": "組",
+        "amount": 0,
+        "quantity": 18,
+        "maxPerBooking": 18
+      },
+      {
+        "label": "對講機",
+        "unit": "支",
+        "amount": 0,
+        "quantity": 14,
+        "maxPerBooking": 14
+      },
+      {
+        "label": "陽傘",
+        "unit": "支",
+        "amount": 0,
+        "quantity": 18,
+        "maxPerBooking": 18
+      },
+      {
+        "label": "刮水器",
+        "unit": "支",
+        "amount": 0,
+        "quantity": 10,
+        "maxPerBooking": 10
+      },
+      {
+        "label": "移動白板",
+        "unit": "張",
+        "amount": 0,
+        "quantity": 2,
+        "maxPerBooking": 2
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "parentId": null,
+    "name": "滑輪溜冰場",
+    "status": "available",
+    "capacity": 200,
+    "location": "苗栗市貓裡喵親子公園旁",
+    "type": "運動賽事",
+    "description": "苗栗縣政府斥資 3 千萬元興建之縣內首座合格滑輪溜冰場，於 2022 年 4 月 1 日開始營運。經中華民國滑輪溜冰協會認證，符合舉辦國家級正式賽事規格，設有 200 公尺滑輪溜冰場、成績顯示板、教練指導區及智能夜間照明設備。週六、日白天時段開放民眾免費使用。",
+    "mainImageUrl": "/assets/images/滑輪溜冰場_01.jpg",
+    "gallery": [
+      "/assets/images/滑輪溜冰場_01.jpg"
+    ],
+    "pricePerHour": 375,
+    "facilities": [
+      "200m 滑輪溜冰場",
+      "成績顯示板",
+      "教練指導區",
+      "智能夜間照明",
+      "停車空間"
+    ],
+    "openingHours": {
+      "mon": "08:00 - 22:00",
+      "tue": "08:00 - 22:00",
+      "wed": "08:00 - 22:00",
+      "thu": "08:00 - 22:00",
+      "fri": "08:00 - 22:00",
+      "sat": "08:00 - 22:00",
+      "sun": "08:00 - 22:00"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 5000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 1500,
+            "weekend": 1500
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 1500,
+            "weekend": 1500
+          },
+          {
+            "name": "夜間",
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "weekday": 2500,
+            "weekend": 2500
+          }
+        ],
+        "requireDocuments": true,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 5000,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": false,
+        "minHours": 0,
+        "requireDocuments": true,
+        "maxHours": 0,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": true,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {}
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "嚴禁抽菸、嚼檳榔、烹煮、使用火把、燃放爆竹、酗酒",
+      "禁止車輛、動物（工作犬除外）、危險物品進入",
+      "嚴禁於地面釘打地錨、釘子或以銳器破壞地面",
+      "不得擅自變更或搬移固定設備",
+      "活動結束後應負責場地清潔、垃圾清運並恢復原狀",
+      "不得辦理與場地性質無關之活動（如婚喪喜慶、宴會）",
+      "取消或延期須於使用日 5 日前書面通知"
+    ],
+    "advanceBookingDays": 14,
+    "receiptUploadDeadlineDays": 5,
+    "documentUploadDeadlineDays": 14,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "夜間燈費",
+        "unit": "次（4小時）",
+        "amount": 1000,
+        "quantity": 1,
+        "maxPerBooking": 1
+      },
+      {
+        "label": "成績顯示板",
+        "unit": "台",
+        "amount": 0,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "parentId": 5,
+    "name": "大倫分校風雨籃球場 場地A",
+    "status": "available",
+    "capacity": 100,
+    "location": "苗栗市國華路 347 號",
+    "type": "運動賽事",
+    "description": "大倫風雨籃球場場地A，標準半場籃球場，設有夜間 LED 照明及壓克力地坪。",
+    "mainImageUrl": "/assets/images/大倫風雨籃球場_01.jpg",
+    "gallery": [
+      "/assets/images/大倫風雨籃球場_01.jpg"
+    ],
+    "pricePerHour": 500,
+    "facilities": [
+      "半場籃球場",
+      "夜間 LED 照明",
+      "壓克力地坪"
+    ],
+    "openingHours": {
+      "mon": "07:00 - 21:00",
+      "tue": "07:00 - 21:00",
+      "wed": "07:00 - 21:00",
+      "thu": "07:00 - 21:00",
+      "fri": "07:00 - 21:00",
+      "sat": "07:00 - 21:00",
+      "sun": "07:00 - 21:00"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": false,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 500,
+            "weekend": 500
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 500,
+            "weekend": 500
+          }
+        ],
+        "requireDocuments": false,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": true,
+        "minHours": 1,
+        "requireDocuments": false,
+        "maxHours": 8,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {
+        "weekday": 200,
+        "weekend": 200
+      }
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "借用申請須於使用日前一日向苗栗縣立體育場提出。",
+      "須穿著整齊運動服裝及球鞋。"
+    ],
+    "advanceBookingDays": 7,
+    "receiptUploadDeadlineDays": 2,
+    "documentUploadDeadlineDays": 7,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "夜間水電費",
+        "unit": "小時",
+        "amount": 200,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "parentId": 5,
+    "name": "大倫分校風雨籃球場 場地B",
+    "status": "available",
+    "capacity": 100,
+    "location": "苗栗市國華路 347 號",
+    "type": "運動賽事",
+    "description": "大倫風雨籃球場場地B，標準半場籃球場，設有夜間 LED 照明及壓克力地坪。",
+    "mainImageUrl": "/assets/images/大倫風雨籃球場_02.jpg",
+    "gallery": [
+      "/assets/images/大倫風雨籃球場_02.jpg"
+    ],
+    "pricePerHour": 500,
+    "facilities": [
+      "半場籃球場",
+      "夜間 LED 照明",
+      "壓克力地坪"
+    ],
+    "openingHours": {
+      "mon": "07:00 - 21:00",
+      "tue": "07:00 - 21:00",
+      "wed": "07:00 - 21:00",
+      "thu": "07:00 - 21:00",
+      "fri": "07:00 - 21:00",
+      "sat": "07:00 - 21:00",
+      "sun": "07:00 - 21:00"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": false,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 500,
+            "weekend": 500
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 500,
+            "weekend": 500
+          }
+        ],
+        "requireDocuments": false,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": true,
+        "minHours": 1,
+        "requireDocuments": false,
+        "maxHours": 8,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {
+        "weekday": 200,
+        "weekend": 200
+      }
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "借用申請須於使用日前一日向苗栗縣立體育場提出。",
+      "須穿著整齊運動服裝及球鞋。"
+    ],
+    "advanceBookingDays": 7,
+    "receiptUploadDeadlineDays": 2,
+    "documentUploadDeadlineDays": 7,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "夜間水電費",
+        "unit": "小時",
+        "amount": 200,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "parentId": 5,
+    "name": "大倫分校風雨籃球場 場地C",
+    "status": "maintenance",
+    "capacity": 100,
+    "location": "苗栗市國華路 347 號",
+    "type": "運動賽事",
+    "description": "大倫風雨籃球場場地C，目前進行地坪維護作業，預計 2026 年 5 月恢復開放。",
+    "mainImageUrl": "/assets/images/大倫風雨籃球場_01.jpg",
+    "gallery": [
+      "/assets/images/大倫風雨籃球場_01.jpg"
+    ],
+    "pricePerHour": 500,
+    "facilities": [
+      "半場籃球場",
+      "夜間 LED 照明",
+      "壓克力地坪"
+    ],
+    "openingHours": {
+      "mon": "07:00 - 21:00",
+      "tue": "07:00 - 21:00",
+      "wed": "07:00 - 21:00",
+      "thu": "07:00 - 21:00",
+      "fri": "07:00 - 21:00",
+      "sat": "07:00 - 21:00",
+      "sun": "07:00 - 21:00"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": false,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 500,
+            "weekend": 500
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 500,
+            "weekend": 500
+          }
+        ],
+        "requireDocuments": false,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": true,
+        "minHours": 1,
+        "requireDocuments": false,
+        "maxHours": 8,
+        "weekendPricingEnabled": false,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": false,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {
+        "weekday": 200,
+        "weekend": 200
+      }
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "借用申請須於使用日前一日向苗栗縣立體育場提出。",
+      "須穿著整齊運動服裝及球鞋。"
+    ],
+    "advanceBookingDays": 7,
+    "receiptUploadDeadlineDays": 3,
+    "documentUploadDeadlineDays": 7,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "夜間水電費",
+        "unit": "小時",
+        "amount": 200,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 201,
+    "parentId": 3,
+    "name": "照南球場 場地A",
+    "status": "available",
+    "capacity": 250,
+    "location": "竹南鎮龍山路一段 12 號",
+    "type": "運動賽事",
+    "description": "照南球場場地A，標準棒壘球場，設有夜間照明設備。",
+    "mainImageUrl": "/assets/images/照南棒球場_01.jpg",
+    "gallery": [
+      "/assets/images/照南棒球場_01.jpg"
+    ],
+    "pricePerHour": 300,
+    "facilities": [
+      "標準棒壘球場",
+      "夜間照明設備",
+      "觀眾看台"
+    ],
+    "openingHours": {
+      "mon": "08:00 - 21:30",
+      "tue": "08:00 - 21:30",
+      "wed": "08:00 - 21:30",
+      "thu": "08:00 - 21:30",
+      "fri": "08:00 - 21:30",
+      "sat": "08:00 - 21:30",
+      "sun": "08:00 - 21:30"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": false,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 1350,
+            "weekend": 1350
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 1350,
+            "weekend": 1350
+          },
+          {
+            "name": "夜間",
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "weekday": 2700,
+            "weekend": 2700
+          }
+        ],
+        "requireDocuments": false,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": false,
+        "minHours": 0,
+        "requireDocuments": false,
+        "maxHours": 0,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {}
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "申請須於使用日期前兩週向苗栗縣立體育場申請登記。"
+    ],
+    "advanceBookingDays": 14,
+    "receiptUploadDeadlineDays": 3,
+    "documentUploadDeadlineDays": 10,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "夜間水電費",
+        "unit": "次",
+        "amount": 1500,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  },
+  {
+    "id": 202,
+    "parentId": 3,
+    "name": "照南球場 場地B",
+    "status": "available",
+    "capacity": 250,
+    "location": "竹南鎮龍山路一段 12 號",
+    "type": "運動賽事",
+    "description": "照南球場場地B，標準棒壘球場，設有夜間照明設備。",
+    "mainImageUrl": "/assets/images/照南棒球場_02.jpg",
+    "gallery": [
+      "/assets/images/照南棒球場_02.jpg"
+    ],
+    "pricePerHour": 300,
+    "facilities": [
+      "標準棒壘球場",
+      "夜間照明設備",
+      "觀眾看台"
+    ],
+    "openingHours": {
+      "mon": "08:00 - 21:30",
+      "tue": "08:00 - 21:30",
+      "wed": "08:00 - 21:30",
+      "thu": "08:00 - 21:30",
+      "fri": "08:00 - 21:30",
+      "sat": "08:00 - 21:30",
+      "sun": "08:00 - 21:30"
+    },
+    "rentalModes": {
+      "daily": {
+        "enabled": false,
+        "minDays": 0,
+        "maxDays": 0,
+        "requireDocuments": false,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "session": {
+        "enabled": true,
+        "sessions": [
+          {
+            "name": "上午",
+            "startTime": "08:00",
+            "endTime": "12:00",
+            "weekday": 1350,
+            "weekend": 1350
+          },
+          {
+            "name": "下午",
+            "startTime": "13:00",
+            "endTime": "17:00",
+            "weekday": 1350,
+            "weekend": 1350
+          },
+          {
+            "name": "夜間",
+            "startTime": "18:00",
+            "endTime": "22:00",
+            "weekday": 2700,
+            "weekend": 2700
+          }
+        ],
+        "requireDocuments": false,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": [
+          {
+            "key": "application_form",
+            "label": "租借申請書",
+            "hint": "場地租借申請表格，需填寫活動資訊與申請人資料",
+            "required": true,
+            "templateFile": "租借申請書_範本.pdf"
+          },
+          {
+            "key": "agreement",
+            "label": "場地使用同意書",
+            "hint": "簽署同意遵守場地使用規則及相關規定",
+            "required": true,
+            "templateFile": "場地使用同意書_範本.pdf"
+          },
+          {
+            "key": "payment_proof",
+            "label": "費用繳款證明",
+            "hint": "場地費及保證金之匯款單或收據",
+            "required": true,
+            "templateFile": null
+          }
+        ]
+      },
+      "hourly": {
+        "enabled": false,
+        "minHours": 0,
+        "requireDocuments": false,
+        "maxHours": 0,
+        "weekendPricingEnabled": true,
+        "weekendDays": [
+          0,
+          6
+        ],
+        "weekendIncludeHolidays": true,
+        "depositEnabled": false,
+        "depositAmount": 0,
+        "requiredDocuments": []
+      }
+    },
+    "pricing": {
+      "daily": {},
+      "session": {},
+      "hourly": {}
+    },
+    "closedWeekdays": [],
+    "closedDates": [
+      "2026-05-01"
+    ],
+    "notices": [
+      "申請須於使用日期前兩週向苗栗縣立體育場申請登記。"
+    ],
+    "advanceBookingDays": 14,
+    "receiptUploadDeadlineDays": 3,
+    "documentUploadDeadlineDays": 10,
+    "cancellationDeadlineDays": 7,
+    "rentalItems": [
+      {
+        "label": "夜間水電費",
+        "unit": "次",
+        "amount": 1500,
+        "quantity": 1,
+        "maxPerBooking": 1
+      }
+    ]
+  }
+]

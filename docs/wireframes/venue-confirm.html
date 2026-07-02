@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 送出前確認</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 送出前確認（VenueConfirm）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="venues" data-sub="場館資訊 / 中興堂演藝廳 / 送出前確認"></header>
+
+  <main class="flex flex-col gap-8 p-4 max-w-2xl mx-auto w-full">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 申請摘要</span>
+      <p class="wf-note">確認頁價值在「一眼抓出哪裡填錯」，每項可返回修改</p>
+      <div class="card border"><div class="card-body p-0">
+        <table class="table">
+          <tbody>
+            <tr><td class="opacity-60 w-28">場地</td><td>中興堂演藝廳</td><td class="text-right"><button class="btn btn-ghost btn-xs">修改</button></td></tr>
+            <tr><td class="opacity-60">模式 / 時段</td><td>時段 · 下午+晚間</td><td class="text-right"><button class="btn btn-ghost btn-xs">修改</button></td></tr>
+            <tr><td class="opacity-60">金額</td><td class="font-bold">NT$ 3,500</td><td class="text-right"><button class="btn btn-ghost btn-xs">修改</button></td></tr>
+            <tr><td class="opacity-60">申請人</td><td>苗栗社區大學</td><td class="text-right"><button class="btn btn-ghost btn-xs">修改</button></td></tr>
+          </tbody>
+        </table>
+      </div></div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">後續義務提示</span>
+      <p class="wf-note">是否需文件、文件/繳費期限預告 — 讓人知道送出後要做什麼</p>
+      <div class="alert alert-warning"><span>送出後將產生繳費期限，逾期未完成將自動取消。</span></div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">條款同意</span>
+      <label class="label cursor-pointer justify-start gap-2"><input type="checkbox" class="checkbox checkbox-sm"><span class="label-text">我已閱讀並同意取消／退款政策</span></label>
+    </div>
+
+    <div class="wf-region flex gap-2">
+      <button class="btn btn-primary">確認送出（建立 reserved）</button>
+      <button class="btn btn-ghost">返回修改</button>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

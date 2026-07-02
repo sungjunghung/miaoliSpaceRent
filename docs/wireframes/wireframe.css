@@ -1,0 +1,27 @@
+/* 註記層：在 DaisyUI 元件之上，仍保留「這是哪個區塊 / 第一眼焦點」，可切換隱藏 */
+.wf-topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; gap: 14px; flex-wrap: wrap; align-items: center;
+  padding: 8px 16px; background: #1f2937; color: #e5e7eb; font-size: 13px;
+}
+.wf-topbar strong { color: #fff; }
+.wf-topbar a { color: #93c5fd; text-decoration: none; }
+
+/* 全站桌機統一外框寬度（單一來源） */
+.wf-canvas { max-width: 1024px; margin: 20px auto; transition: max-width .2s; }
+
+/* 區塊註記（預設顯示，可由開關隱藏） */
+.wf-region { position: relative; }
+.wf-region__label { display: none; }
+.wf-note { font-size: 12px; color: #94a3b8; margin: 2px 0 8px; }
+
+body.wf-annotate .wf-region { outline: 1px dashed #cbd5e1; outline-offset: 6px; border-radius: 8px; }
+body.wf-annotate .wf-region__label { display: inline-flex; margin-bottom: 6px; }
+body:not(.wf-annotate) .wf-note { display: none; }
+
+/* 線框佔位圖（圖片區用） */
+.wf-ph {
+  background: repeating-linear-gradient(45deg, #e5e7eb, #e5e7eb 10px, #eef0f2 10px, #eef0f2 20px);
+  display: flex; align-items: center; justify-content: center;
+  color: #94a3b8; font-size: 12px; border-radius: 6px;
+}

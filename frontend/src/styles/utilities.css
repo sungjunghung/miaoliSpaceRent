@@ -1,0 +1,50 @@
+.base-container {
+  @apply container mx-auto py-12 px-4 lg:px-0;
+}
+
+.form-control {
+  @apply flex flex-col gap-1 flex-1;
+}
+
+.fieldset {
+  &.append {
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="url"],
+    input[type="search"],
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="week"],
+    input[type="color"],
+    input[type="file"],
+    select,
+    textarea,
+    .input,
+    .select,
+    .textarea,
+    .file-input,
+    .toggle,
+    .range,
+    .rating {
+      @apply mb-2;
+    }
+
+    .input input {
+      @apply mb-0;
+    }
+  }
+}
+
+.basis-ccontainer {
+  @apply container mx-auto px-4 lg:px-0 pt-8 pb-6 lg:pb-12;
+}
+
+.basis-ccontainer-flush {
+  @apply container mx-auto pt-8 pb-6 lg:pb-12;
+}

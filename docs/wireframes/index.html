@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>前台線框 · 總覽</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>前台頁面線框 · 總覽</strong>
+  <span class="opacity-70">DaisyUI 5 · 依 docs/frontend-sitemap.md 全頁覆蓋</span>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="" data-sub="線框總覽"></header>
+  <main class="flex flex-col gap-6 p-4">
+
+    <div class="alert">
+      <div>
+        <h3 class="font-bold">這是「線框」不是「設計稿」</h3>
+        <p class="text-sm opacity-80">區塊順序＝優先序，<span class="badge badge-primary badge-sm">★</span> 是第一眼焦點，淡色虛線框是次要/可收合。
+        每頁頂部可切「桌機/手機」測 RWD、開關「區塊標註」、狀態複雜的頁面可切狀態。主選單每頁互通。</p>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-bold text-lg mb-2">首頁</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a class="card bg-base-100 border hover:shadow-md transition" href="home.html"><div class="card-body p-4"><h3 class="card-title text-base">首頁 <span class="badge badge-ghost badge-sm">/</span></h3><p class="text-sm opacity-70">Hero 搜尋、快速入口、熱門場地、消息摘要</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="home-lofi.html"><div class="card-body p-4"><h3 class="card-title text-base">首頁（素線框版） <span class="badge badge-ghost badge-sm">灰階</span></h3><p class="text-sm opacity-70">沿用 Figma Kit 調性的灰階極簡版：分類入口、流程、熱門、消息</p></div></a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-bold text-lg mb-2">場地租借</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a class="card bg-base-100 border hover:shadow-md transition" href="venue-list.html"><div class="card-body p-4"><h3 class="card-title text-base">場地列表</h3><p class="text-sm opacity-70">找到可租、條件符合的場地</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="venue-detail.html"><div class="card-body p-4"><h3 class="card-title text-base">場地詳情</h3><p class="text-sm opacity-70">判斷合不合用、怎麼租、要準備什麼</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="venue-booking.html"><div class="card-body p-4"><h3 class="card-title text-base">填寫預約 <span class="badge badge-secondary badge-sm">2 規則</span></h3><p class="text-sm opacity-70">選模式時段、填資料、送出</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="venue-confirm.html"><div class="card-body p-4"><h3 class="card-title text-base">預約確認</h3><p class="text-sm opacity-70">核對所有選擇，攔住送錯</p></div></a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-bold text-lg mb-2">會員與帳號</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a class="card bg-base-100 border hover:shadow-md transition" href="login.html"><div class="card-body p-4"><h3 class="card-title text-base">登入</h3><p class="text-sm opacity-70">帳密 + 忘記密碼/註冊入口</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="register.html"><div class="card-body p-4"><h3 class="card-title text-base">註冊</h3><p class="text-sm opacity-70">建立帳號、同意條款</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="register-confirmation.html"><div class="card-body p-4"><h3 class="card-title text-base">註冊完成</h3><p class="text-sm opacity-70">成功狀態 + 驗證信 + 下一步</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="forgot-password.html"><div class="card-body p-4"><h3 class="card-title text-base">忘記密碼</h3><p class="text-sm opacity-70">輸入 Email 寄重設連結</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="reset-password.html"><div class="card-body p-4"><h3 class="card-title text-base">重設密碼</h3><p class="text-sm opacity-70">設定新密碼 + 強度提示</p></div></a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-bold text-lg mb-2">最新消息</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a class="card bg-base-100 border hover:shadow-md transition" href="news-list.html"><div class="card-body p-4"><h3 class="card-title text-base">消息列表</h3><p class="text-sm opacity-70">分類篩選、文字為主橫式排列</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="news-detail.html"><div class="card-body p-4"><h3 class="card-title text-base">消息詳情</h3><p class="text-sm opacity-70">標題重點、內文、上下則</p></div></a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-bold text-lg mb-2">會員中心</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a class="card bg-base-100 border hover:shadow-md transition" href="member-home.html"><div class="card-body p-4"><h3 class="card-title text-base">會員中心首頁</h3><p class="text-sm opacity-70">待辦提醒、帳戶概況、功能入口</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="my-profile.html"><div class="card-body p-4"><h3 class="card-title text-base">我的資料／保證金 <span class="badge badge-secondary badge-sm">2 狀態</span></h3><p class="text-sm opacity-70">看餘額、發起保證金退款</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="my-bookings.html"><div class="card-body p-4"><h3 class="card-title text-base">我的預訂</h3><p class="text-sm opacity-70">一眼看出哪筆要我動作</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="booking-detail.html"><div class="card-body p-4"><h3 class="card-title text-base">預約詳情 <span class="badge badge-secondary badge-sm">10 狀態</span></h3><p class="text-sm opacity-70">訂單指揮中心，狀態可切換</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="my-refunds.html"><div class="card-body p-4"><h3 class="card-title text-base">我的退費</h3><p class="text-sm opacity-70">追每筆退款走到哪、結果是什麼</p></div></a>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-bold text-lg mb-2">法務資訊</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <a class="card bg-base-100 border hover:shadow-md transition" href="terms.html"><div class="card-body p-4"><h3 class="card-title text-base">服務條款</h3><p class="text-sm opacity-70">章節錨點 + 長文版型</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="privacy.html"><div class="card-body p-4"><h3 class="card-title text-base">隱私政策</h3><p class="text-sm opacity-70">章節錨點 + 長文版型</p></div></a>
+        <a class="card bg-base-100 border hover:shadow-md transition" href="faq.html"><div class="card-body p-4"><h3 class="card-title text-base">常見問題</h3><p class="text-sm opacity-70">分類/搜尋 + 手風琴問答</p></div></a>
+      </div>
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

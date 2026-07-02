@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 場地詳情</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 場地詳情（VenueDetail）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="venues" data-sub="場館資訊 / 中興堂演藝廳"></header>
+
+  <main class="flex flex-col gap-8 p-4">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 場地識別 + 立即預約</span>
+      <p class="wf-note">判斷與行動入口要同框</p>
+      <div class="card bg-base-100 border shadow">
+        <div class="card-body p-4 flex-col sm:flex-row gap-4 sm:items-center">
+          <div class="wf-ph h-28 w-full sm:w-48 shrink-0">主圖</div>
+          <div class="flex-1">
+            <h1 class="text-xl font-bold">中興堂演藝廳</h1>
+            <p class="text-sm opacity-70">可容納 800 人 · 苗栗市府前路</p>
+            <div class="mt-1"><span class="badge badge-sm">整租</span> <span class="badge badge-sm">時段</span> <span class="badge badge-sm badge-warning">需文件</span></div>
+          </div>
+          <button class="btn btn-primary">立即預約</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">可租模式與限制</span>
+      <p class="wf-note">此場地允許的模式與使用限制（04 規則集）</p>
+      <div class="overflow-x-auto"><table class="table table-sm">
+        <thead><tr><th>模式</th><th>限制</th></tr></thead>
+        <tbody><tr><td>整租</td><td>最少 1 天</td></tr><tr><td>時段</td><td>每段 2 小時</td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">時段與價格</span>
+      <div class="flex gap-2 flex-wrap">
+        <div class="badge badge-outline badge-lg">上午 NT$1,200</div>
+        <div class="badge badge-outline badge-lg">下午 NT$1,500</div>
+        <div class="badge badge-outline badge-lg">晚間 NT$2,000</div>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">文件需求與附加規則</span>
+      <p class="wf-note">需備文件、押金/保證金、注意事項（需文件場地此塊上移加重）</p>
+      <div class="alert alert-warning"><span>本場地需上傳「活動企劃書、立案證明」，預約後 3 日內補齊。</span></div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 圖片/設備</span>
+      <div class="collapse collapse-arrow border"><input type="checkbox"><div class="collapse-title text-sm">更多照片與設備清單</div>
+        <div class="collapse-content"><div class="grid grid-cols-3 gap-2"><div class="wf-ph h-16"></div><div class="wf-ph h-16"></div><div class="wf-ph h-16"></div></div></div></div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 常見問題/條款</span>
+      <div class="collapse collapse-arrow border"><input type="checkbox"><div class="collapse-title text-sm">常見問題</div>
+        <div class="collapse-content text-sm opacity-70">取消政策、退款規則…</div></div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

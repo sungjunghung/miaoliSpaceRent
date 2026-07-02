@@ -1,0 +1,13 @@
+/* 樣式入口：唯一被 main.ts 載入的檔案。
+   CSS 規範要求 @import 全部置於最前，故此檔只放 import。 */
+@layer vendor;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100..900&family=Oswald:wght@500;600;700&display=swap');
+@import 'material-symbols/outlined.css' layer(vendor);
+@import "tailwindcss";
+
+@import "./theme.css";
+@import "./daisyui.css";
+@import "./base.css";
+@import "./effects.css";
+@import "./components.css";
+@import "./utilities.css";

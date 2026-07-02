@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 註冊</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 註冊（/register）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="" data-sub="會員與帳號 / 註冊"></header>
+
+  <main class="flex justify-center p-4">
+    <div class="wf-region w-full max-w-md">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 註冊表單</span>
+      <p class="wf-note">欄位越少越好；必要時用即時驗證減少送出後才退回</p>
+      <div class="card bg-base-100 border shadow"><div class="card-body gap-3">
+        <h1 class="text-xl font-bold text-center">註冊新帳號</h1>
+        <input class="input input-bordered" placeholder="姓名 / 單位名稱">
+        <input class="input input-bordered" placeholder="Email">
+        <input class="input input-bordered" placeholder="手機號碼">
+        <input class="input input-bordered" type="password" placeholder="設定密碼">
+        <input class="input input-bordered" type="password" placeholder="再次輸入密碼">
+        <label class="label cursor-pointer justify-start gap-2"><input type="checkbox" class="checkbox checkbox-sm"><span class="label-text">我已閱讀並同意 <a class="link" href="terms.html">服務條款</a> 與 <a class="link" href="privacy.html">隱私政策</a></span></label>
+        <button class="btn btn-primary btn-block">送出註冊</button>
+        <p class="text-sm text-center">已有帳號？<a class="link" href="login.html">前往登入</a></p>
+      </div></div>
+    </div>
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

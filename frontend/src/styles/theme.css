@@ -1,0 +1,34 @@
+/* 運動感 display 字:Oswald(拉丁/數字呈現體育場條紋字),中文 fallback 用 Noto Sans TC 黑體 */
+@theme {
+  --font-heading: "Oswald", "Noto Sans TC", sans-serif;
+}
+
+/* primary */
+@theme {
+  --color-primary-50: oklch(0.958 0.018 26.18);
+  --color-primary-100: oklch(0.926 0.033 29.41);
+  --color-primary-200: oklch(0.843 0.075 30.92);
+  --color-primary-300: oklch(0.772 0.12 34.41);
+  --color-primary-400: oklch(0.699 0.174 40.04);
+  --color-primary-500: oklch(0.616 0.161 40.67);
+  --color-primary-600: oklch(0.522 0.136 40.58);
+  --color-primary-700: oklch(0.426 0.111 40.93);
+  --color-primary-800: oklch(0.328 0.086 40.33);
+  --color-primary-900: oklch(0.239 0.064 39.91);
+  --color-primary-950: oklch(0.182 0.048 40.98);
+}
+
+/* secondary */
+@theme {
+  --color-secondary-50: oklch(0.949 0.022 269.47);
+  --color-secondary-100: oklch(0.889 0.051 268.12);
+  --color-secondary-200: oklch(0.778 0.104 264.19);
+  --color-secondary-300: oklch(0.667 0.166 258.01);
+  --color-secondary-400: oklch(0.563 0.165 255.43);
+  --color-secondary-500: oklch(0.448 0.131 255.29);
+  --color-secondary-600: oklch(0.389 0.114 255.47);
+  --color-secondary-700: oklch(0.319 0.094 255.48);
+  --color-secondary-800: oklch(0.261 0.075 254.34);
+  --color-secondary-900: oklch(0.197 0.059 255.25);
+  --color-secondary-950: oklch(0.164 0.048 254.19);
+}

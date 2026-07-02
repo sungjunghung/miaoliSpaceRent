@@ -1,0 +1,164 @@
+[
+  {
+    "venueId": 1,
+    "mode": "daily",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": true
+  },
+  {
+    "venueId": 1,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": true
+  },
+  {
+    "venueId": 2,
+    "mode": "daily",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 3,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": true
+  },
+  {
+    "venueId": 4,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": true
+  },
+  {
+    "venueId": 5,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 5,
+    "mode": "hourly",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 6,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": true
+  },
+  {
+    "venueId": 6,
+    "mode": "hourly",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": true
+  },
+  {
+    "venueId": 7,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 101,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 101,
+    "mode": "hourly",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 102,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 102,
+    "mode": "hourly",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 103,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 103,
+    "mode": "hourly",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": false
+  },
+  {
+    "venueId": 201,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": true
+  },
+  {
+    "venueId": 202,
+    "mode": "timeslot",
+    "weekendDays": [
+      0,
+      6
+    ],
+    "weekendIncludeHolidays": true
+  }
+]

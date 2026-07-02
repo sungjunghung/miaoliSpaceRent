@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 預約申請</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 預約申請（VenueBooking）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label>規則 <select id="wf-state" class="select select-xs"></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="venues" data-sub="場館資訊 / 中興堂演藝廳 / 預約申請"></header>
+
+  <main class="flex flex-col gap-8 p-4 max-w-2xl mx-auto w-full">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 場地與模式</span>
+      <p class="wf-note">模式決定後面所有欄位（時段/價格/是否需文件）— 沒選模式，其餘都是噪音</p>
+      <div class="join">
+        <input class="join-item btn" type="radio" name="mode" aria-label="整租" checked>
+        <input class="join-item btn" type="radio" name="mode" aria-label="時段">
+        <input class="join-item btn" type="radio" name="mode" aria-label="包月">
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">時段與費用</span>
+      <p class="wf-note">依模式展開可選時段，即時算金額（04 規則）</p>
+      <div class="flex gap-2 flex-wrap mb-2">
+        <label class="btn btn-sm btn-outline"><input type="checkbox" class="hidden">上午 1,200</label>
+        <label class="btn btn-sm btn-outline"><input type="checkbox" class="hidden">下午 1,500</label>
+        <label class="btn btn-sm btn-outline"><input type="checkbox" class="hidden">晚間 2,000</label>
+      </div>
+      <div class="stat p-0"><div class="stat-title">預估金額</div><div class="stat-value text-2xl">NT$ 2,700</div></div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">申請資料</span>
+      <div class="flex flex-col gap-2">
+        <input class="input input-bordered" placeholder="申請人 / 單位">
+        <input class="input input-bordered" placeholder="聯絡電話">
+        <textarea class="textarea textarea-bordered" placeholder="使用用途"></textarea>
+      </div>
+    </div>
+
+    <div class="wf-region" data-states="need_docs">
+      <span class="wf-region__label badge badge-warning badge-sm">文件需求提示</span>
+      <p class="wf-note">requireDocuments=是：明示送出後要上傳什麼 + 期限</p>
+      <div class="alert alert-warning"><span>送出後須於 3 日內上傳「企劃書、立案證明」，逾期自動取消。</span></div>
+    </div>
+
+    <div class="wf-region flex gap-2">
+      <button class="btn btn-primary" data-bind="cta">送出申請</button>
+      <button class="btn btn-ghost">返回</button>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 後續流程預告</span>
+      <ul class="steps steps-vertical sm:steps-horizontal text-xs">
+        <li class="step step-primary">送出 reserved</li><li class="step">文件審核</li><li class="step">繳費</li><li class="step">成立</li>
+      </ul>
+    </div>
+
+  </main>
+</div>
+
+<script type="application/json" id="wf-states">
+{ "default":"need_docs",
+  "states":{
+    "need_docs":{ "label":"需文件場地", "cta":"送出並準備上傳文件" },
+    "no_docs":{ "label":"免文件場地", "cta":"送出申請（將產生繳費期限）" }
+  } }
+</script>
+<script src="wireframe.js"></script>
+</body>
+</html>

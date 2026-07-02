@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 場地列表</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 場地列表（VenueList）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="venues" data-sub="場館資訊 / 場地列表"></header>
+
+  <main class="flex flex-col gap-8 p-4">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 篩選/搜尋</span>
+      <p class="wf-note">會員是來找「符合條件」的，不是來逛的 — 先給篩選</p>
+      <div class="flex flex-wrap gap-2 items-center">
+        <select class="select select-bordered select-sm"><option>租借模式</option></select>
+        <select class="select select-bordered select-sm"><option>價格區間</option></select>
+        <select class="select select-bordered select-sm"><option>是否需文件</option></select>
+        <select class="select select-bordered select-sm"><option>可租狀態</option></select>
+        <input class="input input-bordered input-sm flex-1 min-w-40" placeholder="搜尋場地名稱">
+        <button class="btn btn-primary btn-sm">搜尋</button>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">結果計數 + 排序</span>
+      <div class="flex items-center justify-between">
+        <span class="text-sm opacity-70">符合 <b>24</b> 筆</span>
+        <select class="select select-bordered select-sm"><option>排序：可租近期</option><option>價格低到高</option></select>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">場地卡片</span>
+      <p class="wf-note">每張只放決策用最小資訊：模式標籤、價格起、是否需文件、可租狀態</p>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="card bg-base-100 shadow border">
+          <figure class="wf-ph h-28">場地照片</figure>
+          <div class="card-body p-4 gap-2">
+            <h2 class="card-title text-base">中興堂演藝廳</h2>
+            <div><span class="badge badge-sm">整租</span> <span class="badge badge-sm badge-warning">需文件</span></div>
+            <div class="text-sm">NT$ 8,000 起 / 場</div>
+            <div class="card-actions"><button class="btn btn-sm btn-primary btn-block">查看</button></div>
+          </div>
+        </div>
+        <div class="card bg-base-100 shadow border">
+          <figure class="wf-ph h-28">場地照片</figure>
+          <div class="card-body p-4 gap-2">
+            <h2 class="card-title text-base">藝文中心展演室</h2>
+            <div><span class="badge badge-sm">時段</span></div>
+            <div class="text-sm">NT$ 600 起 / 時段</div>
+            <div class="card-actions"><button class="btn btn-sm btn-primary btn-block">查看</button></div>
+          </div>
+        </div>
+        <div class="card bg-base-100 shadow border opacity-60">
+          <figure class="wf-ph h-28">場地照片</figure>
+          <div class="card-body p-4 gap-2">
+            <h2 class="card-title text-base">第二演講廳</h2>
+            <div><span class="badge badge-sm">包月</span> <span class="badge badge-sm badge-ghost">暫不可租</span></div>
+            <div class="text-sm">NT$ 20,000 起 / 月</div>
+            <div class="card-actions"><button class="btn btn-sm btn-disabled btn-block">暫不可租</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-region flex justify-center">
+      <div class="join">
+        <button class="join-item btn btn-sm">«</button>
+        <button class="join-item btn btn-sm btn-active">1</button>
+        <button class="join-item btn btn-sm">2</button>
+        <button class="join-item btn btn-sm">3</button>
+        <button class="join-item btn btn-sm">»</button>
+      </div>
+    </div>
+
+    <div class="wf-region opacity-60">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 空狀態</span>
+      <div class="alert"><span>篩無結果時：給「放寬條件」建議，而非空白。</span></div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

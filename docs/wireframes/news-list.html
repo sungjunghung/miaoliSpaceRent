@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 消息列表</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 消息列表（/news）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="news" data-sub="最新消息"></header>
+
+  <main class="flex flex-col gap-8 p-4">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">分類篩選</span>
+      <p class="wf-note">手機上收成下拉，桌機可橫向 tabs（呼應現有 NewsList 行為）</p>
+      <div role="tablist" class="tabs tabs-bordered">
+        <a role="tab" class="tab tab-active">全部</a><a role="tab" class="tab">公告</a><a role="tab" class="tab">活動</a><a role="tab" class="tab">系統維護</a>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 消息列表</span>
+      <p class="wf-note">文字為主、圖右的橫式排列（呼應現有 RWD 版型）；最新置頂</p>
+      <div class="flex flex-col gap-3">
+        <a class="card card-side bg-base-100 border" href="news-detail.html"><div class="card-body p-3 gap-1">
+          <div><span class="badge badge-sm badge-info">公告</span> <span class="text-xs opacity-60">2026-06-10</span></div>
+          <h3 class="font-bold">113年度場地租借收費調整公告</h3><p class="text-sm opacity-70 line-clamp-2">自 7 月 1 日起調整部分場地費率…</p>
+        </div><figure class="wf-ph w-28 m-3 rounded">圖</figure></a>
+        <a class="card card-side bg-base-100 border" href="news-detail.html"><div class="card-body p-3 gap-1">
+          <div><span class="badge badge-sm">活動</span> <span class="text-xs opacity-60">2026-06-05</span></div>
+          <h3 class="font-bold">暑期藝文檔期開放申請</h3><p class="text-sm opacity-70 line-clamp-2">即日起受理 7–8 月檔期申請…</p>
+        </div><figure class="wf-ph w-28 m-3 rounded">圖</figure></a>
+        <a class="card card-side bg-base-100 border" href="news-detail.html"><div class="card-body p-3 gap-1">
+          <div><span class="badge badge-sm badge-warning">系統維護</span> <span class="text-xs opacity-60">2026-05-28</span></div>
+          <h3 class="font-bold">線上預約系統維護通知</h3><p class="text-sm opacity-70 line-clamp-2">6/1 凌晨暫停服務…</p>
+        </div><figure class="wf-ph w-28 m-3 rounded">圖</figure></a>
+      </div>
+    </div>
+
+    <div class="wf-region flex justify-center">
+      <div class="join"><button class="join-item btn btn-sm">«</button><button class="join-item btn btn-sm btn-active">1</button><button class="join-item btn btn-sm">2</button><button class="join-item btn btn-sm">»</button></div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

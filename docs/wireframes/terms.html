@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 服務條款</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 服務條款（/terms）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="" data-sub="法務資訊 / 服務條款"></header>
+
+  <main class="flex flex-col gap-6 p-4 sm:flex-row">
+
+    <aside class="wf-region sm:w-48 shrink-0">
+      <span class="wf-region__label badge badge-neutral badge-sm">章節導覽</span>
+      <p class="wf-note">長文件用側欄錨點，讓人跳到關心的條款</p>
+      <ul class="menu bg-base-100 border rounded-box text-sm">
+        <li><a class="active">一、總則</a></li><li><a>二、預約與付款</a></li><li><a>三、取消與退款</a></li><li><a>四、責任與免責</a></li>
+      </ul>
+    </aside>
+
+    <div class="wf-region flex-1">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 條款內文</span>
+      <p class="wf-note">標明生效日；以小標分段，避免一整片字牆</p>
+      <h1 class="text-2xl font-bold">服務條款</h1>
+      <p class="text-xs opacity-60 mb-3">最後更新：2026-06-01</p>
+      <h2 class="font-bold mt-4">一、總則</h2>
+      <div class="wf-ph h-3 my-2" style="width:100%"></div><div class="wf-ph h-3 my-2" style="width:92%"></div>
+      <h2 class="font-bold mt-4">二、預約與付款</h2>
+      <div class="wf-ph h-3 my-2" style="width:96%"></div><div class="wf-ph h-3 my-2" style="width:80%"></div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

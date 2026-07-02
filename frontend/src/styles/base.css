@@ -1,0 +1,24 @@
+@layer base {
+  html {
+    font-family: "Noto Sans TC", sans-serif;
+    scroll-behavior: smooth;
+  }
+}
+
+@layer base {
+  html {
+    font-family: "Noto Sans TC", sans-serif;
+  }
+}
+
+@layer base {
+  .material-symbols-outlined {
+    font-size: inherit;
+  }
+
+  .table {
+    .material-symbols-outlined {
+      @apply text-xl
+    }
+  }
+}

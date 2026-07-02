@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 我的預約</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 我的預約（MyBookings）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="member-bookings" data-sub="會員中心 / 我的預訂"></header>
+
+  <main class="flex flex-col gap-8 p-4">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 需我動作</span>
+      <p class="wf-note">焦點不是全部，是「現在輪到我做的那幾筆」— 置頂高亮 + 倒數</p>
+      <div class="flex flex-col gap-2">
+        <div class="alert alert-warning">
+          <div class="flex-1"><b>中興堂演藝廳</b> · 6/22 下午<br><span class="text-sm">待繳費 · 剩 2 天</span></div>
+          <button class="btn btn-sm btn-primary">繳費</button>
+        </div>
+        <div class="alert alert-error">
+          <div class="flex-1"><b>展演室 A</b> · 6/25 全日<br><span class="text-sm">文件已退件，需補件</span></div>
+          <button class="btn btn-sm btn-primary">補件</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">狀態篩選</span>
+      <div role="tablist" class="tabs tabs-bordered">
+        <a role="tab" class="tab tab-active">進行中</a><a role="tab" class="tab">已成立</a><a role="tab" class="tab">已取消</a>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">預約列表</span>
+      <p class="wf-note">每列：場地、時段、狀態徽章、單筆主行動入口</p>
+      <div class="overflow-x-auto"><table class="table">
+        <tbody>
+          <tr><td><b>第二演講廳</b><br><span class="text-xs opacity-60">7/01 上午</span></td><td><span class="badge badge-warning badge-sm">待上傳文件</span></td><td class="text-right"><button class="btn btn-xs">查看</button></td></tr>
+          <tr><td><b>中興堂演藝廳</b><br><span class="text-xs opacity-60">6/22 下午</span></td><td><span class="badge badge-info badge-sm">核帳中</span></td><td class="text-right"><button class="btn btn-xs">查看</button></td></tr>
+          <tr><td><b>藝文中心</b><br><span class="text-xs opacity-60">6/10 晚間</span></td><td><span class="badge badge-success badge-sm">已成立</span></td><td class="text-right"><button class="btn btn-xs">憑證</button></td></tr>
+          <tr><td><b>展演室 B</b><br><span class="text-xs opacity-60">5/30 全日</span></td><td><span class="badge badge-ghost badge-sm">已取消</span></td><td class="text-right"><button class="btn btn-xs">查看</button></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 空狀態</span>
+      <div class="alert"><span>無預約時導向場地列表。</span></div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

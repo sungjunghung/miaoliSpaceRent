@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 常見問題</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 常見問題（/faq）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="faq" data-sub="常見問題"></header>
+
+  <main class="flex flex-col gap-8 p-4">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">分類 / 搜尋</span>
+      <p class="wf-note">桌機左側分類欄、手機收成下拉（呼應現有 FAQ RWD 行為）</p>
+      <div class="flex gap-2 flex-wrap items-center">
+        <input class="input input-bordered input-sm flex-1 min-w-40" placeholder="搜尋問題關鍵字">
+        <select class="select select-bordered select-sm"><option>全部分類</option><option>預約</option><option>繳費</option><option>退款</option></select>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 問答清單</span>
+      <p class="wf-note">用可展開的手風琴，預設收合，讓人快速掃題目</p>
+      <div class="join join-vertical w-full">
+        <div class="collapse collapse-arrow join-item border"><input type="checkbox" checked><div class="collapse-title font-medium">如何預約場地？</div><div class="collapse-content text-sm opacity-70">選擇場地 → 選租借模式與時段 → 填寫申請 → 送出後依規則上傳文件或繳費。</div></div>
+        <div class="collapse collapse-arrow join-item border"><input type="checkbox"><div class="collapse-title font-medium">繳費後多久確認？</div><div class="collapse-content text-sm opacity-70">出納核帳後狀態會更新為「已成立」。</div></div>
+        <div class="collapse collapse-arrow join-item border"><input type="checkbox"><div class="collapse-title font-medium">取消預約如何退款？</div><div class="collapse-content text-sm opacity-70">於詳情頁提出取消，經審核後建立退款案件。</div></div>
+        <div class="collapse collapse-arrow join-item border"><input type="checkbox"><div class="collapse-title font-medium">保證金何時退還？</div><div class="collapse-content text-sm opacity-70">於帳戶頁申請，經承辦→會計→出納簽核後撥款。</div></div>
+      </div>
+    </div>
+
+    <div class="wf-region opacity-80">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 找不到答案</span>
+      <div class="alert"><span>找不到答案？<a class="link">聯絡我們</a></span></div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>

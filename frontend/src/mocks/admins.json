@@ -1,0 +1,50 @@
+[
+  {
+    "id": "admin-001",
+    "name": "張建國",
+    "email": "admin@miaoli-sport.gov.tw",
+    "role": "super_admin",
+    "permissionGroupId": "role-001",
+    "phone": "037-320-025",
+    "createdAt": "2024-01-15",
+    "lastLoginAt": "2026-04-10",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp",
+    "managedVenues": [1, 2, 3, 4, 5, 6, 7]
+  },
+  {
+    "id": "admin-002",
+    "name": "李雅惠",
+    "email": "yahuei@miaoli-sport.gov.tw",
+    "role": "admin",
+    "permissionGroupId": "role-002",
+    "phone": "037-320-026",
+    "createdAt": "2024-03-01",
+    "lastLoginAt": "2026-04-09",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1494790108377-be9c29b29330.webp",
+    "managedVenues": [1, 2, 3]
+  },
+  {
+    "id": "admin-003",
+    "name": "吳俊廷",
+    "email": "junting@miaoli-sport.gov.tw",
+    "role": "admin",
+    "permissionGroupId": "role-002",
+    "phone": "037-320-027",
+    "createdAt": "2025-02-10",
+    "lastLoginAt": "2026-04-08",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp",
+    "managedVenues": [4, 5, 6, 7]
+  },
+  {
+    "id": "admin-004",
+    "name": "陳佳琳",
+    "email": "jialin@miaoli-sport.gov.tw",
+    "role": "viewer",
+    "permissionGroupId": "role-003",
+    "phone": "037-320-028",
+    "createdAt": "2025-08-20",
+    "lastLoginAt": "2026-04-07",
+    "avatar": "https://img.daisyui.com/images/stock/photo-1529626455594-4ff0802cfb7e.webp",
+    "managedVenues": []
+  }
+]

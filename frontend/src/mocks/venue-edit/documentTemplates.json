@@ -1,0 +1,17 @@
+[
+  {
+    "key": "application_form",
+    "label": "租借申請書",
+    "hint": "場地租借申請表格，需填寫活動資訊與申請人資料"
+  },
+  {
+    "key": "agreement",
+    "label": "場地使用同意書",
+    "hint": "簽署同意遵守場地使用規則及相關規定"
+  },
+  {
+    "key": "payment_proof",
+    "label": "費用繳款證明",
+    "hint": "場地費及保證金之匯款單或收據"
+  }
+]

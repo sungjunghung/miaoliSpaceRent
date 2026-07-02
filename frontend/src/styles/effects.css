@@ -1,0 +1,60 @@
+@layer components {
+  /* 運動感小標:Oswald 大寫條紋字 + 橘色短斜槓 */
+  .sport-eyebrow {
+    @apply inline-flex items-center gap-2.5 font-heading uppercase font-semibold text-sm tracking-[0.18em] text-primary;
+  }
+  .sport-eyebrow::before {
+    content: "";
+    @apply inline-block h-[3px] w-7 bg-primary;
+  }
+  /* 運動感大標:超粗斜體,帶速度感 */
+  .sport-title {
+    @apply font-heading font-black italic tracking-tight leading-[0.95];
+  }
+  /* 斜切色塊:區塊頂部斜邊,製造動態切割感 */
+  .diag-top {
+    clip-path: polygon(0 2.2rem, 100% 0, 100% 100%, 0 100%);
+  }
+  .diag-bottom {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 2.2rem), 0 100%);
+  }
+
+  /* Hero 換圖:斜切擦除(新圖以斜邊刷過覆蓋舊圖,呼應全站斜切語言) */
+  .hero-img {
+    z-index: 10;
+    transform: scale(1.05); /* base 起始縮放 */
+    clip-path: polygon(0 0, 0 0, -18% 100%, 0 100%); /* 收合:左側斜邊歸零 */
+    transition: clip-path 1300ms cubic-bezier(0.77, 0, 0.18, 1);
+  }
+  .hero-img--prev {
+    z-index: 20;
+    transform: scale(1.12); /* 維持放大終點,換場時不回彈(避免「縮一下」) */
+    clip-path: polygon(0 0, 118% 0, 100% 100%, 0 100%); /* 維持全覆蓋,墊在新圖下方 */
+    transition: none;
+  }
+  .hero-img--active {
+    z-index: 30;
+    clip-path: polygon(0 0, 118% 0, 100% 100%, 0 100%); /* 斜邊刷開到全覆蓋 */
+    /* 6.5s < 7s 換圖間隔:整段停留持續推近,換場前剛好完成停在 1.12,與 prev 一致無跳動 */
+    animation: hero-zoom 6500ms ease-out forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-img,
+    .hero-img--prev,
+    .hero-img--active {
+      clip-path: none;
+      transition: none;
+      animation: none;
+    }
+  }
+}
+
+/* Hero 微弱縮放(Ken Burns):很輕,只負責停留時的呼吸感,不搶斜切過場 */
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}

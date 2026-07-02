@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_P06" targetNamespace="http://miaoli.gov.tw/spaceRent/bpmn">
+  <bpmn:collaboration id="Collaboration_P06">
+    <bpmn:participant id="Participant_P06" name="繳費核帳與確認" processRef="Process_P06" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P06" name="繳費核帳與確認" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_P06">
+      <bpmn:lane id="Lane06_member" name="會員">
+        <bpmn:flowNodeRef>N06_U2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_U3</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane06_system" name="系統">
+        <bpmn:flowNodeRef>N06_E0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_S1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_T1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_S3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_S4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_E1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_G1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_S2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_E2</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane06_staff" name="承辦">
+        <bpmn:flowNodeRef>N06_A1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane06_cashier" name="出納">
+        <bpmn:flowNodeRef>N06_C1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_G2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N06_C2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="N06_E0" name="案件進入 pending_payment">
+      <bpmn:outgoing>Flow_P06_0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="N06_S1" name="建立繳費期限">
+      <bpmn:incoming>Flow_P06_0</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_1</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P06_2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:intermediateCatchEvent id="N06_T1" name="繳費截止">
+      <bpmn:incoming>Flow_P06_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_3</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerDef_N06_T1" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:task id="N06_U2" name="提交匯款資訊與證明">
+      <bpmn:incoming>Flow_P06_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N06_A1" name="檢視案件是否可進入核帳">
+      <bpmn:incoming>Flow_P06_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N06_S3" name="更新 payment_review">
+      <bpmn:incoming>Flow_P06_5</bpmn:incoming>
+      <bpmn:incoming>Flow_P06_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N06_C1" name="核對匯款金額與帳務資訊">
+      <bpmn:incoming>Flow_P06_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="N06_G2" name="核帳是否一致">
+      <bpmn:incoming>Flow_P06_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P06_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="N06_S4" name="更新 confirmed">
+      <bpmn:incoming>Flow_P06_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="N06_E1" name="核帳成功">
+      <bpmn:incoming>Flow_P06_9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="N06_C2" name="標記異常並要求補正">
+      <bpmn:incoming>Flow_P06_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_11</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="N06_G1" name="是否逾期">
+      <bpmn:incoming>Flow_P06_3</bpmn:incoming>
+      <bpmn:incoming>Flow_P06_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P06_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="N06_U3" name="補正匯款資料">
+      <bpmn:incoming>Flow_P06_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_13</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N06_S2" name="更新 cancelled_expired">
+      <bpmn:incoming>Flow_P06_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_P06_15</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="N06_E2" name="繳費逾期取消">
+      <bpmn:incoming>Flow_P06_15</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_P06_0" sourceRef="N06_E0" targetRef="N06_S1" />
+    <bpmn:sequenceFlow id="Flow_P06_1" sourceRef="N06_S1" targetRef="N06_U2" />
+    <bpmn:sequenceFlow id="Flow_P06_2" name="監控期限" sourceRef="N06_S1" targetRef="N06_T1" />
+    <bpmn:sequenceFlow id="Flow_P06_3" name="觸發逾期檢查" sourceRef="N06_T1" targetRef="N06_G1" />
+    <bpmn:sequenceFlow id="Flow_P06_4" sourceRef="N06_U2" targetRef="N06_A1" />
+    <bpmn:sequenceFlow id="Flow_P06_5" sourceRef="N06_A1" targetRef="N06_S3" />
+    <bpmn:sequenceFlow id="Flow_P06_6" sourceRef="N06_S3" targetRef="N06_C1" />
+    <bpmn:sequenceFlow id="Flow_P06_7" sourceRef="N06_C1" targetRef="N06_G2" />
+    <bpmn:sequenceFlow id="Flow_P06_8" name="是" sourceRef="N06_G2" targetRef="N06_S4" />
+    <bpmn:sequenceFlow id="Flow_P06_9" sourceRef="N06_S4" targetRef="N06_E1" />
+    <bpmn:sequenceFlow id="Flow_P06_10" name="否" sourceRef="N06_G2" targetRef="N06_C2" />
+    <bpmn:sequenceFlow id="Flow_P06_11" sourceRef="N06_C2" targetRef="N06_G1" />
+    <bpmn:sequenceFlow id="Flow_P06_12" name="否" sourceRef="N06_G1" targetRef="N06_U3" />
+    <bpmn:sequenceFlow id="Flow_P06_13" sourceRef="N06_U3" targetRef="N06_S3" />
+    <bpmn:sequenceFlow id="Flow_P06_14" name="是" sourceRef="N06_G1" targetRef="N06_S2" />
+    <bpmn:sequenceFlow id="Flow_P06_15" sourceRef="N06_S2" targetRef="N06_E2" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_P06">
+    <bpmndi:BPMNPlane id="BPMNPlane_P06" bpmnElement="Collaboration_P06">
+      <bpmndi:BPMNShape id="Participant_P06_di" bpmnElement="Participant_P06" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="2330" height="600" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane06_member_di" bpmnElement="Lane06_member" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="2300" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane06_system_di" bpmnElement="Lane06_system" isHorizontal="true">
+        <dc:Bounds x="190" y="230" width="2300" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane06_staff_di" bpmnElement="Lane06_staff" isHorizontal="true">
+        <dc:Bounds x="190" y="380" width="2300" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane06_cashier_di" bpmnElement="Lane06_cashier" isHorizontal="true">
+        <dc:Bounds x="190" y="530" width="2300" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_E0_di" bpmnElement="N06_E0">
+        <dc:Bounds x="277" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="250" y="327" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_S1_di" bpmnElement="N06_S1">
+        <dc:Bounds x="390" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_T1_di" bpmnElement="N06_T1">
+        <dc:Bounds x="577" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="550" y="327" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_U2_di" bpmnElement="N06_U2">
+        <dc:Bounds x="690" y="120" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_A1_di" bpmnElement="N06_A1">
+        <dc:Bounds x="840" y="420" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_S3_di" bpmnElement="N06_S3">
+        <dc:Bounds x="990" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_C1_di" bpmnElement="N06_C1">
+        <dc:Bounds x="1140" y="570" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_G2_di" bpmnElement="N06_G2">
+        <dc:Bounds x="1320" y="580" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1300" y="634" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_S4_di" bpmnElement="N06_S4">
+        <dc:Bounds x="1440" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_E1_di" bpmnElement="N06_E1">
+        <dc:Bounds x="1627" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1600" y="327" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_C2_di" bpmnElement="N06_C2">
+        <dc:Bounds x="1740" y="570" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_G1_di" bpmnElement="N06_G1">
+        <dc:Bounds x="1920" y="280" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1900" y="334" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_U3_di" bpmnElement="N06_U3">
+        <dc:Bounds x="2040" y="120" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_S2_di" bpmnElement="N06_S2">
+        <dc:Bounds x="2190" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N06_E2_di" bpmnElement="N06_E2">
+        <dc:Bounds x="2377" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2350" y="327" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_P06_0_di" bpmnElement="Flow_P06_0">
+        <di:waypoint x="313" y="305" />
+        <di:waypoint x="390" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_1_di" bpmnElement="Flow_P06_1">
+        <di:waypoint x="500" y="305" />
+        <di:waypoint x="595" y="305" />
+        <di:waypoint x="595" y="155" />
+        <di:waypoint x="690" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_2_di" bpmnElement="Flow_P06_2">
+        <di:waypoint x="500" y="305" />
+        <di:waypoint x="577" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="524" y="283" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_3_di" bpmnElement="Flow_P06_3">
+        <di:waypoint x="613" y="305" />
+        <di:waypoint x="1920" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1252" y="283" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_4_di" bpmnElement="Flow_P06_4">
+        <di:waypoint x="800" y="155" />
+        <di:waypoint x="820" y="155" />
+        <di:waypoint x="820" y="455" />
+        <di:waypoint x="840" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_5_di" bpmnElement="Flow_P06_5">
+        <di:waypoint x="950" y="455" />
+        <di:waypoint x="970" y="455" />
+        <di:waypoint x="970" y="305" />
+        <di:waypoint x="990" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_6_di" bpmnElement="Flow_P06_6">
+        <di:waypoint x="1100" y="305" />
+        <di:waypoint x="1120" y="305" />
+        <di:waypoint x="1120" y="605" />
+        <di:waypoint x="1140" y="605" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_7_di" bpmnElement="Flow_P06_7">
+        <di:waypoint x="1250" y="605" />
+        <di:waypoint x="1320" y="605" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_8_di" bpmnElement="Flow_P06_8">
+        <di:waypoint x="1370" y="605" />
+        <di:waypoint x="1405" y="605" />
+        <di:waypoint x="1405" y="305" />
+        <di:waypoint x="1440" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1373" y="583" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_9_di" bpmnElement="Flow_P06_9">
+        <di:waypoint x="1550" y="305" />
+        <di:waypoint x="1627" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_10_di" bpmnElement="Flow_P06_10">
+        <di:waypoint x="1370" y="605" />
+        <di:waypoint x="1740" y="605" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1540" y="583" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_11_di" bpmnElement="Flow_P06_11">
+        <di:waypoint x="1850" y="605" />
+        <di:waypoint x="1885" y="605" />
+        <di:waypoint x="1885" y="305" />
+        <di:waypoint x="1920" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_12_di" bpmnElement="Flow_P06_12">
+        <di:waypoint x="1970" y="305" />
+        <di:waypoint x="2005" y="305" />
+        <di:waypoint x="2005" y="155" />
+        <di:waypoint x="2040" y="155" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1973" y="283" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_13_di" bpmnElement="Flow_P06_13">
+        <di:waypoint x="2095" y="190" />
+        <di:waypoint x="2095" y="370" />
+        <di:waypoint x="1045" y="370" />
+        <di:waypoint x="1045" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_14_di" bpmnElement="Flow_P06_14">
+        <di:waypoint x="1970" y="305" />
+        <di:waypoint x="2190" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2065" y="283" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P06_15_di" bpmnElement="Flow_P06_15">
+        <di:waypoint x="2300" y="305" />
+        <di:waypoint x="2377" y="305" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

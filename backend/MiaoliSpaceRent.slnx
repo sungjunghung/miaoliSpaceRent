@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/MiaoliSpaceRent.Api/MiaoliSpaceRent.Api.csproj" />
+    <Project Path="src/MiaoliSpaceRent.Application/MiaoliSpaceRent.Application.csproj" />
+    <Project Path="src/MiaoliSpaceRent.Domain/MiaoliSpaceRent.Domain.csproj" />
+    <Project Path="src/MiaoliSpaceRent.Infrastructure/MiaoliSpaceRent.Infrastructure.csproj" />
+  </Folder>
+</Solution>

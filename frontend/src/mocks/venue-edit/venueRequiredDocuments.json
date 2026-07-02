@@ -1,0 +1,392 @@
+[
+  {
+    "venueId": 1,
+    "mode": "daily",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "daily"
+    ]
+  },
+  {
+    "venueId": 1,
+    "mode": "daily",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "daily"
+    ]
+  },
+  {
+    "venueId": 1,
+    "mode": "daily",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "daily"
+    ]
+  },
+  {
+    "venueId": 1,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 1,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 1,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 2,
+    "mode": "daily",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "daily"
+    ]
+  },
+  {
+    "venueId": 2,
+    "mode": "daily",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "daily"
+    ]
+  },
+  {
+    "venueId": 2,
+    "mode": "daily",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "daily"
+    ]
+  },
+  {
+    "venueId": 3,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 3,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 3,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 4,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 4,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 4,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 5,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 5,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 5,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 6,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 6,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 6,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 7,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 7,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 7,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 101,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 101,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 101,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 102,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 102,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 102,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 103,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 103,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 103,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 201,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 201,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 201,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 202,
+    "mode": "timeslot",
+    "templateKey": "application_form",
+    "required": true,
+    "templateFile": "租借申請書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 202,
+    "mode": "timeslot",
+    "templateKey": "agreement",
+    "required": true,
+    "templateFile": "場地使用同意書_範本.pdf",
+    "appliesTo": [
+      "timeslot"
+    ]
+  },
+  {
+    "venueId": 202,
+    "mode": "timeslot",
+    "templateKey": "payment_proof",
+    "required": true,
+    "templateFile": null,
+    "appliesTo": [
+      "timeslot"
+    ]
+  }
+]

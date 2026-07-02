@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_P01" targetNamespace="http://miaoli.gov.tw/spaceRent/bpmn" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.24.0">
+  <bpmn:collaboration id="Collaboration_P01">
+    <bpmn:participant id="Participant_P01" name="場地租借申請到成立" processRef="Process_P01" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_P01" name="場地租借申請到成立" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_P01">
+      <bpmn:lane id="Lane01_member" name="會員">
+        <bpmn:flowNodeRef>N01_U1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_U2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_U3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_U4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_U5</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane01_system" name="系統">
+        <bpmn:flowNodeRef>N01_S1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_G1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_S2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_G2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_S4</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_E2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_S5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_S3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_G3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_S6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_E3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_S7</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_E1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane01_staff" name="承辦">
+        <bpmn:flowNodeRef>N01_A1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_G4</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane01_cashier" name="出納">
+        <bpmn:flowNodeRef>N01_C1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>N01_G5</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="N01_U1" name="送出預約申請">
+      <bpmn:outgoing>Flow_P01_0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="N01_U2" name="選場地與租借模式">
+      <bpmn:incoming>Flow_P01_0</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N01_U3" name="填寫申請資料並送出">
+      <bpmn:incoming>Flow_P01_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N01_S1" name="建立預約 reserved">
+      <bpmn:incoming>Flow_P01_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="N01_G1" name="是否需文件審核">
+      <bpmn:incoming>Flow_P01_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P01_13</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="N01_S2" name="建立文件上傳期限">
+      <bpmn:incoming>Flow_P01_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N01_U4" name="上傳文件或補件">
+      <bpmn:incoming>Flow_P01_5</bpmn:incoming>
+      <bpmn:incoming>Flow_P01_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N01_A1" name="審核文件">
+      <bpmn:incoming>Flow_P01_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="N01_G4" name="文件是否通過">
+      <bpmn:incoming>Flow_P01_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P01_12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="N01_G2" name="補件是否逾期">
+      <bpmn:incoming>Flow_P01_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P01_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="N01_S4" name="狀態更新 cancelled_rejected">
+      <bpmn:incoming>Flow_P01_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_11</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="N01_E2" name="文件逾期取消">
+      <bpmn:incoming>Flow_P01_11</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="N01_S5" name="狀態更新 pending_payment">
+      <bpmn:incoming>Flow_P01_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_14</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N01_S3" name="建立繳費期限">
+      <bpmn:incoming>Flow_P01_13</bpmn:incoming>
+      <bpmn:incoming>Flow_P01_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_15</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N01_U5" name="提交匯款資訊與證明">
+      <bpmn:incoming>Flow_P01_15</bpmn:incoming>
+      <bpmn:incoming>Flow_P01_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_16</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="N01_C1" name="核帳">
+      <bpmn:incoming>Flow_P01_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_17</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="N01_G5" name="核帳是否成功">
+      <bpmn:incoming>Flow_P01_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_18</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P01_22</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="N01_G3" name="繳費是否逾期">
+      <bpmn:incoming>Flow_P01_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_19</bpmn:outgoing>
+      <bpmn:outgoing>Flow_P01_20</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="N01_S6" name="狀態更新 cancelled_expired">
+      <bpmn:incoming>Flow_P01_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_21</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="N01_E3" name="繳費逾期取消">
+      <bpmn:incoming>Flow_P01_21</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="N01_S7" name="狀態更新 confirmed">
+      <bpmn:incoming>Flow_P01_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_P01_23</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="N01_E1" name="預約成立">
+      <bpmn:incoming>Flow_P01_23</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_P01_0" sourceRef="N01_U1" targetRef="N01_U2" />
+    <bpmn:sequenceFlow id="Flow_P01_1" sourceRef="N01_U2" targetRef="N01_U3" />
+    <bpmn:sequenceFlow id="Flow_P01_2" sourceRef="N01_U3" targetRef="N01_S1" />
+    <bpmn:sequenceFlow id="Flow_P01_3" sourceRef="N01_S1" targetRef="N01_G1" />
+    <bpmn:sequenceFlow id="Flow_P01_4" name="是" sourceRef="N01_G1" targetRef="N01_S2" />
+    <bpmn:sequenceFlow id="Flow_P01_5" sourceRef="N01_S2" targetRef="N01_U4" />
+    <bpmn:sequenceFlow id="Flow_P01_6" sourceRef="N01_U4" targetRef="N01_A1" />
+    <bpmn:sequenceFlow id="Flow_P01_7" sourceRef="N01_A1" targetRef="N01_G4" />
+    <bpmn:sequenceFlow id="Flow_P01_8" name="否" sourceRef="N01_G4" targetRef="N01_G2" />
+    <bpmn:sequenceFlow id="Flow_P01_9" name="否" sourceRef="N01_G2" targetRef="N01_U4" />
+    <bpmn:sequenceFlow id="Flow_P01_10" name="是" sourceRef="N01_G2" targetRef="N01_S4" />
+    <bpmn:sequenceFlow id="Flow_P01_11" sourceRef="N01_S4" targetRef="N01_E2" />
+    <bpmn:sequenceFlow id="Flow_P01_12" name="是" sourceRef="N01_G4" targetRef="N01_S5" />
+    <bpmn:sequenceFlow id="Flow_P01_13" name="否" sourceRef="N01_G1" targetRef="N01_S3" />
+    <bpmn:sequenceFlow id="Flow_P01_14" sourceRef="N01_S5" targetRef="N01_S3" />
+    <bpmn:sequenceFlow id="Flow_P01_15" sourceRef="N01_S3" targetRef="N01_U5" />
+    <bpmn:sequenceFlow id="Flow_P01_16" sourceRef="N01_U5" targetRef="N01_C1" />
+    <bpmn:sequenceFlow id="Flow_P01_17" sourceRef="N01_C1" targetRef="N01_G5" />
+    <bpmn:sequenceFlow id="Flow_P01_18" name="否" sourceRef="N01_G5" targetRef="N01_G3" />
+    <bpmn:sequenceFlow id="Flow_P01_19" name="否" sourceRef="N01_G3" targetRef="N01_U5" />
+    <bpmn:sequenceFlow id="Flow_P01_20" name="是" sourceRef="N01_G3" targetRef="N01_S6" />
+    <bpmn:sequenceFlow id="Flow_P01_21" sourceRef="N01_S6" targetRef="N01_E3" />
+    <bpmn:sequenceFlow id="Flow_P01_22" name="是" sourceRef="N01_G5" targetRef="N01_S7" />
+    <bpmn:sequenceFlow id="Flow_P01_23" sourceRef="N01_S7" targetRef="N01_E1" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_P01">
+    <bpmndi:BPMNPlane id="BPMNPlane_P01" bpmnElement="Collaboration_P01">
+      <bpmndi:BPMNShape id="Participant_P01_di" bpmnElement="Participant_P01" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="3380" height="600" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane01_member_di" bpmnElement="Lane01_member" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="3350" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane01_system_di" bpmnElement="Lane01_system" isHorizontal="true">
+        <dc:Bounds x="190" y="230" width="3350" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane01_staff_di" bpmnElement="Lane01_staff" isHorizontal="true">
+        <dc:Bounds x="190" y="380" width="3350" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane01_cashier_di" bpmnElement="Lane01_cashier" isHorizontal="true">
+        <dc:Bounds x="190" y="530" width="3350" height="150" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_U1_di" bpmnElement="N01_U1">
+        <dc:Bounds x="277" y="137" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="250" y="177" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_U2_di" bpmnElement="N01_U2">
+        <dc:Bounds x="390" y="120" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_U3_di" bpmnElement="N01_U3">
+        <dc:Bounds x="540" y="120" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_S1_di" bpmnElement="N01_S1">
+        <dc:Bounds x="690" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_G1_di" bpmnElement="N01_G1">
+        <dc:Bounds x="870" y="280" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="850" y="334" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_S2_di" bpmnElement="N01_S2">
+        <dc:Bounds x="990" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_U4_di" bpmnElement="N01_U4">
+        <dc:Bounds x="1140" y="120" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_A1_di" bpmnElement="N01_A1">
+        <dc:Bounds x="1290" y="420" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_G4_di" bpmnElement="N01_G4">
+        <dc:Bounds x="1470" y="430" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1450" y="484" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_G2_di" bpmnElement="N01_G2">
+        <dc:Bounds x="1620" y="280" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1600" y="334" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_S4_di" bpmnElement="N01_S4">
+        <dc:Bounds x="1740" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_E2_di" bpmnElement="N01_E2">
+        <dc:Bounds x="1927" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1900" y="327" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_S5_di" bpmnElement="N01_S5">
+        <dc:Bounds x="2040" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_S3_di" bpmnElement="N01_S3">
+        <dc:Bounds x="2190" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_U5_di" bpmnElement="N01_U5">
+        <dc:Bounds x="2340" y="120" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_C1_di" bpmnElement="N01_C1">
+        <dc:Bounds x="2490" y="570" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_G5_di" bpmnElement="N01_G5">
+        <dc:Bounds x="2670" y="580" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2650" y="634" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_G3_di" bpmnElement="N01_G3">
+        <dc:Bounds x="2820" y="280" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2800" y="334" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_S6_di" bpmnElement="N01_S6">
+        <dc:Bounds x="2940" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_E3_di" bpmnElement="N01_E3">
+        <dc:Bounds x="3127" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3100" y="327" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_S7_di" bpmnElement="N01_S7">
+        <dc:Bounds x="3240" y="270" width="110" height="70" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="N01_E1_di" bpmnElement="N01_E1">
+        <dc:Bounds x="3427" y="287" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="3400" y="327" width="90" height="28" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_P01_0_di" bpmnElement="Flow_P01_0">
+        <di:waypoint x="313" y="155" />
+        <di:waypoint x="390" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_1_di" bpmnElement="Flow_P01_1">
+        <di:waypoint x="500" y="155" />
+        <di:waypoint x="540" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_2_di" bpmnElement="Flow_P01_2">
+        <di:waypoint x="650" y="155" />
+        <di:waypoint x="670" y="155" />
+        <di:waypoint x="670" y="305" />
+        <di:waypoint x="690" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_3_di" bpmnElement="Flow_P01_3">
+        <di:waypoint x="800" y="305" />
+        <di:waypoint x="870" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_4_di" bpmnElement="Flow_P01_4">
+        <di:waypoint x="920" y="305" />
+        <di:waypoint x="990" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="283" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_5_di" bpmnElement="Flow_P01_5">
+        <di:waypoint x="1100" y="305" />
+        <di:waypoint x="1120" y="305" />
+        <di:waypoint x="1120" y="155" />
+        <di:waypoint x="1140" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_6_di" bpmnElement="Flow_P01_6">
+        <di:waypoint x="1250" y="155" />
+        <di:waypoint x="1270" y="155" />
+        <di:waypoint x="1270" y="455" />
+        <di:waypoint x="1290" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_7_di" bpmnElement="Flow_P01_7">
+        <di:waypoint x="1400" y="455" />
+        <di:waypoint x="1470" y="455" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_8_di" bpmnElement="Flow_P01_8">
+        <di:waypoint x="1520" y="455" />
+        <di:waypoint x="1570" y="455" />
+        <di:waypoint x="1570" y="305" />
+        <di:waypoint x="1620" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1530" y="433" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_9_di" bpmnElement="Flow_P01_9">
+        <di:waypoint x="1645" y="330" />
+        <di:waypoint x="1645" y="360" />
+        <di:waypoint x="1195" y="360" />
+        <di:waypoint x="1195" y="190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1630" y="323" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_10_di" bpmnElement="Flow_P01_10">
+        <di:waypoint x="1670" y="305" />
+        <di:waypoint x="1740" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1690" y="283" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_11_di" bpmnElement="Flow_P01_11">
+        <di:waypoint x="1850" y="305" />
+        <di:waypoint x="1927" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_12_di" bpmnElement="Flow_P01_12">
+        <di:waypoint x="1520" y="455" />
+        <di:waypoint x="1780" y="455" />
+        <di:waypoint x="1780" y="305" />
+        <di:waypoint x="2040" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1635" y="433" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_13_di" bpmnElement="Flow_P01_13">
+        <di:waypoint x="920" y="305" />
+        <di:waypoint x="2190" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1540" y="283" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_14_di" bpmnElement="Flow_P01_14">
+        <di:waypoint x="2150" y="305" />
+        <di:waypoint x="2190" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_15_di" bpmnElement="Flow_P01_15">
+        <di:waypoint x="2300" y="305" />
+        <di:waypoint x="2320" y="305" />
+        <di:waypoint x="2320" y="155" />
+        <di:waypoint x="2340" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_16_di" bpmnElement="Flow_P01_16">
+        <di:waypoint x="2450" y="155" />
+        <di:waypoint x="2470" y="155" />
+        <di:waypoint x="2470" y="605" />
+        <di:waypoint x="2490" y="605" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_17_di" bpmnElement="Flow_P01_17">
+        <di:waypoint x="2600" y="605" />
+        <di:waypoint x="2670" y="605" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_18_di" bpmnElement="Flow_P01_18">
+        <di:waypoint x="2720" y="605" />
+        <di:waypoint x="2770" y="605" />
+        <di:waypoint x="2770" y="305" />
+        <di:waypoint x="2820" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2730" y="583" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_19_di" bpmnElement="Flow_P01_19">
+        <di:waypoint x="2845" y="330" />
+        <di:waypoint x="2845" y="360" />
+        <di:waypoint x="2395" y="360" />
+        <di:waypoint x="2395" y="190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2830" y="323" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_20_di" bpmnElement="Flow_P01_20">
+        <di:waypoint x="2870" y="305" />
+        <di:waypoint x="2940" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2890" y="283" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_21_di" bpmnElement="Flow_P01_21">
+        <di:waypoint x="3050" y="305" />
+        <di:waypoint x="3127" y="305" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_22_di" bpmnElement="Flow_P01_22">
+        <di:waypoint x="2720" y="605" />
+        <di:waypoint x="2980" y="605" />
+        <di:waypoint x="2980" y="305" />
+        <di:waypoint x="3240" y="305" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2835" y="583" width="40" height="16" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_P01_23_di" bpmnElement="Flow_P01_23">
+        <di:waypoint x="3350" y="305" />
+        <di:waypoint x="3427" y="305" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

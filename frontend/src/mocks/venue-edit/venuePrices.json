@@ -1,0 +1,240 @@
+[
+  {
+    "venueId": 1,
+    "mode": "daily",
+    "price": 50000,
+    "weekendPrice": 50000
+  },
+  {
+    "venueId": 1,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 3000,
+    "weekendPrice": 3000
+  },
+  {
+    "venueId": 1,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 3000,
+    "weekendPrice": 3000
+  },
+  {
+    "venueId": 1,
+    "mode": "timeslot",
+    "timeSlotCode": "evening",
+    "price": 3000,
+    "weekendPrice": 3000
+  },
+  {
+    "venueId": 2,
+    "mode": "daily",
+    "price": 5000,
+    "weekendPrice": 5000
+  },
+  {
+    "venueId": 3,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 1350,
+    "weekendPrice": 1350
+  },
+  {
+    "venueId": 3,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 1350,
+    "weekendPrice": 1350
+  },
+  {
+    "venueId": 3,
+    "mode": "timeslot",
+    "timeSlotCode": "evening",
+    "price": 2700,
+    "weekendPrice": 2700
+  },
+  {
+    "venueId": 4,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 6000,
+    "weekendPrice": 6000
+  },
+  {
+    "venueId": 4,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 6000,
+    "weekendPrice": 6000
+  },
+  {
+    "venueId": 4,
+    "mode": "timeslot",
+    "timeSlotCode": "evening",
+    "price": 6000,
+    "weekendPrice": 6000
+  },
+  {
+    "venueId": 5,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 1350,
+    "weekendPrice": 1350
+  },
+  {
+    "venueId": 5,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 1350,
+    "weekendPrice": 1350
+  },
+  {
+    "venueId": 5,
+    "mode": "hourly",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 6,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 6,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 6,
+    "mode": "hourly",
+    "price": 100,
+    "weekendPrice": 100
+  },
+  {
+    "venueId": 7,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 1500,
+    "weekendPrice": 1500
+  },
+  {
+    "venueId": 7,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 1500,
+    "weekendPrice": 1500
+  },
+  {
+    "venueId": 7,
+    "mode": "timeslot",
+    "timeSlotCode": "evening",
+    "price": 2500,
+    "weekendPrice": 2500
+  },
+  {
+    "venueId": 101,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 101,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 101,
+    "mode": "hourly",
+    "price": 200,
+    "weekendPrice": 200
+  },
+  {
+    "venueId": 102,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 102,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 102,
+    "mode": "hourly",
+    "price": 200,
+    "weekendPrice": 200
+  },
+  {
+    "venueId": 103,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 103,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 500,
+    "weekendPrice": 500
+  },
+  {
+    "venueId": 103,
+    "mode": "hourly",
+    "price": 200,
+    "weekendPrice": 200
+  },
+  {
+    "venueId": 201,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 1350,
+    "weekendPrice": 1350
+  },
+  {
+    "venueId": 201,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 1350,
+    "weekendPrice": 1350
+  },
+  {
+    "venueId": 201,
+    "mode": "timeslot",
+    "timeSlotCode": "evening",
+    "price": 2700,
+    "weekendPrice": 2700
+  },
+  {
+    "venueId": 202,
+    "mode": "timeslot",
+    "timeSlotCode": "morning",
+    "price": 1350,
+    "weekendPrice": 1350
+  },
+  {
+    "venueId": 202,
+    "mode": "timeslot",
+    "timeSlotCode": "afternoon",
+    "price": 1350,
+    "weekendPrice": 1350
+  },
+  {
+    "venueId": 202,
+    "mode": "timeslot",
+    "timeSlotCode": "evening",
+    "price": 2700,
+    "weekendPrice": 2700
+  }
+]

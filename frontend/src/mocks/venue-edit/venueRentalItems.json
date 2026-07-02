@@ -1,0 +1,281 @@
+[
+  {
+    "venueId": 1,
+    "sortOrder": null,
+    "label": "高壓電力空調",
+    "unit": "每 2 日",
+    "amount": 50000,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 1,
+    "sortOrder": null,
+    "label": "折疊椅",
+    "unit": "張",
+    "amount": 0,
+    "quantity": 200,
+    "maxPerBooking": 200
+  },
+  {
+    "venueId": 1,
+    "sortOrder": null,
+    "label": "摺疊桌",
+    "unit": "張",
+    "amount": 0,
+    "quantity": 50,
+    "maxPerBooking": 50
+  },
+  {
+    "venueId": 2,
+    "sortOrder": null,
+    "label": "三角錐（含連桿）",
+    "unit": "組",
+    "amount": 0,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 3,
+    "sortOrder": null,
+    "label": "夜間水電費",
+    "unit": "次",
+    "amount": 1500,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 3,
+    "sortOrder": null,
+    "label": "音響",
+    "unit": "組",
+    "amount": 0,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 3,
+    "sortOrder": null,
+    "label": "摺疊椅",
+    "unit": "張",
+    "amount": 0,
+    "quantity": 12,
+    "maxPerBooking": 12
+  },
+  {
+    "venueId": 3,
+    "sortOrder": null,
+    "label": "計分板",
+    "unit": "個",
+    "amount": 0,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 3,
+    "sortOrder": null,
+    "label": "長桌",
+    "unit": "張",
+    "amount": 0,
+    "quantity": 8,
+    "maxPerBooking": 8
+  },
+  {
+    "venueId": 3,
+    "sortOrder": null,
+    "label": "沙耙",
+    "unit": "支",
+    "amount": 0,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 3,
+    "sortOrder": null,
+    "label": "毛刷",
+    "unit": "支",
+    "amount": 0,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 3,
+    "sortOrder": null,
+    "label": "割草機",
+    "unit": "台",
+    "amount": 0,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 4,
+    "sortOrder": null,
+    "label": "空調費",
+    "unit": "小時",
+    "amount": 1200,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 5,
+    "sortOrder": null,
+    "label": "夜間水電費",
+    "unit": "小時",
+    "amount": 200,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "感應磁卡費",
+    "unit": "張",
+    "amount": 200,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "照明燈光費",
+    "unit": "小時",
+    "amount": 100,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "音響",
+    "unit": "組",
+    "amount": 0,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "摺疊桌",
+    "unit": "張",
+    "amount": 0,
+    "quantity": 10,
+    "maxPerBooking": 10
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "摺疊椅",
+    "unit": "張",
+    "amount": 0,
+    "quantity": 50,
+    "maxPerBooking": 50
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "計分牌",
+    "unit": "組",
+    "amount": 0,
+    "quantity": 18,
+    "maxPerBooking": 18
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "對講機",
+    "unit": "支",
+    "amount": 0,
+    "quantity": 14,
+    "maxPerBooking": 14
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "陽傘",
+    "unit": "支",
+    "amount": 0,
+    "quantity": 18,
+    "maxPerBooking": 18
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "刮水器",
+    "unit": "支",
+    "amount": 0,
+    "quantity": 10,
+    "maxPerBooking": 10
+  },
+  {
+    "venueId": 6,
+    "sortOrder": null,
+    "label": "移動白板",
+    "unit": "張",
+    "amount": 0,
+    "quantity": 2,
+    "maxPerBooking": 2
+  },
+  {
+    "venueId": 7,
+    "sortOrder": null,
+    "label": "夜間燈費",
+    "unit": "次（4小時）",
+    "amount": 1000,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 7,
+    "sortOrder": null,
+    "label": "成績顯示板",
+    "unit": "台",
+    "amount": 0,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 101,
+    "sortOrder": null,
+    "label": "夜間水電費",
+    "unit": "小時",
+    "amount": 200,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 102,
+    "sortOrder": null,
+    "label": "夜間水電費",
+    "unit": "小時",
+    "amount": 200,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 103,
+    "sortOrder": null,
+    "label": "夜間水電費",
+    "unit": "小時",
+    "amount": 200,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 201,
+    "sortOrder": null,
+    "label": "夜間水電費",
+    "unit": "次",
+    "amount": 1500,
+    "quantity": 1,
+    "maxPerBooking": 1
+  },
+  {
+    "venueId": 202,
+    "sortOrder": null,
+    "label": "夜間水電費",
+    "unit": "次",
+    "amount": 1500,
+    "quantity": 1,
+    "maxPerBooking": 1
+  }
+]

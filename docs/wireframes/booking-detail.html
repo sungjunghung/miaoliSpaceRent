@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 預約詳情</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 預約詳情（BookingDetail）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label>狀態 <select id="wf-state" class="select select-xs"></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="member-bookings" data-sub="會員中心 / 我的預訂 / 訂單 #A2406-018"></header>
+
+  <main class="flex flex-col gap-8 p-4 max-w-2xl mx-auto w-full">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 狀態橫幅</span>
+      <p class="wf-note">狀態白話化 + 期限倒數，逾期類資訊置頂</p>
+      <div class="alert" data-bind="bannerbox" role="alert">
+        <div>
+          <div class="font-bold text-lg" data-bind="banner">—</div>
+          <div class="text-sm opacity-70" data-bind="meta"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">下一步行動</span>
+      <p class="wf-note">依狀態變動的主 CTA</p>
+      <button class="btn btn-primary" data-bind="cta">—</button>
+    </div>
+
+    <div class="wf-region" data-states="doc_rejected,payment_mismatch,cancelled_expired,cancelled_rejected">
+      <span class="wf-region__label badge badge-error badge-sm">待處理原因</span>
+      <p class="wf-note">退件 / 核帳不一致 / 逾期原因 — 緊跟行動，不可埋深（高情緒）</p>
+      <div class="alert alert-error"><span>原因：所附文件不清晰，請重新上傳清晰版本。</span></div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">訂單摘要</span>
+      <div class="overflow-x-auto"><table class="table table-sm">
+        <tbody>
+          <tr><td class="opacity-60 w-24">場地</td><td>中興堂演藝廳</td></tr>
+          <tr><td class="opacity-60">時段</td><td>6/22 下午 + 晚間</td></tr>
+          <tr><td class="opacity-60">金額</td><td class="font-bold">NT$ 3,500</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">進度時間軸</span>
+      <ul class="steps steps-vertical sm:steps-horizontal w-full text-xs">
+        <li class="step step-primary">reserved</li><li class="step step-primary">文件審核</li><li class="step">繳費</li><li class="step">confirmed</li>
+      </ul>
+      <div data-states="cancelled_refunding" class="mt-4">
+        <p class="wf-note">取消線：退款三段簽核</p>
+        <ul class="steps w-full text-xs"><li class="step step-primary">承辦核定</li><li class="step">會計核定</li><li class="step">出納撥款</li></ul>
+      </div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 歷程紀錄</span>
+      <div class="collapse collapse-arrow border"><input type="checkbox"><div class="collapse-title text-sm">查看狀態變更歷程</div>
+        <div class="collapse-content text-sm opacity-70"><ul class="list-disc pl-4"><li>6/16 送出申請</li><li>6/17 文件審核中</li></ul></div></div>
+    </div>
+
+    <div class="wf-region opacity-70">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 操作</span>
+      <div class="flex gap-2"><button class="btn btn-sm btn-ghost">下載憑證</button><button class="btn btn-sm btn-ghost">聯絡客服</button></div>
+    </div>
+
+  </main>
+</div>
+
+<script type="application/json" id="wf-states">
+{
+  "default": "reserved_doc",
+  "states": {
+    "reserved_doc":           { "label": "reserved · 待文件",   "cls": "alert-warning", "banner": "待上傳文件 · 請於 6/20 前上傳",  "meta": "倒數 4 天", "cta": "上傳文件" },
+    "doc_rejected":           { "label": "文件退件",            "cls": "alert-error",   "banner": "文件已退件 · 請補件",          "meta": "補件期限 6/22", "cta": "補件" },
+    "pending_payment":        { "label": "pending_payment",    "cls": "alert-warning", "banner": "待繳費 · 請於 6/22 前完成繳費", "meta": "倒數 2 天", "cta": "提交匯款資訊與證明" },
+    "payment_review":         { "label": "payment_review",     "cls": "alert-info",    "banner": "核帳中 · 無須動作",            "meta": "我們正在核對您的匯款", "cta": "" },
+    "payment_mismatch":       { "label": "核帳不一致",          "cls": "alert-error",   "banner": "核帳不一致 · 請補正",          "meta": "金額或資訊與匯款不符", "cta": "補正匯款資料" },
+    "confirmed":              { "label": "confirmed · 已成立",  "cls": "alert-success", "banner": "預約已成立",                   "meta": "可下載成立憑證", "cta": "申請取消" },
+    "cancellation_requested": { "label": "取消審核中",          "cls": "alert-info",    "banner": "取消申請審核中 · 無須動作",     "meta": "承辦審核中", "cta": "" },
+    "cancelled_refunding":    { "label": "已取消 · 退款中",      "cls": "alert-info",    "banner": "已取消 · 退款處理中",          "meta": "退款簽核中，可於退款頁追蹤", "cta": "" },
+    "cancelled_expired":      { "label": "逾期取消（繳費）",      "cls": "alert-error",   "banner": "已逾期取消（未完成繳費）",      "meta": "終局，無可動作", "cta": "" },
+    "cancelled_rejected":     { "label": "逾期取消（文件）",      "cls": "alert-error",   "banner": "已取消（文件逾期未補）",        "meta": "終局，無可動作", "cta": "" }
+  }
+}
+</script>
+<script src="wireframe.js"></script>
+</body>
+</html>

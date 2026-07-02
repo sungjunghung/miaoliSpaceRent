@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>線框 · 消息詳情</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5/daisyui.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body class="wf-annotate bg-base-200">
+<div class="wf-topbar">
+  <strong>線框 · 消息詳情（/news/:id）</strong>
+  <label>檢視 <select data-wf-viewport class="select select-xs"><option value="1024px">桌機</option><option value="390px">手機</option></select></label>
+  <label class="flex items-center gap-1"><input type="checkbox" data-wf-annotate checked class="checkbox checkbox-xs"> 區塊標註</label>
+  <a href="index.html">← 全部頁面</a>
+</div>
+
+<div class="wf-canvas bg-base-100 shadow-xl">
+  <header id="wf-header" data-active="news" data-sub="最新消息 / 消息詳情"></header>
+
+  <main class="flex flex-col gap-8 p-4 max-w-3xl mx-auto w-full">
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-primary badge-sm">★ 第一眼焦點 · 標題與重點</span>
+      <p class="wf-note">標題 + 分類 + 日期，讓人一眼確認「是不是我要找的那則」</p>
+      <div><span class="badge badge-info badge-sm">公告</span> <span class="text-xs opacity-60">2026-06-10</span></div>
+      <h1 class="text-2xl font-bold mt-1">113年度場地租借收費調整公告</h1>
+    </div>
+
+    <div class="wf-region">
+      <span class="wf-region__label badge badge-neutral badge-sm">內文</span>
+      <figure class="wf-ph h-40 rounded mb-3">主圖</figure>
+      <div class="prose max-w-none">
+        <div class="wf-ph h-3 mb-2" style="width:100%"></div>
+        <div class="wf-ph h-3 mb-2" style="width:95%"></div>
+        <div class="wf-ph h-3 mb-2" style="width:88%"></div>
+        <div class="wf-ph h-3 mb-2" style="width:70%"></div>
+      </div>
+      <div class="flex gap-2 mt-3"><button class="btn btn-sm btn-outline">下載附件 PDF</button></div>
+    </div>
+
+    <div class="wf-region opacity-80">
+      <span class="wf-region__label badge badge-ghost badge-sm">次要 · 上下則 / 返回</span>
+      <div class="flex justify-between">
+        <a class="btn btn-ghost btn-sm" href="news-list.html">← 返回列表</a>
+        <div class="join"><a class="join-item btn btn-sm" href="news-detail.html">上一則</a><a class="join-item btn btn-sm" href="news-detail.html">下一則</a></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<script src="wireframe.js"></script>
+</body>
+</html>
