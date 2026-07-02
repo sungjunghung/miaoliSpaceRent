@@ -3,8 +3,6 @@ import { ref, computed, watch } from 'vue'
 import mockUsers from '@/mocks/users.json'
 import mockBookings from '@/mocks/generateBookings'
 import mockVenues from '@/mocks/venues.json'
-import { publicImageUrl } from '@/utils/assets'
-import { IDENTITY_TYPES, DEFAULT_IDENTITY_TYPE_ID, identityRequiresDocument } from '@/utils/identity'
 
 const props = defineProps<{
   id: string
@@ -36,8 +34,6 @@ interface Member {
   name: string
   email: string
   phone: string
-  identityType: string
-  identityDocument?: string
   retainedDeposit?: number
 }
 
@@ -47,38 +43,11 @@ function emptyMember(): Member {
     name: '',
     email: '',
     phone: '',
-    identityType: DEFAULT_IDENTITY_TYPE_ID,
     retainedDeposit: 0,
   }
 }
 
-const digitalStudentIdImage = publicImageUrl('digitalStudentID.png')
-const uploadedImage = ref<string>(digitalStudentIdImage)
-const fileInput = ref<HTMLInputElement | null>(null)
 const formData = ref<Member>(emptyMember())
-
-function triggerUpload() {
-  fileInput.value?.click()
-}
-
-function handleFileUpload(event: Event) {
-  const target = event.target as HTMLInputElement
-  const file = target.files?.[0]
-  if (file) {
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      uploadedImage.value = e.target?.result as string
-    }
-    reader.readAsDataURL(file)
-  }
-}
-
-function removeImage() {
-  uploadedImage.value = ''
-  if (fileInput.value) {
-    fileInput.value.value = ''
-  }
-}
 
 function openDepositModal() {
   newDeposit.value = formData.value.retainedDeposit ?? 0
@@ -122,7 +91,6 @@ const memberBookings = computed(() =>
 
 watch(() => props.id, id => {
   activeTab.value = 'basic'
-  uploadedImage.value = digitalStudentIdImage
 
   if (id === 'new') {
     formData.value = emptyMember()
@@ -136,8 +104,6 @@ watch(() => props.id, id => {
         name: found.name,
         email: found.email,
         phone: found.phone,
-        identityType: found.identityType || DEFAULT_IDENTITY_TYPE_ID,
-        identityDocument: found.identityDocument || '',
         retainedDeposit: found.retainedDeposit ?? 0,
       }
     : emptyMember()
@@ -207,39 +173,6 @@ function executeDelete() {
           <div class="form-control">
             <label class="label"><span class="label-text">電話</span></label>
             <input v-model="formData.phone" type="text" class="input input-bordered w-full" placeholder="請輸入電話" />
-          </div>
-          <div class="form-control">
-            <label class="label"><span class="label-text">身份別</span></label>
-            <select v-model="formData.identityType" class="select select-bordered w-full">
-              <option v-for="type in IDENTITY_TYPES" :key="type.id" :value="type.id">{{ type.name }}</option>
-            </select>
-          </div>
-
-          <div class="form-control col-span-full" v-if="identityRequiresDocument(formData.identityType)">
-            <label class="label"><span class="label-text">證明文件圖片</span></label>
-            <div v-if="uploadedImage">
-              <div class="hover-3d">
-                <figure class="max-w-100 rounded-2xl">
-                  <img :src="uploadedImage" alt="3D card" />
-                </figure>
-                <div></div><div></div><div></div><div></div>
-                <div></div><div></div><div></div><div></div>
-              </div>
-              <div class="mt-4">
-                <button type="button" class="btn btn-error btn-sm btn-outline" @click="removeImage">
-                  <span class="material-symbols-outlined text-sm">delete</span>
-                  刪除重新上傳
-                </button>
-              </div>
-            </div>
-            <div v-else
-              class="border-2 border-dashed border-base-300 rounded-box p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-base-200/50 transition-colors"
-              @click="triggerUpload">
-              <span class="material-symbols-outlined text-4xl text-base-content/40 mb-2">upload_file</span>
-              <p class="font-medium text-base-content/80">點擊上傳證明文件</p>
-              <p class="text-xs text-base-content/50 mt-1">支援 JPG, PNG 格式</p>
-            </div>
-            <input type="file" ref="fileInput" class="hidden" accept="image/*" @change="handleFileUpload" />
           </div>
         </div>
         <div class="card-actions justify-end mt-4">

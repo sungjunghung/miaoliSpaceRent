@@ -11,7 +11,6 @@
             <div class="min-w-0 flex-1">
               <p class="font-bold text-lg truncate">{{ user?.name || '會員' }}</p>
               <p class="text-sm text-base-content/50 truncate">{{ user?.email }}</p>
-              <span class="badge badge-soft badge-secondary badge-sm mt-1">{{ identityLabel }}</span>
             </div>
             <span class="material-symbols-outlined text-xl text-base-content/60 self-start">edit</span>
           </div>
@@ -52,7 +51,6 @@
 import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import { identityName } from '@/utils/identity'
 
 const memberLinks = [
   { to: '/member/bookings', label: '我的預訂', icon: 'event_available' },
@@ -63,7 +61,6 @@ const authStore = useAuthStore()
 const router = useRouter()
 const user = computed(() => authStore.user)
 const retainedDeposit = computed(() => user.value?.retainedDeposit ?? 0)
-const identityLabel = computed(() => identityName(user.value?.identityType))
 
 // 此頁是手機版會員首頁;桌機改用導覽列的頭像選單,直接帶往帳戶頁
 onMounted(() => {

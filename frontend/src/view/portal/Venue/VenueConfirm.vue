@@ -5,7 +5,6 @@ import PageHeaderBasic from '@/components/portal/PageHeaderBasic.vue'
 import venues from '@/mocks/venues.json'
 import { useAuthStore } from '@/stores/auth'
 import { publicImageUrl } from '@/utils/assets'
-import { IDENTITY_TYPES, DEFAULT_IDENTITY_TYPE_ID } from '@/utils/identity'
 
 const route = useRoute()
 const router = useRouter()
@@ -91,11 +90,6 @@ const totalPrice = computed(() => baseFee.value + payableDeposit.value)
 const applicantName = ref(authStore.user?.name ?? '')
 const applicantPhone = ref(authStore.user?.phone ?? '')
 const applicantEmail = ref(authStore.user?.email ?? '')
-const applicantIdentityType = ref(
-  authStore.user?.identityType && authStore.user.identityType !== DEFAULT_IDENTITY_TYPE_ID
-    ? authStore.user.identityType
-    : ''
-)
 
 const purpose = ref('')
 const notes = ref('')
@@ -128,33 +122,6 @@ function goBackToBooking() {
 
 function goToVenues() {
   router.push({ name: 'venue-list' })
-}
-
-const digitalStudentIdImage = publicImageUrl('digitalStudentID.png')
-const uploadedImage = ref<string>(digitalStudentIdImage)
-const fileInput = ref<HTMLInputElement | null>(null)
-
-function triggerUpload() {
-  fileInput.value?.click()
-}
-
-function handleFileUpload(event: Event) {
-  const target = event.target as HTMLInputElement
-  const file = target.files?.[0]
-  if (file) {
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      uploadedImage.value = e.target?.result as string
-    }
-    reader.readAsDataURL(file)
-  }
-}
-
-function removeImage() {
-  uploadedImage.value = ''
-  if (fileInput.value) {
-    fileInput.value.value = ''
-  }
 }
 </script>
 
@@ -402,58 +369,6 @@ function removeImage() {
                 <label class="label"><span class="label-text">備註</span></label>
                 <textarea v-model="notes" class="textarea textarea-bordered w-full" rows="3"
                   placeholder="如有特殊需求請在此說明"></textarea>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 身份別與證明文件 -->
-        <div class="card card-basic">
-          <div class="card-body">
-            <h2 class="card-title">
-              身份別與證明文件
-            </h2>
-            <div class="grid grid-cols-1 gap-4">
-              <div class="form-control">
-                <label class="label"><span class="label-text">身份別</span></label>
-                <select v-model="applicantIdentityType" class="select select-bordered w-full">
-                  <option value="" disabled selected>請選擇身份別（無則免填）</option>
-                  <option v-for="type in IDENTITY_TYPES.filter(t => t.id !== DEFAULT_IDENTITY_TYPE_ID)"
-                    :key="type.id" :value="type.id">{{ type.name }}</option>
-                </select>
-                <label class="label flex-col items-start gap-1">
-                  <span class="label-text-alt text-base-content/50">特殊身份可選取身份並上傳相關文件只需一次！</span>
-                  <span class="label-text-alt text-warning">※ 若變更身份或重新上傳文件，需重新等待管理員審核。</span>
-                </label>
-              </div>
-
-              <div class="form-control" v-if="applicantIdentityType && applicantIdentityType !== ''">
-                <label class="label"><span class="label-text">特殊身份證明文件 <span class="text-error">*</span></span></label>
-                <div v-if="uploadedImage">
-                  <div class="hover-3d">
-                    <!-- content -->
-                    <figure class="max-w-100 rounded-2xl">
-                      <img :src="uploadedImage" alt="3D card" />
-                    </figure>
-                    <!-- 8 empty divs needed for the 3D effect -->
-                    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-                  </div>
-                  <div class="mt-4">
-                    <button type="button" class="btn btn-error btn-sm btn-outline" @click="removeImage">
-                      <span class="material-symbols-outlined text-sm">delete</span>
-                      刪除重新上傳
-                    </button>
-                  </div>
-                </div>
-                <div v-else
-                  class="border-2 border-dashed border-base-300 rounded-box p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-base-200/50 transition-colors"
-                  @click="triggerUpload">
-                  <span class="material-symbols-outlined text-4xl text-base-content/40 mb-2">upload_file</span>
-                  <p class="font-medium text-base-content/80">點擊或拖曳圖片至此上傳</p>
-                  <p class="text-xs text-base-content/50 mt-1">支援 JPG, PNG 格式</p>
-                </div>
-                <!-- 隱藏的檔案上傳元件 -->
-                <input type="file" ref="fileInput" class="hidden" accept="image/*" @change="handleFileUpload" />
               </div>
             </div>
           </div>

@@ -240,16 +240,6 @@ const router = createRouter({
           component: () => import('../view/admin/permissions/detail.vue'),
         },
         {
-          path: 'identity-types',
-          name: 'admin-identity-types',
-          component: () => import('../view/admin/identityTypes/index.vue'),
-        },
-        {
-          path: 'identity-types/:id',
-          name: 'admin-identity-type-detail',
-          component: () => import('../view/admin/identityTypes/detail.vue'),
-        },
-        {
           path: 'profile',
           name: 'admin-profile',
           component: () => import('../view/admin/profile.vue'),

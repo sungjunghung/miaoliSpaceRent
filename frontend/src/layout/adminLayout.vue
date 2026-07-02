@@ -124,7 +124,6 @@ import mockUsers from '@/mocks/users.json'
 import mockAdmins from '@/mocks/admins.json'
 import mockNews from '@/mocks/news.json'
 import mockPermissions from '@/mocks/permissionGroups.json'
-import { IDENTITY_TYPES } from '@/utils/identity'
 
 const route = useRoute()
 const router = useRouter()
@@ -200,7 +199,6 @@ const menuGroups: MenuGroup[] = [
 		items: [
 			{ name: 'admin-news', icon: 'newspaper', label: '最新消息', owns: ['admin-news', 'admin-news-edit'] },
 			{ name: 'admin-members', icon: 'group', label: '會員管理', owns: ['admin-members', 'admin-member-detail'] },
-			{ name: 'admin-identity-types', icon: 'badge', label: '身份別管理', owns: ['admin-identity-types', 'admin-identity-type-detail'] },
 			{ name: 'admin-admins', icon: 'manage_accounts', label: '管理員管理', owns: ['admin-admins', 'admin-admin-detail'] },
 			{ name: 'admin-permissions', icon: 'shield', label: '權限設定', owns: ['admin-permissions', 'admin-permission-detail'] },
 		]
@@ -246,8 +244,6 @@ const TITLES: Record<string, string> = {
 	'admin-refunds': '退款作業',
 	'admin-members': '會員管理',
 	'admin-member-detail': '會員詳細',
-	'admin-identity-types': '身份別管理',
-	'admin-identity-type-detail': '身份別詳細',
 	'admin-admins': '管理員管理',
 	'admin-admin-detail': '管理員詳細',
 	'admin-permissions': '權限管理',
@@ -277,8 +273,6 @@ const entityName = computed(() => {
 		}
 		case 'admin-member-detail':
 			return mockUsers.find(u => u.id === id)?.name ?? null
-		case 'admin-identity-type-detail':
-			return IDENTITY_TYPES.find(t => t.id === id)?.name ?? null
 		case 'admin-admin-detail':
 			return mockAdmins.find(a => a.id === id)?.name ?? null
 		case 'admin-permission-detail':
@@ -326,9 +320,6 @@ const breadcrumbs = computed(() => {
 			break
 		case 'admin-member-detail':
 			ancestors.push({ label: '會員管理', to: '/admin/members' })
-			break
-		case 'admin-identity-type-detail':
-			ancestors.push({ label: '身份別管理', to: '/admin/identity-types' })
 			break
 		case 'admin-admin-detail':
 			ancestors.push({ label: '管理員管理', to: '/admin/admins' })

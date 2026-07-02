@@ -9,8 +9,6 @@ export interface User {
   phone: string
   avatar: string
   retainedDeposit?: number
-  identityType?: string
-  identityDocument?: string
   provider?: 'email' | 'google' | 'line'
 }
 

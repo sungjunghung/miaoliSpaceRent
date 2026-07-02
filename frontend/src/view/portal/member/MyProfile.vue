@@ -20,35 +20,11 @@
               <label class="label">Email</label>
               <input type="email" class="input w-full" :value="user?.email" disabled />
             </fieldset>
-            <fieldset class="fieldset">
-              <label class="label">身份別</label>
-              <input type="text" class="input w-full" :value="identityLabel" disabled />
-            </fieldset>
           </div>
           <button class="btn btn-primary w-full lg:w-fit">
             <span class="material-symbols-outlined text-base">save</span>
             儲存
           </button>
-        </section>
-
-        <section v-if="identityRequiresDocument(user?.identityType)"
-          class="bg-base-100 border border-base-200 rounded-box shadow-sm p-6">
-          <h2 class="text-lg font-bold mb-6">證明文件</h2>
-
-          <div class="hover-3d max-w-md mx-auto sm:mx-0">
-            <figure class="rounded-box overflow-hidden">
-              <img :src="digitalStudentIdImage" alt="身份證明文件" class="w-full h-auto" />
-            </figure>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-
         </section>
       </div>
 
@@ -191,16 +167,12 @@ import { useRouter } from 'vue-router'
 import PageHeaderBasic from '@/components/portal/PageHeaderBasic.vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRefundsStore } from '@/stores/refunds'
-import { publicImageUrl } from '@/utils/assets'
-import { identityName, identityRequiresDocument } from '@/utils/identity'
 
 const authStore = useAuthStore()
 const refundsStore = useRefundsStore()
 const router = useRouter()
-const digitalStudentIdImage = publicImageUrl('digitalStudentID.png')
 const user = computed(() => authStore.user)
 const retainedDeposit = computed(() => user.value?.retainedDeposit ?? 0)
-const identityLabel = computed(() => identityName(user.value?.identityType))
 
 const passwordModal = ref<HTMLDialogElement | null>(null)
 const pwForm = ref({ current: '', next: '', confirm: '' })

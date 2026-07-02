@@ -19,7 +19,6 @@
             <th>註冊方式</th>
             <th>電子信箱</th>
             <th>電話</th>
-            <th>身份別</th>
             <th class="text-right">留存保證金</th>
             <th class="w-px"></th>
           </tr>
@@ -42,12 +41,6 @@
             </td>
             <td>{{ user.email }}</td>
             <td>{{ user.phone }}</td>
-            <td>
-              <span v-if="user.identityType && user.identityType !== DEFAULT_IDENTITY_TYPE_ID" class="badge badge-primary badge-sm">
-                {{ identityName(user.identityType) }}
-              </span>
-              <span v-else class="text-base-content/50">一般民眾 / 個人</span>
-            </td>
             <td class="text-right tabular-nums">
               <span v-if="user.retainedDeposit" class="text-info font-medium">NT$ {{ user.retainedDeposit.toLocaleString() }}</span>
               <span v-else class="text-base-content/30">—</span>
@@ -69,7 +62,7 @@
             </td>
           </tr>
           <tr v-if="filtered.length === 0">
-            <td colspan="7" class="text-center text-base-content/40 py-10">找不到符合的會員</td>
+            <td colspan="6" class="text-center text-base-content/40 py-10">找不到符合的會員</td>
           </tr>
         </tbody>
       </table>
@@ -107,7 +100,6 @@ import { ref, computed, watch } from 'vue'
 import mockUsers from '../../../mocks/users.json'
 import AdminSlideDrawer from '../../../components/admin/AdminSlideDrawer.vue'
 import MemberDetailContent from './components/MemberDetailContent.vue'
-import { identityName, DEFAULT_IDENTITY_TYPE_ID } from '@/utils/identity'
 
 const PAGE_SIZE = 10
 
