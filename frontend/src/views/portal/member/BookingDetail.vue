@@ -9,8 +9,8 @@ import {
   toZhDate, formatBookingDate, formatBookingTime, RENTAL_MODE_LABELS,
 } from '@/utils/bookingFormat'
 import {
-  REFUND_STEPS, getRefundStepState, REFUND_TYPE_LABELS, REFUND_STATUS_LABELS
-} from '@/utils/bookingStatus'
+  REFUND_STEPS, getRefundStepState, REFUND_TYPE_LABELS, REFUND_STATUS_LABELS, useRefundsStore,
+} from '@/stores/refunds'
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -161,11 +161,13 @@ const canUploadDocuments = computed(() => {
 })
 
 // ── 退費相關 ──
-const hasRefund = computed(() => !!booking.value?.refund && booking.value.refund.status !== 'none')
-
-function getStepState(stepKey: string) {
-  if (!booking.value?.refund) return 'future'
-  return getRefundStepState(booking.value.refund.status, stepKey as any)
+const refundsStore = useRefundsStore()
+const refund = computed(() =>
+  refundsStore.refunds.find(r => r.type === 'booking_cancellation' && r.bookingId === bookingId) ?? null
+)
+function getStepState(stepKey: (typeof REFUND_STEPS)[number]['key']) {
+  if (!refund.value) return 'future'
+  return getRefundStepState(refund.value.status, stepKey)
 }
 
 const handleDocUpload = (_docKey: string, event: Event) => {
@@ -200,10 +202,10 @@ const handleDocUpload = (_docKey: string, event: Event) => {
       </router-link>
       <h1 class="font-heading text-lg font-black tracking-wide text-secondary">{{ booking.reservationId }}</h1>
       <div class="ml-auto flex flex-wrap items-center gap-1.5">
-        <span v-if="booking.refund && booking.refund.status !== 'none'"
+        <span v-if="refund"
           class="rounded-full bg-base-200 px-2.5 py-1 text-xs font-medium text-base-content/60">
-          {{ REFUND_TYPE_LABELS[booking.refund.refundType] ?? '退費' }}·{{
-            REFUND_STATUS_LABELS[booking.refund.status]?.label ?? booking.refund.status }}
+          {{ REFUND_TYPE_LABELS[refund.type] ?? '退費' }}·{{
+            REFUND_STATUS_LABELS[refund.status]?.label ?? refund.status }}
         </span>
         <span v-if="activeStageLabel(booking)"
           class="rounded-full bg-base-200 px-2.5 py-1 text-xs font-medium text-base-content/60">
@@ -559,18 +561,21 @@ const handleDocUpload = (_docKey: string, event: Event) => {
     </section>
 
     <!-- ⑦ 取消退款 -->
-    <section v-if="hasRefund" class="rounded-box border border-base-200 bg-base-100 p-5 shadow-sm sm:p-6">
+    <section v-if="refund" class="rounded-box border border-base-200 bg-base-100 p-5 shadow-sm sm:p-6">
       <div class="mb-4 flex items-center gap-2">
         <h3 class="font-heading text-base font-black text-secondary">取消退款</h3>
-        <span v-if="booking.refund?.status === 'completed'"
+        <span v-if="refund.status === 'completed'"
           class="rounded-full bg-success/15 px-2.5 py-1 text-xs font-semibold text-success">已完成</span>
+        <span v-else-if="refund.status === 'rejected'"
+          class="rounded-full bg-error/15 px-2.5 py-1 text-xs font-semibold text-error">已駁回</span>
         <span v-else class="rounded-full bg-info/15 px-2.5 py-1 text-xs font-semibold text-info">處理中</span>
       </div>
       <router-link to="/member/refunds" class="btn btn-outline btn-sm mb-4 w-fit">
         <span class="material-symbols-outlined text-base">receipt_long</span>查看我的退款紀錄
       </router-link>
 
-      <ul v-if="booking.refund?.status !== 'completed'" class="steps steps-vertical lg:steps-horizontal mb-4 w-full">
+      <ul v-if="refund.status !== 'completed' && refund.status !== 'rejected'"
+        class="steps steps-vertical lg:steps-horizontal mb-4 w-full">
         <li v-for="step in REFUND_STEPS" :key="step.key" class="step" :class="{
           'step-success': getStepState(step.key) === 'done',
           'step-warning': getStepState(step.key) === 'active',
@@ -582,29 +587,33 @@ const handleDocUpload = (_docKey: string, event: Event) => {
       </ul>
 
       <dl class="divide-y divide-base-200 border-y border-base-200 text-sm">
-        <div v-if="booking.refund?.amount != null" class="flex justify-between gap-4 py-2.5">
-          <dt class="text-base-content/50">核定金額</dt>
-          <dd class="font-bold">NT$ {{ booking.refund!.amount!.toLocaleString() }}</dd>
+        <div class="flex justify-between gap-4 py-2.5">
+          <dt class="text-base-content/50">{{ refund.amountApproved != null ? '核定金額' : '申請金額' }}</dt>
+          <dd class="font-bold">NT$ {{ (refund.amountApproved ?? refund.amountRequested).toLocaleString() }}</dd>
         </div>
-        <div v-if="booking.refund?.refundMethod" class="flex justify-between gap-4 py-2.5">
+        <div v-if="refund.refundMethod" class="flex justify-between gap-4 py-2.5">
           <dt class="text-base-content/50">退費方式</dt>
-          <dd class="font-medium">{{ booking.refund!.refundMethod === 'transfer' ? '匯款退款' : '支票退款' }}</dd>
+          <dd class="font-medium">{{ refund.refundMethod === 'transfer' ? '匯款退款' : '支票退款' }}</dd>
         </div>
         <div class="flex justify-between gap-4 py-2.5">
           <dt class="text-base-content/50">申請日期</dt>
-          <dd class="font-medium">{{ booking.refund?.requestedAt ? toZhDate(booking.refund.requestedAt) : '—' }}</dd>
+          <dd class="font-medium">{{ refund.requestedAt ? toZhDate(refund.requestedAt) : '—' }}</dd>
         </div>
-        <div v-if="booking.refund?.adminApprovedAt" class="flex justify-between gap-4 py-2.5">
+        <div v-if="refund.adminApprovedAt" class="flex justify-between gap-4 py-2.5">
           <dt class="text-base-content/50">承辦核准</dt>
-          <dd class="font-medium">{{ toZhDate(booking.refund.adminApprovedAt) }}</dd>
+          <dd class="font-medium">{{ toZhDate(refund.adminApprovedAt) }}</dd>
         </div>
-        <div v-if="booking.refund?.accountingApprovedAt" class="flex justify-between gap-4 py-2.5">
+        <div v-if="refund.accountingApprovedAt" class="flex justify-between gap-4 py-2.5">
           <dt class="text-base-content/50">會計核定</dt>
-          <dd class="font-medium">{{ toZhDate(booking.refund.accountingApprovedAt) }}</dd>
+          <dd class="font-medium">{{ toZhDate(refund.accountingApprovedAt) }}</dd>
         </div>
-        <div v-if="booking.refund?.completedAt" class="flex justify-between gap-4 py-2.5">
+        <div v-if="refund.cashierCompletedAt" class="flex justify-between gap-4 py-2.5">
           <dt class="text-base-content/50">撥款完成</dt>
-          <dd class="font-medium text-success">{{ toZhDate(booking.refund.completedAt) }}</dd>
+          <dd class="font-medium text-success">{{ toZhDate(refund.cashierCompletedAt) }}</dd>
+        </div>
+        <div v-if="refund.status === 'rejected' && refund.rejectedReason" class="flex justify-between gap-4 py-2.5">
+          <dt class="text-base-content/50">駁回原因</dt>
+          <dd class="font-medium text-error">{{ refund.rejectedReason }}</dd>
         </div>
       </dl>
     </section>

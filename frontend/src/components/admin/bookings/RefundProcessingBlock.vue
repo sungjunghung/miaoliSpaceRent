@@ -22,10 +22,6 @@ const centralizedRefund = computed(() =>
   ) ?? null
 )
 
-const legacyRefund = computed(() =>
-  props.booking.refund && props.booking.refund.status !== 'none' ? props.booking.refund : null
-)
-
 function formatDate(date: string | null | undefined) {
   if (!date) return '—'
   return date.replaceAll('-', '/')
@@ -113,42 +109,5 @@ function formatDate(date: string | null | undefined) {
       </div>
     </div>
 
-    <div v-else-if="legacyRefund" class="card bg-base-100 border border-base-200 shadow-sm">
-      <div class="card-body">
-        <div class="flex items-start justify-between gap-4 flex-wrap">
-          <div>
-            <h3 class="font-bold text-base flex items-center gap-2">
-              <span class="material-symbols-outlined">request_quote</span>
-              退款摘要
-            </h3>
-            <p class="text-sm text-base-content/60 mt-1">此預約有退費紀錄；實際簽核作業請改至集中退款作業頁處理。</p>
-          </div>
-          <router-link
-            :to="{ name: 'admin-refunds', query: { bookingId: booking.id } }"
-            class="btn btn-primary btn-sm"
-          >
-            <span class="material-symbols-outlined text-base">open_in_new</span>
-            前往退款作業
-          </router-link>
-        </div>
-
-        <table class="table">
-          <tbody>
-            <tr v-if="legacyRefund.amount != null">
-              <td class="text-base-content/50 w-32">退款金額</td>
-              <td class="font-semibold">NT$ {{ legacyRefund.amount.toLocaleString() }}</td>
-            </tr>
-            <tr>
-              <td class="text-base-content/50">申請日期</td>
-              <td>{{ formatDate(legacyRefund.requestedAt) }}</td>
-            </tr>
-            <tr>
-              <td class="text-base-content/50">退費理由</td>
-              <td>{{ legacyRefund.reason || '—' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
   </div>
 </template>

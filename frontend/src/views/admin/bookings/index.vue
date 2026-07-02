@@ -135,6 +135,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useBookingsStore, type Booking } from '@/stores/bookings'
+import { useRefundsStore } from '@/stores/refunds'
 import { formatBookingDate, RENTAL_MODE_LABELS_SHORT } from '@/utils/bookingFormat'
 import { CANCELLED_STATUSES } from '@/utils/bookingStatus'
 import VenueFilterDropdown from '@/components/admin/VenueFilterDropdown.vue'
@@ -142,6 +143,16 @@ import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue'
 import BookingDetailContent from '@/components/admin/bookings/BookingDetailContent.vue'
 
 const bookingsStore = useBookingsStore()
+const refundsStore = useRefundsStore()
+
+// 訂單 id → 取消退款申請（單一來源：refunds store）
+const refundByBookingId = computed(() => {
+  const map = new Map<number, (typeof refundsStore.refunds)[number]>()
+  for (const r of refundsStore.refunds) {
+    if (r.type === 'booking_cancellation' && r.bookingId != null) map.set(r.bookingId, r)
+  }
+  return map
+})
 
 const ACTIVE_STATUSES = ['reserved', 'document_review', 'documents_rejected', 'pending_payment', 'payment_review']
 const CONFIRMED_STATUSES = ['confirmed', 'cancellation_requested']
@@ -199,7 +210,8 @@ const filtered = computed(() =>
       } else if (filterTodo.value === 'cancel_review') {
         if (b.status !== 'cancellation_requested') return false
       } else if (filterTodo.value === 'refund_pending') {
-        if (!b.refund || b.refund.status === 'none' || b.refund.status === 'completed') return false
+        const r = refundByBookingId.value.get(b.id)
+        if (!r || ['completed', 'rejected'].includes(r.status)) return false
       } else if (filterTodo.value === 'wait_user') {
         if (!['reserved', 'documents_rejected', 'pending_payment'].includes(b.status)) return false
       }
@@ -250,14 +262,16 @@ function statusLabel(b: Booking): { label: string; cls: string } {
 }
 
 function todoDisplay(b: Booking): { label: string; cls: string } | null {
-  if (b.refund && b.refund.status !== 'none') {
-    if (b.refund.status === 'completed') return { label: '取消退費已完成', cls: 'badge-success' }
+  const refund = refundByBookingId.value.get(b.id)
+  if (refund) {
+    if (refund.status === 'completed') return { label: '取消退費已完成', cls: 'badge-success' }
+    if (refund.status === 'rejected') return { label: '退費已駁回', cls: 'badge-error' }
     return {
       label: {
         admin_review: '退費待承辦審',
         accounting_review: '退費待會計',
         cashier_processing: '退費待出納',
-      }[b.refund.status] ?? '退費處理中',
+      }[refund.status] ?? '退費處理中',
       cls: 'badge-info',
     }
   }

@@ -30,6 +30,7 @@ export interface RefundRequest {
   rejectedAt: string | null
   rejectedReason: string | null
   notes: string | null
+  refundMethod?: 'transfer' | 'check' | null
 }
 
 export interface NewRetainedDepositRefund {

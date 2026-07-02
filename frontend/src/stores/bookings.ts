@@ -2,20 +2,17 @@ import { defineStore } from 'pinia'
 import { rawBookings as mockBookings } from '@/services/bookingService'
 import { venues as mockVenues } from '@/services/venueService'
 import { publicImageUrl } from '@/utils/assets'
-import type { Booking, RentalItemSelection, RefundInfo } from '@/types/booking'
+import type { Booking, RentalItemSelection } from '@/types/booking'
 
 export type {
   RentalItemSelection,
   Remittance,
   BookingDocument,
   BookingStatus,
-  RefundStatus,
-  RefundType,
-  RefundInfo,
   Booking,
 } from '@/types/booking'
 
-function calcBaseFee(b: typeof mockBookings[0], venue: typeof mockVenues[0] | undefined): number {
+function calcBaseFee(b: Omit<typeof mockBookings[0], 'refund'>, venue: typeof mockVenues[0] | undefined): number {
   if (!venue) return 0
   const pricing = venue.pricing as unknown as Record<string, Record<string, number | Record<string, number>>>
   const isWeekend = [0, 6].includes(new Date(b.date).getDay())
@@ -49,7 +46,7 @@ function addDays(dateStr: string, days: number): string {
 }
 
 export const useBookingsStore = defineStore('bookings', () => {
-  const bookings: Booking[] = mockBookings.map(b => {
+  const bookings: Booking[] = mockBookings.map(({ refund: _refund, ...b }) => {
     const venue = mockVenues.find(v => v.id === b.venueId)
     const raw = b as any
     const baseFee = calcBaseFee(b, venue)
@@ -93,18 +90,6 @@ export const useBookingsStore = defineStore('bookings', () => {
       receiptUploadDeadline: raw.receiptUploadDeadline ?? addDays(b.createdAt, (venue as any)?.receiptUploadDeadlineDays ?? 3),
       documentUploadDeadlineDays: (venue as any)?.documentUploadDeadlineDays,
       receiptUploadDeadlineDays: (venue as any)?.receiptUploadDeadlineDays,
-      refund: raw.refund ? {
-        status: raw.refund.status ?? 'none',
-        refundType: 'cancellation',
-        amount: raw.refund.amount ?? null,
-        reason: raw.refund.reason ?? '',
-        bankbookImage: raw.refund.bankbookImage ?? null,
-        requestedAt: raw.refund.requestedAt ?? null,
-        adminApprovedAt: raw.refund.adminApprovedAt ?? null,
-        accountingApprovedAt: raw.refund.accountingApprovedAt ?? null,
-        completedAt: raw.refund.completedAt ?? null,
-        refundMethod: raw.refund.refundMethod ?? null,
-      } as RefundInfo : undefined,
       baseFee,
       deposit,
       additionalFees,

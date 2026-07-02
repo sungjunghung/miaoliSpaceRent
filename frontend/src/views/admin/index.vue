@@ -8,6 +8,7 @@ import {
   ArcElement, Tooltip, Legend, Filler,
 } from 'chart.js'
 import { useBookingsStore } from '@/stores/bookings'
+import { useRefundsStore, REFUND_TYPE_LABELS, REFUND_STATUS_LABELS } from '@/stores/refunds'
 import { venues as mockVenues } from '@/services/venueService'
 import { RENTAL_MODE_LABELS, formatBookingTime } from '@/utils/bookingFormat'
 import { getBookingStatusDisplay, CANCELLED_STATUSES } from '@/utils/bookingStatus'
@@ -42,9 +43,11 @@ const payItems = computed(() =>
   bookings.value.filter(b => b.status === 'payment_review' && b.remittance)
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 )
+const refundsStore = useRefundsStore()
 const refundItems = computed(() =>
-  bookings.value.filter(b => b.refund && !['none', 'completed'].includes(b.refund.status))
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  refundsStore.refunds.filter(r => !['completed', 'rejected'].includes(r.status))
+    .slice()
+    .sort((a, b) => new Date(b.requestedAt).getTime() - new Date(a.requestedAt).getTime())
 )
 const totalActionCount = computed(() => docItems.value.length + payItems.value.length + refundItems.value.length)
 
@@ -318,16 +321,15 @@ function formatTime(b: any) {
               <p class="font-semibold text-info mt-2 mb-1.5 flex items-center gap-1">
                 <span class="material-symbols-outlined">currency_exchange</span> 退費處理（{{ refundItems.length }}）
               </p>
-              <router-link v-for="b in refundItems.slice(0, 2)" :key="b.id"
-                :to="{ name: 'admin-booking-detail', params: { id: b.id } }"
+              <router-link v-for="r in refundItems.slice(0, 2)" :key="r.id"
+                :to="{ name: 'admin-refunds', query: { refundId: r.id } }"
                 class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg border border-base-200 hover:bg-base-200/50 hover:border-info/30 transition-colors mb-1 group">
                 <span class="w-1.5 h-1.5 rounded-full bg-info shrink-0"></span>
                 <div class="flex-1 min-w-0">
-                  <p class="font-medium truncate">{{ b.applicant }}</p>
-                  <p class="truncate">{{ getVenueName(b.venueId) }}・{{ b.date }}</p>
+                  <p class="font-medium truncate">{{ r.memberName }}</p>
+                  <p class="truncate">{{ REFUND_TYPE_LABELS[r.type] }}・{{ r.requestedAt }}</p>
                 </div>
-                <span class="badge badge-info badge-outline">{{ b.refund?.refundType === 'cancellation' ? '退費處理中' :
-                  '保證金處理中' }}</span>
+                <span class="badge badge-info badge-outline">{{ REFUND_STATUS_LABELS[r.status].label }}</span>
               </router-link>
               <p v-if="refundItems.length > 2" class="pl-2">還有 {{ refundItems.length - 2 }} 筆⋯</p>
             </template>

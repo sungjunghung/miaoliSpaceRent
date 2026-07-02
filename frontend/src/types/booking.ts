@@ -36,28 +36,6 @@ export type BookingStatus =
   | 'cancelled_rejected'
   | 'cancelled'
 
-export type RefundStatus =
-  | 'none'
-  | 'admin_review'
-  | 'accounting_review'
-  | 'cashier_processing'
-  | 'completed'
-
-export type RefundType = 'cancellation'
-
-export interface RefundInfo {
-  status: RefundStatus
-  refundType: RefundType
-  amount: number | null
-  reason: string
-  bankbookImage: string | null
-  requestedAt: string | null
-  adminApprovedAt: string | null
-  accountingApprovedAt: string | null
-  completedAt: string | null
-  refundMethod: 'transfer' | 'check' | null
-}
-
 export interface Booking {
   id: number
   reservationId: string
@@ -100,5 +78,4 @@ export interface Booking {
   receiptUploadDeadline?: string
   documentUploadDeadlineDays?: number
   receiptUploadDeadlineDays?: number
-  refund?: RefundInfo
 }
