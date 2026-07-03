@@ -274,12 +274,13 @@ export function buildAllDayRows(
 
 // ── 事件配色與標籤（日/週/月檢視共用） ──────────────────────────
 
-// 訂單事件曆格配色：與訂單 badge 同語意色調（見 bookingStatus.ts）
+// 訂單事件曆格配色：底色與邊框依語意色調（見 bookingStatus.ts），
+// 文字統一 base-content 確保淡染底上的可讀性（已完成刻意降調）
 const EVENT_CLASS_BY_TONE: Record<BookingStatusTone, string> = {
-  success: 'bg-success/10 text-success border-success/30',
-  warning: 'bg-warning/15 text-warning border-warning/40',
-  info:    'bg-info/10 text-info border-info/30',
-  error:   'bg-error/10 text-error border-error/30',
+  success: 'bg-success/10 text-base-content border-success/30',
+  warning: 'bg-warning/15 text-base-content border-warning/40',
+  info:    'bg-info/10 text-base-content border-info/30',
+  error:   'bg-error/10 text-base-content border-error/30',
   neutral: 'bg-base-200 text-base-content/60 border-base-300',
   ghost:   'bg-base-200 text-base-content/60 border-base-300',
 }
@@ -302,19 +303,19 @@ export function getEventColor(event: CalendarEvent): string {
     case 'closed':
       // 區分三種 closed 類型
       if (event.metadata?.overrideType === 'open') {
-        return 'bg-green-50 text-green-700 border-green-200' // 開館覆寫
+        return 'bg-green-50 text-base-content border-green-200' // 開館覆寫
       } else if (event.metadata?.overrideType === 'closed') {
-        return 'bg-red-100 text-red-800 border-red-300' // 閉館覆寫（深色）
+        return 'bg-red-100 text-base-content border-red-300' // 閉館覆寫（深色）
       } else if (event.metadata?.isRecurringClosed) {
-        return 'bg-red-50 text-red-800 border-red-200' // OpeningHours 休館日（淺色）
+        return 'bg-red-50 text-base-content border-red-200' // OpeningHours 休館日（淺色）
       }
-      return 'bg-red-50 text-red-700 border-red-200'
+      return 'bg-red-50 text-base-content border-red-200'
     case 'maintenance':
-      return 'bg-stone-100 text-stone-700 border-stone-200'
+      return 'bg-stone-100 text-base-content border-stone-200'
     case 'note':
-      return 'bg-purple-50 text-purple-700 border-purple-200'
+      return 'bg-purple-50 text-base-content border-purple-200'
     case 'blocked':
-      return 'bg-slate-100 text-slate-700 border-slate-300'
+      return 'bg-slate-100 text-base-content border-slate-300'
     default:
       return 'bg-base-200 text-base-content/60 border-base-300'
   }
