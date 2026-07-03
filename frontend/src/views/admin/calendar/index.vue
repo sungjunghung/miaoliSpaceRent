@@ -268,16 +268,21 @@ const EVENT_LEGEND = [
 ];
 
 // 掛載時初始化行事曆狀態並載入事件；卸載時清理（移除監聽等）
-onMounted(async () => {
+onMounted(() => {
   calendar.initialize()
-  const baseEvents = buildEvents()
-  const anchorYear = (calendar.anchorDate.value ?? new Date()).getFullYear()
-  const holidayEvents = await fetchGovernmentHolidayEvents([anchorYear - 1, anchorYear, anchorYear + 1]).catch(() => [])
-  calendar.events.value = [...baseEvents, ...holidayEvents]
+  // 本地 mock 事件立即顯示，不等外部請求
+  calendar.events.value = buildEvents()
   // 從 query param 設定初始場館選取
   if (venueId) {
     calendar.selectedVenueIds.value = new Set([venueId])
   }
+  // 國定假日來自政府開放資料（可能慢或被 CORS 擋），非同步補上
+  const anchorYear = (calendar.anchorDate.value ?? new Date()).getFullYear()
+  fetchGovernmentHolidayEvents([anchorYear - 1, anchorYear, anchorYear + 1])
+    .then((holidayEvents) => {
+      calendar.events.value = [...(calendar.events.value ?? []), ...holidayEvents]
+    })
+    .catch(() => {})
 });
 onBeforeUnmount(() => { calendar.cleanup(); });
 </script>

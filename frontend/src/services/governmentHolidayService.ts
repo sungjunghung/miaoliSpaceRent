@@ -89,12 +89,14 @@ function getYearCsvUrl(html: string, rocYear: number) {
   return candidates.at(-1) ?? null;
 }
 
-async function fetchYearHolidays(year: number): Promise<CalendarEvent[]> {
-  const rocYear = year - 1911;
+async function fetchDatasetHtml(): Promise<string> {
   const pageRes = await fetch(getDatasetUrl());
   if (!pageRes.ok) throw new Error(`無法取得資料集頁面：${pageRes.status}`);
+  return pageRes.text();
+}
 
-  const html = await pageRes.text();
+async function fetchYearHolidays(html: string, year: number): Promise<CalendarEvent[]> {
+  const rocYear = year - 1911;
   const csvUrl = getYearCsvUrl(html, rocYear);
   if (!csvUrl) return [];
 
@@ -107,7 +109,9 @@ async function fetchYearHolidays(year: number): Promise<CalendarEvent[]> {
 
 export async function fetchGovernmentHolidayEvents(years: number[]): Promise<CalendarEvent[]> {
   const uniqueYears = [...new Set(years)];
-  const settled = await Promise.allSettled(uniqueYears.map((year) => fetchYearHolidays(year)));
+  // 各年份的 CSV 連結都列在同一個資料集頁面上，只抓一次共用
+  const html = await fetchDatasetHtml();
+  const settled = await Promise.allSettled(uniqueYears.map((year) => fetchYearHolidays(html, year)));
 
   const merged = settled.flatMap((result) => (result.status === 'fulfilled' ? result.value : []));
   const deduped = new Map<string, CalendarEvent>();

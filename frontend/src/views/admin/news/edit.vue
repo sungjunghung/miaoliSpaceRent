@@ -62,7 +62,7 @@ function handleSave() {
   <div class="admin-container-info">
 
     <!-- 基本設定 -->
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">基本設定</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -92,7 +92,7 @@ function handleSave() {
     </div>
 
     <!-- 封面圖片 -->
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">封面圖片</h2>
         <div class="form-control">
@@ -111,7 +111,7 @@ function handleSave() {
     </div>
 
     <!-- 摘要 -->
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">摘要</h2>
         <div class="form-control">
@@ -123,7 +123,7 @@ function handleSave() {
     </div>
 
     <!-- 內容 -->
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">內容</h2>
         <div class="form-control">
