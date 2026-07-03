@@ -25,8 +25,8 @@
               <div class="flex items-center gap-2 flex-wrap">
                 <h3 class="card-title">{{ refund.id }}</h3>
                 <span class="badge badge-outline">{{ REFUND_TYPE_LABELS[refund.type] }}</span>
-                <span :class="['badge', REFUND_STATUS_LABELS[refund.status].className]">
-                  {{ REFUND_STATUS_LABELS[refund.status].label }}
+                <span :class="['badge', portalRefundStatus(refund.status).className]">
+                  {{ portalRefundStatus(refund.status).label }}
                 </span>
               </div>
               <p class="text-sm text-base-content/60 mt-1">{{ refund.reason }}</p>
@@ -37,21 +37,7 @@
             </div>
           </div>
 
-          <ul v-if="refund.status !== 'rejected'" class="steps steps-vertical lg:steps-horizontal w-full">
-            <li
-              v-for="step in REFUND_STEPS"
-              :key="step.key"
-              class="step"
-              :class="{
-                'step-success': getRefundStepState(refund.status, step.key) === 'done',
-                'step-warning': getRefundStepState(refund.status, step.key) === 'active',
-              }"
-            >
-              {{ step.label }}
-            </li>
-          </ul>
-
-          <div v-else class="alert alert-error alert-soft">
+          <div v-if="refund.status === 'rejected'" class="alert alert-error alert-soft">
             <span class="material-symbols-outlined">cancel</span>
             <span>{{ refund.rejectedReason ?? '此退款申請已駁回。' }}</span>
           </div>
@@ -93,13 +79,7 @@
 import { computed } from 'vue'
 import PageHeaderBasic from '@/components/portal/PageHeaderBasic.vue'
 import { useAuthStore } from '@/stores/auth'
-import {
-  REFUND_STATUS_LABELS,
-  REFUND_STEPS,
-  REFUND_TYPE_LABELS,
-  getRefundStepState,
-  useRefundsStore,
-} from '@/stores/refunds'
+import { REFUND_TYPE_LABELS, useRefundsStore, type RefundStatus } from '@/stores/refunds'
 import { users as mockUsers } from '@/services/userService'
 
 const authStore = useAuthStore()
@@ -117,5 +97,12 @@ const memberRefunds = computed(() =>
 function formatDate(date: string | null) {
   if (!date) return '—'
   return date.replaceAll('-', '/')
+}
+
+// 前台不揭露內部簽核過程（承辦/會計/出納），只呈現退款中與退款完成
+function portalRefundStatus(status: RefundStatus): { label: string; className: string } {
+  if (status === 'completed') return { label: '退款完成', className: 'badge-success' }
+  if (status === 'rejected') return { label: '已駁回', className: 'badge-error' }
+  return { label: '退款中', className: 'badge-info' }
 }
 </script>
