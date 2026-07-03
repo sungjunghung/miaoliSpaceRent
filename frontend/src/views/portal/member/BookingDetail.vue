@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useBookingsStore, type Booking } from '@/stores/bookings'
 import BookingProgress from '@/components/portal/BookingProgress.vue'
-import { venues as mockVenues } from '@/services/venueService'
 import {
   toZhDate, formatBookingDate, formatBookingTime, RENTAL_MODE_LABELS,
 } from '@/utils/bookingFormat'
@@ -31,19 +30,10 @@ const contact = computed(() => ({
 
 const today = new Date().toISOString().slice(0, 10)
 
-const venue = computed(() => {
-  if (!booking.value) return null
-  return mockVenues.find(v => v.id === booking.value!.venueId) ?? null
-})
-const cancellationDeadlineDays = computed(() => (venue.value as any)?.cancellationDeadlineDays ?? 7)
-
-const cancellationDeadlineDate = computed(() => {
-  if (!booking.value) return null
-  const eventDate = booking.value.startDate ?? booking.value.date
-  const d = new Date(eventDate)
-  d.setDate(d.getDate() - cancellationDeadlineDays.value)
-  return d.toISOString().slice(0, 10)
-})
+// 取消期限一律以訂單成立時凍結的 cancelDeadline 為準
+const withinCancelDeadline = computed(() =>
+  !booking.value?.cancelDeadline || booking.value.cancelDeadline >= today
+)
 
 const canCancel = computed(() => {
   if (!booking.value) return false
@@ -52,7 +42,7 @@ const canCancel = computed(() => {
     'cancelled', 'cancelled_expired', 'cancelled_rejected'].includes(s)) return false
   // 需要文件審核且文件已通過 → 需走申請取消流程，不可直接取消
   if (booking.value.requireDocuments && booking.value.documentApprovedAt) return false
-  return !booking.value.cancelDeadline || booking.value.cancelDeadline >= today
+  return withinCancelDeadline.value
 })
 
 const canRequestCancellation = computed(() => {
@@ -61,18 +51,18 @@ const canRequestCancellation = computed(() => {
   if (['completed', 'cancellation_requested',
     'cancelled', 'cancelled_expired', 'cancelled_rejected'].includes(s)) return false
   // confirmed：一定走申請取消
-  if (s === 'confirmed') {
-    return !cancellationDeadlineDate.value || today <= cancellationDeadlineDate.value
-  }
+  if (s === 'confirmed') return withinCancelDeadline.value
   // 需要文件且文件已通過（pending_payment / payment_review）：也需申請取消
   if (booking.value.requireDocuments && booking.value.documentApprovedAt) {
-    return !booking.value.cancelDeadline || booking.value.cancelDeadline >= today
+    return withinCancelDeadline.value
   }
   return false
 })
 
 const cancelModalOpen = ref(false)
 const cancelReason = ref('')
+const directCancelOpen = ref(false)
+const directCancelReason = ref('')
 
 const remittance = ref({ last5: '', amount: '', datetime: '', senderName: '', note: '' })
 const uploadError = ref('')
@@ -95,8 +85,14 @@ const formatTime = (b: Booking) => formatBookingTime(b)
 const rentalModeLabel = computed(() => RENTAL_MODE_LABELS[booking.value?.rentalMode ?? ''] ?? '')
 
 function submitCancellationRequest() {
-  // TODO: 串接取消申請 API → status 變為 cancellation_requested
+  if (!cancelReason.value.trim()) return
+  bookingsStore.requestCancellation(bookingId, cancelReason.value.trim())
   cancelModalOpen.value = false
+}
+
+function confirmDirectCancel() {
+  bookingsStore.cancelBooking(bookingId, directCancelReason.value.trim() || '會員自行取消')
+  directCancelOpen.value = false
 }
 
 const ACTIVE_STATUSES = ['reserved', 'document_review', 'documents_rejected', 'pending_payment', 'payment_review']
@@ -308,7 +304,7 @@ const handleDocUpload = (_docKey: string, event: Event) => {
 
         <!-- 操作按鈕 -->
         <div v-if="canCancel || canRequestCancellation" class="mt-4 flex justify-end gap-2">
-          <button v-if="canCancel" class="btn btn-error">取消預約</button>
+          <button v-if="canCancel" class="btn btn-error" @click="directCancelOpen = true">取消預約</button>
           <button v-if="canRequestCancellation" class="btn btn-neutral" @click="cancelModalOpen = true">
             <span class="material-symbols-outlined text-base">event_busy</span>
             申請取消預約
@@ -649,7 +645,7 @@ const handleDocUpload = (_docKey: string, event: Event) => {
           <div class="space-y-1 rounded-box bg-base-200 p-3 text-sm">
             <p><span class="text-base-content/50">預約場館:</span>{{ booking.venueName }}</p>
             <p><span class="text-base-content/50">使用日期:</span>{{ formatDate(booking) }}</p>
-            <p><span class="text-base-content/50">取消期限:</span>須於使用日 <strong>{{ cancellationDeadlineDays }}</strong> 天前提出申請</p>
+            <p v-if="booking.cancelDeadline"><span class="text-base-content/50">取消期限:</span>須於 <strong>{{ toZhDate(booking.cancelDeadline) }}</strong> 前提出申請</p>
           </div>
           <fieldset class="fieldset">
             <legend class="fieldset-legend">取消原因 <span class="text-error">*</span></legend>
@@ -665,6 +661,36 @@ const handleDocUpload = (_docKey: string, event: Event) => {
         </div>
       </div>
       <form method="dialog" class="modal-backdrop" @click="cancelModalOpen = false"></form>
+    </dialog>
+
+    <!-- 直接取消預約 Modal（尚未進入審核凍結期，免審核） -->
+    <dialog class="modal" :class="{ 'modal-open': directCancelOpen }">
+      <div class="modal-box max-w-md">
+        <h3 class="mb-4 text-lg font-bold">取消預約</h3>
+        <div class="space-y-4">
+          <div class="flex items-start gap-3 rounded-box border border-error/30 bg-error/5 p-3">
+            <span class="material-symbols-outlined shrink-0 text-error">info</span>
+            <div>
+              <p class="font-semibold">確定要取消此預約嗎？</p>
+              <p class="mt-1 text-sm text-base-content/70">此預約尚未完成繳費，取消後立即生效，無需審核。</p>
+            </div>
+          </div>
+          <div class="space-y-1 rounded-box bg-base-200 p-3 text-sm">
+            <p><span class="text-base-content/50">預約場館:</span>{{ booking.venueName }}</p>
+            <p><span class="text-base-content/50">使用日期:</span>{{ formatDate(booking) }}</p>
+          </div>
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">取消原因（選填）</legend>
+            <textarea v-model="directCancelReason" class="textarea textarea-bordered w-full" rows="2"
+              placeholder="例:行程異動、改租其他場地..."></textarea>
+          </fieldset>
+        </div>
+        <div class="modal-action">
+          <button class="btn btn-ghost" @click="directCancelOpen = false">返回</button>
+          <button class="btn btn-error" @click="confirmDirectCancel">確認取消預約</button>
+        </div>
+      </div>
+      <form method="dialog" class="modal-backdrop" @click="directCancelOpen = false"></form>
     </dialog>
   </div>
 </template>

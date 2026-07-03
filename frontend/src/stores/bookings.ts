@@ -123,5 +123,12 @@ export const useBookingsStore = defineStore('bookings', () => {
     booking.cancelReason = reason
   }
 
-  return { bookings, getByUserId, getById, cancelBooking }
+  function requestCancellation(id: number, reason: string) {
+    const booking = getById(id)
+    if (!booking) return
+    booking.status = 'cancellation_requested'
+    booking.cancelReason = reason
+  }
+
+  return { bookings, getByUserId, getById, cancelBooking, requestCancellation }
 })
