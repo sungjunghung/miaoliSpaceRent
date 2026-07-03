@@ -9,7 +9,7 @@ defineProps<{
 <template>
     <div class="card basic-card">
       <div class="card-body">
-        <h3 class="font-bold text-base text-primary">申請帳號</h3>
+        <h3 class="card-title">申請帳號</h3>
         <table class="table">
           <tbody>
             <tr><td class="text-base-content/50 w-28">姓名</td><td class="font-medium">{{ booking.applicant }}</td></tr>

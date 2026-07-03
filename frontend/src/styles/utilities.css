@@ -52,7 +52,7 @@
 .basis-table {
   @apply overflow-x-auto;
   th {
-    @apply bg-primary text-primary-content text-xs
+    @apply bg-primary-900/5  text-xs
   }
   tbody > tr {
     @apply  hover:cursor-pointer hover:bg-base-200;
@@ -68,11 +68,11 @@
 }
 
 .basis-box, .basic-card, .basis-table {
-  @apply bg-base-100 rounded-box overflow-hidden border border-primary shadow ;
+  @apply bg-base-100 rounded-box overflow-hidden border border-primary-900/15 shadow ;
 }
 
 .basic-card  {
   .card-title {
-    @apply text-primary font-semibold;
+    @apply text-primary-600 font-semibold;
   }
 }
