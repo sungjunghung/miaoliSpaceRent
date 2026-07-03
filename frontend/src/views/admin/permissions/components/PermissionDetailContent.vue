@@ -5,6 +5,8 @@ import { admins as mockAdmins } from '@/services/adminService'
 
 const props = defineProps<{
   id: string
+  /** 整頁版面時基本資料限寬置中；抽屜情境不需要 */
+  pageLayout?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -200,19 +202,20 @@ function handleDelete() {
 </script>
 
 <template>
-  <div v-if="formData.isSuperAdmin" role="alert" class="alert alert-info mb-4">
-    <span class="material-symbols-outlined">verified_user</span>
-    <span>此為超級管理員，擁有系統全部權限，且不受權限設定約束。</span>
-  </div>
-  <div v-else-if="formData.isSystem" role="alert" class="alert alert-warning mb-4">
-    <span class="material-symbols-outlined">info</span>
-    <span>此為系統內建群組，無法修改權限設定或刪除。</span>
-  </div>
+  <div :class="props.pageLayout ? 'admin-container-info' : 'admin-container-flush'">
+    <div v-if="formData.isSuperAdmin" role="alert" class="alert alert-info mb-4">
+      <span class="material-symbols-outlined">verified_user</span>
+      <span>此為超級管理員，擁有系統全部權限，且不受權限設定約束。</span>
+    </div>
+    <div v-else-if="formData.isSystem" role="alert" class="alert alert-warning mb-4">
+      <span class="material-symbols-outlined">info</span>
+      <span>此為系統內建群組，無法修改權限設定或刪除。</span>
+    </div>
 
-  <div class="container max-w-3xl mx-auto space-y-4">
-    <div class="card bg-base-100 shadow-sm">
+
+    <div class="card basic-card">
       <div class="card-body">
-        <h2 class="card-title text-base">基本資料</h2>
+        <h2 class="card-title">基本資料</h2>
         <div class="space-y-4">
           <div class="form-control">
             <label class="label"><span class="label-text">群組名稱</span></label>
@@ -232,10 +235,10 @@ function handleDelete() {
       </div>
     </div>
 
-    <div v-if="!formData.isSuperAdmin" class="card bg-base-100 shadow-sm">
+    <div v-if="!formData.isSuperAdmin" class="card basic-card">
       <div class="card-body">
         <div class="flex items-center justify-between mb-1">
-          <h2 class="card-title text-base">
+          <h2 class="card-title">
             權限設定
             <span class="font-normal text-base-content/50">
               已選 {{ formData.permissions.length }} / {{ totalPermissions }} 項
@@ -263,7 +266,8 @@ function handleDelete() {
                 <span class="font-medium">{{ module.label }}</span>
               </div>
               <span class="text-base-content/40">
-                {{ module.items.filter(item => formData.permissions.includes(item.key)).length }} / {{ module.items.length }}
+                {{module.items.filter(item => formData.permissions.includes(item.key)).length}} / {{
+                  module.items.length }}
               </span>
             </div>
 
@@ -281,7 +285,7 @@ function handleDelete() {
       </div>
     </div>
 
-    <div v-if="!isNew" class="card bg-base-100 shadow-sm">
+    <div v-if="!isNew" class="card basic-card">
       <div class="card-body">
         <h2 class="card-title text-base">
           套用此群組的管理員
@@ -314,11 +318,11 @@ function handleDelete() {
       </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm" v-if="!isNew && !formData.isSystem">
+    <div class="card basic-card" v-if="!isNew && !formData.isSystem">
       <div class="card-body">
         <h2 class="card-title">刪除此群組</h2>
         <div>
-          <button class="btn btn-error" @click="handleDelete">
+          <button class="btn btn-error btn-outline" @click="handleDelete">
             <span class="material-symbols-outlined">delete</span>
             刪除群組
           </button>

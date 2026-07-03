@@ -59,7 +59,7 @@ function handleSave() {
 </script>
 
 <template>
-  <div class="space-y-4 max-w-3xl">
+  <div class="admin-container-info">
 
     <!-- 基本設定 -->
     <div class="card bg-base-100 shadow-sm">

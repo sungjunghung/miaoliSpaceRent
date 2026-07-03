@@ -1,6 +1,6 @@
 <template>
   <div class="admin-login">
-    <div class="card card-basic w-full max-w-sm">
+    <div class="card basic-card w-full max-w-sm">
       <div class="card-body gap-5">
 
         <!-- Header -->

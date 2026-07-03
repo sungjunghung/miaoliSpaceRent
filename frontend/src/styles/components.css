@@ -16,9 +16,6 @@
   }
 }
 
-.card-basic {
-  @apply bg-base-100 shadow rounded-box;
-}
 
 .user-login {
   @apply flex items-center justify-center px-4 py-12 ;

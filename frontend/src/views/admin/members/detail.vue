@@ -9,5 +9,5 @@ const memberId = computed(() => route.params.id as string)
 </script>
 
 <template>
-  <MemberDetailContent :id="memberId" @close="router.push({ name: 'admin-members' })" />
+    <MemberDetailContent :id="memberId" page-layout @close="router.push({ name: 'admin-members' })" />
 </template>

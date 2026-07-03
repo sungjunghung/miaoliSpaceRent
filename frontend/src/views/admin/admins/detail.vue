@@ -10,5 +10,5 @@ const adminId = computed(() => route.params.id as string)
 </script>
 
 <template>
-  <AdminDetailContent :id="adminId" @close="router.push({ name: 'admin-admins' })" />
+  <AdminDetailContent :id="adminId" page-layout @close="router.push({ name: 'admin-admins' })" />
 </template>

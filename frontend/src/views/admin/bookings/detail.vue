@@ -12,8 +12,8 @@ const booking = computed(() => bookingsStore.getById(id.value))
 </script>
 
 <template>
-  <div v-if="booking" class="space-y-4 max-w-3xl mx-auto">
-    <BookingDetailContent :booking="booking" />
+  <div v-if="booking">
+    <BookingDetailContent page-layout :booking="booking" />
   </div>
 
   <div v-else class="py-20 text-center text-base-content/40">

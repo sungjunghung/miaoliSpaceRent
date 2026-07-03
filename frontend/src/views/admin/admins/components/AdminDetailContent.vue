@@ -6,6 +6,8 @@ import { permissionGroups as mockGroups } from '@/services/permissionService'
 
 const props = defineProps<{
   id: string
+  /** 整頁版面時基本資料限寬置中；抽屜情境不需要 */
+  pageLayout?: boolean
 }>()
 
 defineEmits<{
@@ -130,8 +132,8 @@ const PERMISSION_LABELS: Record<string, string> = {
 </script>
 
 <template>
-  <div class="space-y-4 p-4 max-w-3xl mx-auto">
-    <div class="card bg-base-100 shadow-sm">
+  <div :class="props.pageLayout ? 'admin-container-info' : 'admin-container-flush'">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">基本資料</h2>
 
@@ -175,7 +177,7 @@ const PERMISSION_LABELS: Record<string, string> = {
       </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">權限群組</h2>
 
@@ -228,7 +230,7 @@ const PERMISSION_LABELS: Record<string, string> = {
       </div>
     </div>
 
-    <div v-if="!isSuperAdminGroup" class="card bg-base-100 shadow-sm">
+    <div v-if="!isSuperAdminGroup" class="card basic-card">
       <div class="card-body">
         <div class="flex items-center justify-between">
           <h2 class="card-title">負責場館</h2>

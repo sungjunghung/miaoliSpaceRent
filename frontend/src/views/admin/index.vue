@@ -161,21 +161,21 @@ function formatTime(b: any) {
 </script>
 
 <template>
-  
-  <div class="space-y-4 p-4">
+
+  <div class="admin-container-flush">
 
     <!-- ── Filter ──────────────────────────────────────────────── -->
-    <div class="flex items-center justify-end">
+    <div class="flex items-center justify-end mb-4">
       <VenueFilterDropdown v-model="venueFilter" />
     </div>
 
     <!-- ── Row 2: Trend + Status ────────────────────────────────── -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
 
-      <div class="lg:col-span-2 card card-basic">
+      <div class="card basic-card lg:col-span-2">
         <div class="card-body">
           <div class="flex items-center justify-between mb-3">
-            <h2 class="font-semibold">近 6 個月趨勢</h2>
+            <h2 class="card-title">近 6 個月趨勢</h2>
             <span>預約數 ＆ 已確認收款</span>
           </div>
           <div style="height: 200px">
@@ -184,10 +184,10 @@ function formatTime(b: any) {
         </div>
       </div>
 
-      <div class="card card-basic">
+      <div class="card basic-card">
         <div class="card-body">
           <div class="flex items-center justify-between mb-1">
-            <h2 class="font-semibold">預約狀態分佈</h2>
+            <h2 class="card-title">預約狀態分佈</h2>
             <span>共 {{ totalBookings }} 筆</span>
           </div>
           <div style="height: 220px">
@@ -195,77 +195,77 @@ function formatTime(b: any) {
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- ── Row 3: Venue + Action Items ────────────────────────────── -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
       <!-- ── Upcoming Bookings ────────────────────────────────────── -->
-      <div class="lg:col-span-2 card card-basic">
-        <div class="card-body">
-          <div class="flex items-center justify-between mb-3">
-            <div>
-              <h2 class="font-semibold">近 7 日預約行程</h2>
-              <p class="mt-0.5">{{ todayStr }} ~ {{ weekEnd }}</p>
+        <div class="card basic-card lg:col-span-2">
+
+          <div class="card-body">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h2 class="card-title">近 7 日預約行程</h2>
+                <p class="mt-0.5">{{ todayStr }} ~ {{ weekEnd }}</p>
+              </div>
+              <router-link :to="{ name: 'admin-calendar' }" class="btn btn-outline gap-1">
+                <span class="material-symbols-outlined">calendar_month</span>
+                行事曆
+              </router-link>
             </div>
-            <router-link :to="{ name: 'admin-calendar' }" class="btn btn-outline gap-1">
-              <span class="material-symbols-outlined">calendar_month</span>
-              行事曆
-            </router-link>
-          </div>
 
-          <div v-if="upcomingBookings.length === 0" class="text-center text-base-content/30 py-8">
-            近 7 日無預約記錄
-          </div>
+            <div v-if="upcomingBookings.length === 0" class="text-center text-base-content/30 py-8">
+              近 7 日無預約記錄
+            </div>
 
-          <div v-else class="overflow-x-auto">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>訂單</th>
-                  <th>日期</th>
-                  <th>場館</th>
-                  <th>申請人</th>
-                  <th>類型</th>
-                  <th>時段</th>
-                  <th>狀態</th>
-                  <th class="w-px"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="b in upcomingBookings" :key="b.id" class="hover cursor-pointer"
-                  @click="router.push({ name: 'admin-booking-detail', params: { id: b.id } })">
-                  <td class="text-base-content/50">{{ b.reservationId }}</td>
-                  <td>
-                    <span class="font-medium" :class="b.date === todayStr ? 'text-neutral' : ''">
-                      {{ b.date }}
-                      <span v-if="b.date === todayStr" class="badge badge-primary ml-1">今日</span>
-                    </span>
-                  </td>
-                  <td class="max-w-35"><span class="truncate block">{{ getVenueName(b.venueId) }}</span></td>
-                  <td>{{ b.applicant }}</td>
-                  <td><span class="badge badge-ghost">{{ RENTAL_MODE_LABELS[b.rentalMode] }}</span></td>
-                  <td class="text-base-content/60">{{ formatTime(b) }}</td>
-                  <td>
-                    <span class="badge" :class="getBookingStatusDisplay(b).className">
-                      {{ getBookingStatusDisplay(b).label }}
-                    </span>
-                  </td>
-                  <td>
-                    <span class="material-symbols-outlined text-base-content/30">chevron_right</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div v-else class="overflow-x-auto">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>訂單</th>
+                    <th>日期</th>
+                    <th>場館</th>
+                    <th>申請人</th>
+                    <th>類型</th>
+                    <th>時段</th>
+                    <th>狀態</th>
+                    <th class="w-px"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="b in upcomingBookings" :key="b.id" class="hover cursor-pointer"
+                    @click="router.push({ name: 'admin-booking-detail', params: { id: b.id } })">
+                    <td class="text-base-content/50">{{ b.reservationId }}</td>
+                    <td>
+                      <span class="font-medium" :class="b.date === todayStr ? 'text-neutral' : ''">
+                        {{ b.date }}
+                        <span v-if="b.date === todayStr" class="badge badge-primary ml-1">今日</span>
+                      </span>
+                    </td>
+                    <td class="max-w-35"><span class="truncate block">{{ getVenueName(b.venueId) }}</span></td>
+                    <td>{{ b.applicant }}</td>
+                    <td><span class="badge badge-ghost">{{ RENTAL_MODE_LABELS[b.rentalMode] }}</span></td>
+                    <td class="text-base-content/60">{{ formatTime(b) }}</td>
+                    <td>
+                      <span class="badge" :class="getBookingStatusDisplay(b).className">
+                        {{ getBookingStatusDisplay(b).label }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="material-symbols-outlined text-base-content/30">chevron_right</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
       </div>
       <!-- Action Items (分類) -->
-      <div class="card card-basic">
+      <div class="card basic-card">
         <div class="card-body">
           <div class="flex items-center justify-between mb-3">
-            <h2 class="font-semibold">待處理事項</h2>
+            <h2 class="card-title">待處理事項</h2>
             <router-link :to="{ name: 'admin-bookings' }" class="hover:underline">查看全部</router-link>
           </div>
 

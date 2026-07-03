@@ -30,7 +30,7 @@ function rejectDocuments() {
 }
 </script>
 <template>
-    <div v-if="booking.documents?.length" class="card bg-base-100 shadow-sm">
+    <div v-if="booking.documents?.length" class="card basic-card">
       <div class="card-body">
         <h3 class="card-title">申請文件</h3>
         <table class="table">

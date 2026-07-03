@@ -39,7 +39,7 @@ function getEventColor(type: 'rented' | 'unavailable' | 'closed' | 'maintenance'
   }
 }
 
-const WEEKDAY_LABELS = ['日', '一', '二', '三', '四', '五', '六'];
+const WEEKDAY_LABELS = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
 
 const emit = defineEmits<{
   eventClick: [event: CalendarEvent];
@@ -87,7 +87,17 @@ const nowIndicatorTop = computed(() => {
 
 
 function getUnifiedLayouts(day: Date) {
-  return layoutAllEvents(calendar.filteredEvents.value ?? [], day);
+  const dayEvents = (calendar.filteredEvents.value ?? []).filter(
+    (eventItem) => !eventItem.metadata?.isGovernmentHoliday,
+  );
+  return layoutAllEvents(dayEvents, day);
+}
+
+function getGovernmentHolidayLabel(day: Date): string {
+  const holiday = (calendar.filteredEvents.value ?? []).find(
+    (eventItem) => eventItem.metadata?.isGovernmentHoliday && isSameDay(new Date(eventItem.start), day),
+  );
+  return holiday?.metadata?.holidayName ?? '';
 }
 
 function startDrag(date: Date, event: PointerEvent) {
@@ -147,12 +157,15 @@ function selectionStyle(date: Date) {
   <div class="flex items-start gap-4">
 
 
-    <div class="grid grid-cols-[50px_1fr] gap-2 flex-1">
+    <div class="grid grid-cols-[50px_1fr] gap-1 flex-1">
       <div></div>
       <div class="grid grid-cols-7 gap-2">
         <div v-for="day in calendar.weekDays.value" :key="day.toISOString()"
-          class="px-2 py-2 text-sm font-semibold border border-base-300 rounded-lg bg-base-200">
-          {{ pad(day.getMonth() + 1) }}/{{ pad(day.getDate()) }}（{{ WEEKDAY_LABELS[day.getDay()] }}）
+          class="px-2 py-2 text-sm font-semibold border border-base-300 rounded-box bg-base-200 text-center">
+          <span>
+            <!-- {{ pad(day.getMonth() + 1) }}/ -->
+            {{ pad(day.getDate()) }} {{ WEEKDAY_LABELS[day.getDay()] }}</span>
+          <span v-if="getGovernmentHolidayLabel(day)" class="ml-1 inline-block max-w-24 align-middle overflow-hidden text-ellipsis whitespace-nowrap text-error ">{{ getGovernmentHolidayLabel(day) }}</span>
         </div>
       </div>
       <div class="text-xs text-base-content/50">
@@ -168,7 +181,7 @@ function selectionStyle(date: Date) {
             class="absolute left-0 right-0 z-10 border-t-2 border-dashed border-red-400/60 pointer-events-none"
             :style="{ top: `${nowIndicatorTop}%` }"></div>
           <div v-for="day in calendar.weekDays.value" :key="day.toISOString()"
-            class="border border-base-300 rounded-lg overflow-hidden">
+            class="basis-box overflow-hidden">
             <div class="relative bg-base-100" :style="{ height: `${gridHeight}px` }"
               @pointerdown="startDrag(day, $event)">
               <div class="absolute inset-0">

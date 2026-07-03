@@ -7,7 +7,7 @@ defineProps<{
 }>()
 </script>
 <template>
-    <div class="card bg-base-100 shadow-sm basis-border">
+    <div class="card basic-card">
       <div class="card-body">
         <h3 class="font-bold text-base text-primary">申請帳號</h3>
         <table class="table">

@@ -17,7 +17,11 @@ import CancelBookingModal from './CancelBookingModal.vue'
 
 const props = defineProps<{
   booking: Booking
+  /** 整頁版面時基本資料限寬置中；抽屜情境不需要 */
+  pageLayout?: boolean
 }>()
+
+
 
 const member = computed(() =>
   props.booking.userId ? mockUsers.find(user => user.id === props.booking.userId) : null
@@ -44,7 +48,7 @@ const cancellable = computed(() => {
 </script>
 
 <template>
-  <div class="space-y-4 p-4">
+  <div :class="props.pageLayout ? 'admin-container-info' : 'admin-container-flush'">
     <!-- 狀態列：訂單狀態 + 待辦提示 + 取消操作 -->
     <div class="flex flex-wrap items-center gap-2">
       <span class="badge" :class="statusDisplay.className">{{ statusDisplay.label }}</span>

@@ -49,17 +49,30 @@
   @apply container mx-auto pt-8 pb-6 lg:pb-12;
 }
 
-.basis-table-container {
-  @apply overflow-x-auto bg-base-100 rounded-box overflow-hidden border border-black/20 shadow;
+.basis-table {
+  @apply overflow-x-auto;
   th {
-    @apply bg-base-300 text-base-content/70 text-xs
+    @apply bg-primary text-primary-content text-xs
   }
   tbody > tr {
     @apply  hover:cursor-pointer hover:bg-base-200;
   }
 }
 
+.admin-container-flush {
+  @apply px-4 pt-8 pb-6 lg:pb-12 space-y-4;
+}
 
-.basis-border {
-  @apply border border-black/10 rounded-box overflow-hidden;
+.admin-container-info {
+  @apply space-y-4 max-w-4xl mx-auto px-4 lg:px-0 pt-8 pb-6 lg:pb-12;
+}
+
+.basis-box, .basic-card, .basis-table {
+  @apply bg-base-100 rounded-box overflow-hidden border border-primary shadow ;
+}
+
+.basic-card  {
+  .card-title {
+    @apply text-primary font-semibold;
+  }
 }

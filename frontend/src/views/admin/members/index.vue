@@ -14,7 +14,7 @@
       </button>
     </div>
 
-    <div class="basis-table-container">
+    <div class="basis-table">
       <table class="table">
         <thead>
           <tr>

@@ -102,7 +102,21 @@ const nowIndicatorTop = computed(() => {
   return minutesToOffset(minutes);
 });
 
-const unifiedLayouts = computed(() => layoutAllEvents(calendar.filteredEvents.value ?? [], calendar.anchorDate.value ?? new Date()));
+const currentDate = computed(() => calendar.anchorDate.value ?? new Date());
+
+const governmentHolidayLabel = computed(() => {
+  const holiday = (calendar.filteredEvents.value ?? []).find(
+    (eventItem) => eventItem.metadata?.isGovernmentHoliday && isSameDay(new Date(eventItem.start), currentDate.value),
+  );
+  return holiday?.metadata?.holidayName ?? '';
+});
+
+const unifiedLayouts = computed(() => {
+  const dayEvents = (calendar.filteredEvents.value ?? []).filter(
+    (eventItem) => !eventItem.metadata?.isGovernmentHoliday,
+  );
+  return layoutAllEvents(dayEvents, currentDate.value);
+});
 
 function startDrag(event: PointerEvent) {
   if ((event.target as HTMLElement).closest('[data-event-block="true"]')) return;
@@ -155,6 +169,10 @@ function selectionStyle() {
   return { top: `${top}%`, height: `${Math.max(height, 2)}%` };
 }
 
+function formatWeekday(date: Date): string {
+  return new Intl.DateTimeFormat('zh-TW', { weekday: 'long' }).format(date);
+}
+
 </script>
 
 <template>
@@ -162,8 +180,10 @@ function selectionStyle() {
   
     <div class="grid grid-cols-[50px_1fr] gap-x-2 flex-1">
       <div></div>
-      <div class="border border-b-0 border-base-300 rounded-t-lg bg-base-200 px-4 py-2 text-sm font-semibold">
-        {{ formatDate(calendar.anchorDate.value ?? new Date()) }}
+      <div class="px-2 py-2 font-semibold border border-base-300 rounded-box bg-base-200">
+        <!-- {{ formatDate(currentDate) }} -->
+        {{ formatWeekday(currentDate) }}
+        <span v-if="governmentHolidayLabel" class="ml-2 text-error">{{ governmentHolidayLabel }}</span>
       </div>
       <div class="text-xs text-base-content/50">
         <div v-for="label in timeLabels" :key="label" class="flex items-start"
@@ -171,7 +191,7 @@ function selectionStyle() {
           {{ formatTime(label) }}
         </div>
       </div>
-      <div class="border border-base-300 rounded-b-lg overflow-hidden bg-base-100">
+      <div class="basis-box">
         <!-- 時間軸（整日 + 時段共存） -->
         <div class="relative" :style="{ height: `${gridHeight}px` }" @pointerdown="startDrag">
           <div class="absolute inset-0">

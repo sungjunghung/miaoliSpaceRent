@@ -71,8 +71,8 @@ function onDragEnd() {
 </script>
 
 <template>
-  <div class="space-y-4">
-    <div role="alert" class="alert" :class="dragIndex !== null ? 'alert-warning' : 'alert-info'">
+  <div class="admin-container-flush">
+    <div role="alert" class="alert alert-soft" :class="dragIndex !== null ? 'alert-warning' : 'alert-info'">
       <span class="material-symbols-outlined">drag_indicator</span>
       <span v-if="dragIndex === null">可拖曳圖片調整排序；第一張將作為預設主圖來源。</span>
       <span v-else>
@@ -83,10 +83,10 @@ function onDragEnd() {
 
     <div class="flex gap-2 mb-4">
       <input type="file" ref="fileInput" accept="image/*" class="hidden" multiple @change="handleFileUpload" />
-      <button type="button" class="btn btn-primary" @click="fileInput?.click()">新增圖片</button>
+      <button type="button" class="btn btn-neutral" @click="fileInput?.click()"><span class="material-symbols-outlined">add</span>新增圖片</button>
     </div>
 
-    <div v-if="formData.gallery?.length" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+    <div v-if="formData.gallery?.length" class="grid grid-cols-3 md:grid-cols-4 gap-4">
       <div v-for="(url, index) in formData.gallery" :key="index"
         class="relative group rounded-lg overflow-hidden border border-base-300 aspect-video bg-base-200 cursor-grab select-none transition-all duration-200"
         :class="{
@@ -120,8 +120,8 @@ function onDragEnd() {
       尚未新增任何圖片
     </div>
 
-    <div class="sticky bottom-0 z-10 mt-6 flex justify-end border-t border-base-300 bg-base-100/90 py-3 backdrop-blur">
-      <button type="button" class="btn btn-primary px-8">儲存照片設定</button>
-    </div>
+  </div>
+  <div class="sticky bottom-0 z-10 mt-6 flex justify-end border-t border-base-300 bg-base-100/90 py-3 backdrop-blur">
+    <button type="button" class="btn btn-primary px-8">儲存照片設定</button>
   </div>
 </template>

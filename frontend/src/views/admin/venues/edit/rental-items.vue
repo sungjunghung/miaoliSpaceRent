@@ -13,6 +13,9 @@ interface Venue {
   rentalItems: RentalItem[];
 }
 
+// 單位量詞選項（涵蓋常見租借設備：桌椅、影音器材、帳篷、舞台等）
+const unitOptions = ['個', '張', '把', '台', '組', '套', '支', '面', '頂', '座', '塊', '條', '架', '間', '箱', '捲', '次'];
+
 const formData = inject<Ref<Venue>>('venueFormData')!;
 const dragIndex = ref<number | null>(null);
 const dragOverIndex = ref<number | null>(null);
@@ -57,68 +60,73 @@ function handleSave() {
 </script>
 
 <template>
-  <div class="space-y-3 p-4 border">
-    <div role="alert" class="alert alert-info">
-      <span class="material-symbols-outlined">info</span>
-      <span>設定場地可租借的設備或額外收費項目，金額為 0 表示免費提供；可拖曳排序。</span>
-    </div>
-
-    <div v-for="(item, index) in formData.rentalItems" :key="index"
-      class="bg-base-100 rounded p-4 relative cursor-grab select-none transition-all"
-      :class="{
-        'opacity-60 cursor-grabbing': dragIndex === index,
-        'ring-2 ring-primary': dragOverIndex === index,
-      }"
-      draggable="true"
-      @dragstart="onDragStart(index)"
-      @dragover.prevent="onDragOver(index)"
-      @drop="onDrop(index)"
-      @dragend="onDragEnd">
-      <div class="fieldset flex gap-4">
-        <button type="button" class="btn btn-error btn-ghost btn-square self-end" @click="removeItem(index)">
-          <span class="material-symbols-outlined">delete</span>
-        </button>
-        <div class="form-control">
-          <label class="label">項目名稱</label>
-          <div class="input">
-            <input v-model="item.label" type="text" placeholder="例如：摺疊桌" class="input" />
-          </div>
-        </div>
-        <div class="form-control">
-          <label class="label">單位</label>
-          <div class="input">
-            <input v-model="item.unit" type="text" placeholder="張、台、組…" class="input" />
-          </div>
-        </div>
-        <div class="form-control">
-          <label class="label">金額</label>
-          <div class="input">
-            <input v-model.number="item.amount" type="number" min="0" class="input text-end" />
-            <span>{{ item.amount === 0 ? '免費' : '元' }}</span>
-          </div>
-        </div>
-        <div class="form-control">
-          <label class="label">數量</label>
-          <div class="input">
-            <input v-model.number="item.quantity" type="number" min="1" class="input text-end" />
-            <span>{{ item.unit }}</span>
-          </div>
-        </div>
-        <div class="form-control">
-          <label class="label">租借上限</label>
-          <div class="input">
-            <input v-model.number="item.maxPerBooking" type="number" min="1" :max="item.quantity"
-              class="input text-end" />
-            <span>{{ item.unit }}/次</span>
-          </div>
-        </div>
+    <div class="admin-container-flush">
+      <div role="alert" class="alert alert-info alert-soft">
+        <span class="material-symbols-outlined">info</span>
+        <span>設定場地可租借的設備或額外收費項目，金額為 0 表示免費提供；可拖曳排序。</span>
       </div>
-    </div>
-    <div v-if="!formData.rentalItems?.length" class="text-base-content/30 italic p-3">尚未設定附加項目</div>
-    <button type="button" class="btn btn-neutral w-fit" @click="addItem">＋ 新增項目</button>
-  </div>
+      <button type="button" class="btn btn-neutral" @click="addItem">
+        <span class="material-symbols-outlined">add</span> 新增附加項目
+      </button>
+      <div v-if="formData.rentalItems?.length" class="basis-table">
+        <table class="table table-sm w-full">
+          <thead>
+            <tr>
+              <th>項目名稱</th>
+              <th>單位</th>
+              <th>金額</th>
+              <th>數量</th>
+              <th>租借上限</th>
+              <th class="w-px"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in formData.rentalItems" :key="index"
+              class="cursor-grab select-none transition-all" :class="{
+                'opacity-60 cursor-grabbing': dragIndex === index,
+                'bg-primary/10': dragOverIndex === index,
+              }" draggable="true" @dragstart="onDragStart(index)" @dragover.prevent="onDragOver(index)"
+              @drop="onDrop(index)" @dragend="onDragEnd">
+              <td><input v-model="item.label" type="text" placeholder="例如：摺疊桌" class="input w-full min-w-48" /></td>
+              <td>
+                <select v-model="item.unit" class="select w-24">
+                  <option v-for="u in unitOptions" :key="u" :value="u">{{ u }}</option>
+                </select>
+              </td>
+              <td>
+                <label class="input w-32">
+                  <input v-model.number="item.amount" type="number" min="0" class="grow min-w-0 text-end" />
+                  <span class="shrink-0">元</span>
+                </label>
+              </td>
+              <td>
+                <label class="input w-28">
+                  <input v-model.number="item.quantity" type="number" min="1" class="grow min-w-0 text-end" />
+                  <span class="shrink-0">{{ item.unit }}</span>
+                </label>
+              </td>
+              <td>
+                <label class="input w-28">
+                  <input v-model.number="item.maxPerBooking" type="number" min="1" :max="item.quantity"
+                    class="grow min-w-0 text-end" />
+                  <span class="shrink-0">{{ item.unit }}</span>
+                </label>
+              </td>
+              <td>
+                <button type="button" class="btn btn-error btn-ghost btn-square btn-sm" @click="removeItem(index)">
+                  <span class="material-symbols-outlined text-lg">delete</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div v-if="!formData.rentalItems?.length" class="text-base-content/30 italic p-3">尚未設定附加項目</div>
 
-  <div class="sticky bottom-0 z-10 flex justify-end border-t border-base-300 bg-base-100/90 py-3 backdrop-blur">
-    <button type="button" class="btn btn-primary px-8" @click="handleSave">儲存附加項目</button>
-  </div>
+    </div>
+
+    <div class="sticky bottom-0 z-10 flex justify-end border-t border-base-300 bg-base-100/90 py-3 backdrop-blur">
+      <button type="button" class="btn btn-primary px-8" @click="handleSave">儲存附加項目</button>
+    </div>
+
 </template>

@@ -186,7 +186,7 @@ function goToVenues() {
       <div class="space-y-6">
 
         <!-- 預約摘要卡片 -->
-        <div v-if="mockBooking" class="card card-basic">
+        <div v-if="mockBooking" class="card basic-card">
           <div class="card-body">
             <h2 class="card-title">
               場館預約明細
@@ -328,7 +328,7 @@ function goToVenues() {
         </div>
 
         <!-- 聯絡人 -->
-        <div class="card card-basic">
+        <div class="card basic-card">
           <div class="card-body">
             <h2 class="card-title">
               申請資料
@@ -375,7 +375,7 @@ function goToVenues() {
         </div>
 
         <!-- 注意事項 -->
-        <div v-if="venue.notices?.length" class="card card-basic">
+        <div v-if="venue.notices?.length" class="card basic-card">
           <div class="card-body">
             <h2 class="card-title">
               場館使用規範

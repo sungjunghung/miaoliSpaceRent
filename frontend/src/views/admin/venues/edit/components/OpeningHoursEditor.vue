@@ -119,7 +119,7 @@ function formatHourToTime(hour: number): string {
 </script>
 
 <template>
-  <div class="card bg-white shadow-xl">
+  <div class="card basic-card">
     <div class="card-body">
       <h2 class="card-title">開放時間</h2>
       <div class="space-y-2">

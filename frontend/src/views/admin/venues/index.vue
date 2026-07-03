@@ -29,7 +29,7 @@
   <section class="basic-section space-y-4 px-4">
 
     <!-- Table -->
-    <div class="basis-table-container">
+    <div class="basis-table">
       <table class="table">
         <thead>
           <tr>

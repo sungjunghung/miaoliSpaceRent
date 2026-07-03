@@ -145,9 +145,9 @@ function handleSave() {
 </script>
 
 <template>
-  <div class="space-y-4 p-4">
+  <div class="admin-container-info">
     <!-- 基本資訊 -->
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">基本資訊</h2>
         <fieldset class="fieldset append">
@@ -181,7 +181,7 @@ function handleSave() {
     <OpeningHoursEditor v-model="formData.openingHours" />
 
     <!-- 設施 -->
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">場館設施</h2>
         <p class="text-sm text-base-content/60">可拖曳調整排序</p>
@@ -212,7 +212,7 @@ function handleSave() {
     </div>
 
     <!-- 注意事項 -->
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <h2 class="card-title">注意事項</h2>
         <p class="text-sm text-base-content/60">可拖曳調整排序</p>

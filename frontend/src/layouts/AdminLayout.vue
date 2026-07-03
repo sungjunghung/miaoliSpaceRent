@@ -1,5 +1,5 @@
 <template>
-	<div class="drawer lg:drawer-open ">
+	<div class="drawer lg:drawer-open">
 		<input id="my-drawer-4" type="checkbox" class="drawer-toggle peer" v-model="drawerOpen" />
 		<div class="drawer-content h-screen flex flex-col">
 
@@ -48,7 +48,7 @@
 				</div>
 			</nav>
 			<!-- Page content here -->
-			<div class="bg-linear-to-bl from-base-100 to-base-200 flex-1 overflow-y-auto">
+			<div class="bg-linear-to-bl from-base-100 to-base-200 flex-1 overflow-y-auto ">
 				<router-view />
 			</div>
 			<ToastHost />

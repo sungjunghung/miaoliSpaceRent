@@ -82,10 +82,10 @@ const computedTotal = computed(() => {
 </script>
 
 <template>
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <div class="flex items-center justify-between mb-2">
-          <h3 class="font-bold text-base">費用明細</h3>
+          <h3 class="card-title">費用明細</h3>
           <button v-if="!isEditing" class="btn btn-ghost" @click="startEdit">編輯</button>
         </div>
         <table class="table">

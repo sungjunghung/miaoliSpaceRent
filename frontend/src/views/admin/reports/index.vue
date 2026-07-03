@@ -131,23 +131,13 @@ function exportInvoice() {
 </script>
 
 <template>
-  <div class="space-y-4 p-4">
+  <div class="admin-container-flush">
 
     <!-- Header + 篩選 -->
-    <div class="flex items-center justify-between flex-wrap gap-3">
+    <div class="flex items-center justify-between flex-wrap gap-2">
 
-      <div class="flex items-center gap-2 w-full flex-wrap">
-        <!-- 年份 -->
-        <div class="flex items-center">
-          <button class="btn btn-ghost btn-square" @click="selectYear(filterYear - 1)">
-            <span class="material-symbols-outlined">chevron_left</span>
-          </button>
-          <span class="w-16 text-center font-semibold">{{ filterYear }}</span>
-          <button class="btn btn-ghost btn-square" :disabled="filterYear >= today.getFullYear()"
-            @click="selectYear(filterYear + 1)">
-            <span class="material-symbols-outlined">chevron_right</span>
-          </button>
-        </div>
+      <div class="flex-1 flex items-center gap-2 w-full flex-wrap">
+       
         <!-- 場館 -->
         <select v-model="filterVenue" class="select">
           <option value="">全部場館</option>
@@ -168,13 +158,24 @@ function exportInvoice() {
           <option value="hourly">計時</option>
         </select>
       </div>
+       <!-- 年份 -->
+        <div class="flex items-center">
+          <button class="btn btn-ghost btn-square" @click="selectYear(filterYear - 1)">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <span class="w-16 text-center font-semibold">{{ filterYear }}</span>
+          <button class="btn btn-ghost btn-square" :disabled="filterYear >= today.getFullYear()"
+            @click="selectYear(filterYear + 1)">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
     </div>
 
     <!-- 年度摘要表（Jan–Dec 橫向） -->
-    <div class="card card-basic">
+    <div class="card basic-card">
       <div class="card-body">
         <div class="flex items-center justify-between mb-3">
-          <h2 class="font-semibold">{{ filterYear }} 年度摘要</h2>
+          <h2 class="card-title">{{ filterYear }} 年度摘要</h2>
           <button class="btn btn-outline gap-1" @click="exportAnnual">
             <span class="material-symbols-outlined">download</span>匯出
           </button>
@@ -226,10 +227,10 @@ function exportInvoice() {
     </div>
 
     <!-- 場館年度對比 -->
-    <div class="card card-basic">
+    <div class="card basic-card">
       <div class="card-body">
         <div class="flex items-center justify-between mb-3">
-          <h2 class="font-semibold">場館年度對比</h2>
+          <h2 class="card-title">場館年度對比</h2>
           <button class="btn btn-outline gap-1" @click="exportVenue">
             <span class="material-symbols-outlined">download</span>匯出
           </button>
@@ -270,11 +271,11 @@ function exportInvoice() {
     </div>
 
     <!-- 收款明細 -->
-    <div class="card card-basic">
+    <div class="card basic-card">
       <div class="card-body">
         <div class="flex items-center justify-between mb-3">
           <div>
-            <h2 class="font-semibold">收款明細</h2>
+            <h2 class="card-title">收款明細</h2>
             <p class="text-base-content/40 mt-0.5">僅顯示已確認／已完成訂單，共 {{ invoiceList.length }} 筆</p>
           </div>
           <button class="btn btn-outline gap-1" @click="exportInvoice">

@@ -14,6 +14,20 @@ const isProjectPage = Boolean(
 export default defineConfig({
   base: isProjectPage ? `/${repositoryName}/` : '/',
   plugins: [vue(), tailwindcss()],
+  server: {
+    proxy: {
+      '/api/data-gov': {
+        target: 'https://data.gov.tw',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/data-gov/, ''),
+      },
+      '/api/dgpa/file': {
+        target: 'https://www.dgpa.gov.tw',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/dgpa\/file/, '/FileConversion'),
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

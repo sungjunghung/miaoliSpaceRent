@@ -6,6 +6,8 @@ import { venues as mockVenues } from '@/services/venueService'
 
 const props = defineProps<{
   id: string
+  /** 整頁版面時基本資料限寬置中；抽屜情境不需要 */
+  pageLayout?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -100,12 +102,12 @@ watch(() => props.id, id => {
   const found = (mockUsers as any[]).find(user => user.id === id)
   formData.value = found
     ? {
-        id: found.id,
-        name: found.name,
-        email: found.email,
-        phone: found.phone,
-        retainedDeposit: found.retainedDeposit ?? 0,
-      }
+      id: found.id,
+      name: found.name,
+      email: found.email,
+      phone: found.phone,
+      retainedDeposit: found.retainedDeposit ?? 0,
+    }
     : emptyMember()
 }, { immediate: true })
 
@@ -145,87 +147,89 @@ function executeDelete() {
 </script>
 
 <template>
-  <div v-if="!isNew" role="tablist" class="tabs tabs-border bg-base-100 mb-4">
+  <div v-if="!isNew" role="tablist" class="tabs tabs-border bg-base-100 px-4 pt-1 border-b border-base-300 sticky top-0 z-10">
     <button role="tab" class="tab" :class="{ 'tab-active': activeTab === 'basic' }"
       @click="activeTab = 'basic'">基本資料</button>
     <button role="tab" class="tab" :class="{ 'tab-active': activeTab === 'bookings' }"
       @click="activeTab = 'bookings'">預約紀錄</button>
   </div>
 
-  <div v-show="activeTab === 'basic' || isNew" class="space-y-4 max-w-3xl mx-auto">
-    <div class="card bg-base-100 shadow-sm">
-      <div class="card-body">
-        <h2 class="card-title text-base">基本資料</h2>
+  <div v-show="activeTab === 'basic' || isNew" :class="props.pageLayout ? 'admin-container-info' : 'admin-container-flush'">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div v-if="!isNew" class="form-control">
-            <label class="label"><span class="label-text">會員編號</span></label>
-            <input :value="formData.id" type="text" class="input input-bordered w-full bg-base-200" readonly />
+      <div class="card basic-card">
+        <div class="card-body">
+          <h2 class="card-title">基本資料</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div v-if="!isNew" class="form-control">
+              <label class="label"><span class="label-text">會員編號</span></label>
+              <input :value="formData.id" type="text" class="input input-bordered w-full bg-base-200" readonly />
+            </div>
+            <div class="form-control">
+              <label class="label"><span class="label-text">姓名</span></label>
+              <input v-model="formData.name" type="text" class="input input-bordered w-full" placeholder="請輸入姓名" />
+            </div>
+            <div class="form-control">
+              <label class="label"><span class="label-text">電子信箱</span></label>
+              <input v-model="formData.email" type="email" class="input input-bordered w-full" placeholder="請輸入信箱" />
+            </div>
+            <div class="form-control">
+              <label class="label"><span class="label-text">電話</span></label>
+              <input v-model="formData.phone" type="text" class="input input-bordered w-full" placeholder="請輸入電話" />
+            </div>
           </div>
-          <div class="form-control">
-            <label class="label"><span class="label-text">姓名</span></label>
-            <input v-model="formData.name" type="text" class="input input-bordered w-full" placeholder="請輸入姓名" />
+          <div class="card-actions justify-end mt-4">
+            <button type="button" class="btn btn-primary px-8" @click="handleSave">
+              <span class="material-symbols-outlined">save</span>
+              儲存
+            </button>
           </div>
-          <div class="form-control">
-            <label class="label"><span class="label-text">電子信箱</span></label>
-            <input v-model="formData.email" type="email" class="input input-bordered w-full" placeholder="請輸入信箱" />
-          </div>
-          <div class="form-control">
-            <label class="label"><span class="label-text">電話</span></label>
-            <input v-model="formData.phone" type="text" class="input input-bordered w-full" placeholder="請輸入電話" />
-          </div>
-        </div>
-        <div class="card-actions justify-end mt-4">
-          <button type="button" class="btn btn-primary px-8" @click="handleSave">
-            <span class="material-symbols-outlined">save</span>
-            儲存
-          </button>
         </div>
       </div>
-    </div>
 
-    <div class="card card-basic">
-      <div class="card-body">
-        <h2 class="card-title">保證金</h2>
-        <div class="mb-4">
-          <span class="text-lg font-medium">金額：{{ formData.retainedDeposit }} NT$</span>
-        </div>
-        <div class="flex space-x-2">
-          <button type="button" class="btn btn-outline btn-disabled">退款</button>
-          <button type="button" class="btn btn-primary" @click="openDepositModal">變更金額</button>
+      <div class="card basic-card">
+        <div class="card-body">
+          <h2 class="card-title">保證金</h2>
+          <div class="mb-4">
+            <span class="text-lg font-medium">金額：{{ formData.retainedDeposit }} NT$</span>
+          </div>
+          <div class="flex space-x-2">
+            <button type="button" class="btn btn-outline btn-disabled">退款</button>
+            <button type="button" class="btn btn-primary" @click="openDepositModal">變更金額</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div v-if="!isNew" class="card bg-base-100 shadow-sm">
-      <div class="card-body">
-        <h2 class="card-title text-base">重設密碼</h2>
-        <p class="text-base-content/60">點擊下方按鈕，系統將產生一組臨時密碼並發送至會員的電子信箱。</p>
-        <div class="card-actions justify-start mt-2">
-          <button type="button" class="btn btn-primary btn-outline" @click="handleSendTempPassword">
-            <span class="material-symbols-outlined">mail</span>
-            發送臨時密碼
-          </button>
+      <div v-if="!isNew" class="card basic-card">
+        <div class="card-body">
+          <h2 class="card-title">重設密碼</h2>
+          <p class="text-base-content/60">點擊下方按鈕，系統將產生一組臨時密碼並發送至會員的電子信箱。</p>
+          <div class="card-actions justify-start mt-2">
+            <button type="button" class="btn btn-primary btn-outline" @click="handleSendTempPassword">
+              <span class="material-symbols-outlined">mail</span>
+              發送臨時密碼
+            </button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div v-if="!isNew" class="card bg-base-100 shadow-sm border border-error/20">
-      <div class="card-body">
-        <h2 class="card-title text-base text-error">危險操作</h2>
-        <p class="text-base-content/60">刪除會員後將無法復原，請確認是否要執行此操作。</p>
-        <div class="card-actions justify-start mt-2">
-          <button class="btn btn-error btn-outline" @click="confirmDelete">
-            <span class="material-symbols-outlined">delete</span>
-            刪除會員
-          </button>
+      <div v-if="!isNew" class="card basic-card">
+        <div class="card-body">
+          <h2 class="card-title">危險操作</h2>
+          <p class="text-base-content/60">刪除會員後將無法復原，請確認是否要執行此操作。</p>
+          <div class="card-actions justify-start mt-2">
+            <button class="btn btn-error btn-outline" @click="confirmDelete">
+              <span class="material-symbols-outlined">delete</span>
+              刪除會員
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+
   </div>
 
-  <div v-show="activeTab === 'bookings' && !isNew" class="space-y-4">
-    <div v-if="memberBookings.length > 0" class="overflow-x-auto bg-base-100 rounded-box border border-base-200">
+  <div v-show="activeTab === 'bookings' && !isNew" class="admin-container-flush">
+    <div v-if="memberBookings.length > 0" class="basis-table">
       <table class="table">
         <thead>
           <tr>
@@ -282,7 +286,8 @@ function executeDelete() {
   <dialog ref="deleteModal" class="modal">
     <div class="modal-box">
       <h3 class="font-bold text-error">刪除會員</h3>
-      <p class="py-4 text-base-content/70">確定要刪除會員「<span class="font-semibold text-base-content">{{ formData.name }}</span>」嗎？<br>此操作無法復原。</p>
+      <p class="py-4 text-base-content/70">確定要刪除會員「<span class="font-semibold text-base-content">{{ formData.name
+          }}</span>」嗎？<br>此操作無法復原。</p>
       <div class="modal-action">
         <form method="dialog">
           <button class="btn btn-ghost mr-2">取消</button>

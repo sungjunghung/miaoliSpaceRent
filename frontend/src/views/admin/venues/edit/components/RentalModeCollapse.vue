@@ -95,6 +95,22 @@ function copyTo(to: string) {
   emit('copy', { from: props.modeKey, to });
   (document.activeElement as HTMLElement)?.blur();
 }
+
+function formatPrice(value: number) {
+  return Math.max(0, value).toLocaleString('en-US');
+}
+
+function parsePriceInput(value: string) {
+  const digitsOnly = value.replace(/\D/g, '');
+  return digitsOnly === '' ? 0 : Number(digitsOnly);
+}
+
+function updateDepositAmount(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const nextValue = parsePriceInput(input.value);
+  mode.value.depositAmount = nextValue;
+  input.value = formatPrice(nextValue);
+}
 </script>
 
 <template>
@@ -121,7 +137,7 @@ function copyTo(to: string) {
     <div v-if="mode.enabled" class="space-y-6 p-4">
 
       <!-- ── 價格設定（各模式獨有） ── -->
-      <div class="bg-base-200/30 rounded-box p-4 space-y-3">
+      <div class="basis-box rounded-box p-4 space-y-3">
         <h3 class="font-bold text-base border-b border-base-300 pb-2 flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">payments</span>
           價格設定
@@ -132,7 +148,7 @@ function copyTo(to: string) {
       </div>
 
       <!-- ── 保證金 ── -->
-      <div class="bg-base-200/30 rounded-box p-4 space-y-3">
+      <div class="basis-box p-4 space-y-3">
         <h3 class="font-bold text-base border-b border-base-300 pb-2 flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">shield</span>
           保證金
@@ -144,7 +160,14 @@ function copyTo(to: string) {
         <fieldset v-if="mode.depositEnabled" class="fieldset append">
           <label class="label">保證金金額</label>
           <div class="input">
-            <input v-model.number="mode.depositAmount" type="number" min="0" step="1000" class="grow text-end" />
+            <span>NT$</span>
+            <input
+              :value="formatPrice(mode.depositAmount)"
+              type="text"
+              inputmode="numeric"
+              class="grow text-end"
+              @input="updateDepositAmount"
+            />
             <span>元</span>
           </div>
           <p class="label text-base-content/50">活動結束且場地復原確認後可申請退還</p>
@@ -152,7 +175,7 @@ function copyTo(to: string) {
       </div>
 
       <!-- ── 申請與期限（2 欄） ── -->
-      <div class="bg-base-200/30 rounded-box p-4 space-y-3">
+      <div class="basis-box p-4 space-y-3">
         <h3 class="font-bold text-base border-b border-base-300 pb-2 flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">event_available</span>
           租借規則與期限
@@ -203,7 +226,7 @@ function copyTo(to: string) {
       </div>
 
       <!-- ── 場佈與撤場 ── -->
-      <div class="bg-base-200/30 rounded-box p-4 space-y-3">
+      <div class="basis-box p-4 space-y-3">
         <h3 class="font-bold text-base border-b border-base-300 pb-2 flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">construction</span>
           場佈與撤場
@@ -264,7 +287,7 @@ function copyTo(to: string) {
       </div>
 
       <!-- ── 需檢附文件（含文件上傳期限、各自範本） ── -->
-      <div class="bg-base-200/30 rounded-box p-4 space-y-3">
+      <div class="basis-box p-4 space-y-3">
         <h3 class="font-bold text-base border-b border-base-300 pb-2 flex items-center gap-2">
           <span class="material-symbols-outlined text-primary">description</span>
           需檢附文件

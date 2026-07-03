@@ -9,5 +9,5 @@ const groupId = computed(() => route.params.id as string)
 </script>
 
 <template>
-  <PermissionDetailContent :id="groupId" @close="router.push({ name: 'admin-permissions' })" />
+    <PermissionDetailContent :id="groupId" page-layout @close="router.push({ name: 'admin-permissions' })" />
 </template>

@@ -28,6 +28,7 @@ import BookingDetailContent from '@/components/admin/bookings/BookingDetailConte
 import { rawBookings as mockBookings } from '@/services/bookingService'
 import { venues as mockVenues } from '@/services/venueService'
 import { calendarNotes as mockCalendarNotes } from '@/services/calendarNoteService'
+import { fetchGovernmentHolidayEvents } from '@/services/governmentHolidayService'
 
 // 網址帶 ?id=場館ID 時，行事曆初始聚焦該場館；否則顯示全部
 const route = useRoute();
@@ -267,9 +268,12 @@ const EVENT_LEGEND = [
 ];
 
 // 掛載時初始化行事曆狀態並載入事件；卸載時清理（移除監聽等）
-onMounted(() => {
+onMounted(async () => {
   calendar.initialize()
-  calendar.events.value = buildEvents()
+  const baseEvents = buildEvents()
+  const anchorYear = (calendar.anchorDate.value ?? new Date()).getFullYear()
+  const holidayEvents = await fetchGovernmentHolidayEvents([anchorYear - 1, anchorYear, anchorYear + 1]).catch(() => [])
+  calendar.events.value = [...baseEvents, ...holidayEvents]
   // 從 query param 設定初始場館選取
   if (venueId) {
     calendar.selectedVenueIds.value = new Set([venueId])

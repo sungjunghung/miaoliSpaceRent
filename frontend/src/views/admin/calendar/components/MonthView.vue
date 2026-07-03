@@ -54,35 +54,53 @@ function getDayBackgroundClass(day: Date): string {
   }
   return '';
 }
+
+function getGovernmentHolidayLabel(day: Date): string {
+  const holiday = (calendar.filteredEvents.value ?? []).find(
+    (eventItem) => eventItem.metadata?.isGovernmentHoliday && isSameDay(new Date(eventItem.start), day),
+  );
+  return holiday?.metadata?.holidayName ?? '';
+}
+
+function getVisibleEvents(day: Date): CalendarEvent[] {
+  return getMonthCellEvents(calendar.filteredEvents.value ?? [], day).filter(
+    (eventItem) => !eventItem.metadata?.isGovernmentHoliday,
+  );
+}
 </script>
 
 <template>
-  <div class="grid grid-cols-7 text-sm text-base-content/60  bg-base-300">
-    <div v-for="label in weekDayLabels" :key="label" class="px-2 py-2 font-medium">
+  <div class="grid grid-cols-7 mb-1 gap-0.5">
+    <div v-for="label in weekDayLabels" :key="label" class="text-sm font-semibold border border-base-300 rounded-box bg-base-200 p-2 text-end">
       {{ label }}
     </div>
   </div>
-  <div class="overflow-hidden">
+  <div class="overflow-hidden space-y-0.5">
     <div v-for="(week, weekIndex) in calendar.monthWeeks.value" :key="`week-${weekIndex}`"
-      class="grid grid-cols-7 border-b border-base-300 last:border-b-0">
+      class="grid grid-cols-7 gap-0.5">
       <button v-for="day in week" :key="day.toISOString()"
-        class="border border-base-300 p-2 min-h-30 text-left transition flex flex-col bg-base-100"
+        class="basis-box p-2 min-h-30 text-left transition flex flex-col bg-base-100"
         :class="[getDayBackgroundClass(day) || 'hover:bg-base-200']" @click="calendar.handleDayClick(day)"
         @dblclick.stop="emit('createEvent', day)">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-sm font-semibold" :class="{
-            'text-base-content/40': !isSameMonth(day, calendar.anchorDate.value ?? new Date()),
-            'text-primary': isSameDay(day, new Date()),
-          }">
-            {{ day.getDate() }}
-          </span>
-          <span v-if="isSameDay(day, new Date())" class="badge badge-primary badge-xs">
-            今日
-          </span>
+          <div class="flex items-center justify-between w-full gap-1 ">
+            <span class="text-sm font-semibold" :class="{
+              'text-base-content/40': !isSameMonth(day, calendar.anchorDate.value ?? new Date()),
+              'text-primary': isSameDay(day, new Date()),
+            }">
+              {{ day.getDate() }}
+            </span>
+            <span v-if="getGovernmentHolidayLabel(day)" class="text-[11px] text-error truncate">
+              {{ getGovernmentHolidayLabel(day) }}
+            </span>
+            <span v-if="isSameDay(day, new Date())" class="badge badge-primary badge-xs">
+              今日
+            </span>
+          </div>
         </div>
         <div class="space-y-1 flex-1">
           <ol class="space-y-0.5">
-            <li v-for="eventItem in getMonthCellEvents(calendar.filteredEvents.value ?? [], day).slice(0, 3)"
+            <li v-for="eventItem in getVisibleEvents(day).slice(0, 3)"
               :key="eventItem.id"
               class="text-xs rounded px-1.5 py-0.5 border truncate block cursor-pointer hover:brightness-95"
               :class="getEventColor(eventItem.type, eventItem)" data-event-block="true"
@@ -91,9 +109,9 @@ function getDayBackgroundClass(day: Date): string {
               @mousemove="eventTooltip.move($event.clientX, $event.clientY)" @mouseleave="eventTooltip.hide()">
               {{ eventItem.title }}
             </li>
-            <li v-if="getMonthCellEvents(calendar.filteredEvents.value ?? [], day).length > 3"
+            <li v-if="getVisibleEvents(day).length > 3"
               class="text-xs text-base-content/50 px-1">
-              +{{ getMonthCellEvents(calendar.filteredEvents.value ?? [], day).length - 3 }} 項
+              +{{ getVisibleEvents(day).length - 3 }} 項
             </li>
           </ol>
         </div>

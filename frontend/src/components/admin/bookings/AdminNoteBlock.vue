@@ -24,10 +24,10 @@ function saveNote() {
 }
 </script>
 <template>
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
         <div class="flex items-center justify-between">
-          <h3 class="font-bold text-base">管理員備注</h3>
+          <h3 class="card-title">管理員備注</h3>
           <button class="btn btn-ghost" @click="adminNoteEdit = !adminNoteEdit">
             {{ adminNoteEdit ? '取消' : '編輯' }}
           </button>

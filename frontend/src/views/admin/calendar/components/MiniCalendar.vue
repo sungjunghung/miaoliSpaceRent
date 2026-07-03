@@ -74,7 +74,7 @@ function weekRowClass(week: Date[]): string {
 </script>
 
 <template>
-  <div class="w-64 shrink-0 border border-base-300 rounded-lg bg-base-100 p-3 select-none">
+  <div class="w-64 shrink-0 basis-box p-3 select-none">
     <div class="flex items-center justify-between mb-2">
       <button class="btn btn-ghost btn-xs btn-square" @click="miniPrev">
         <span class="material-symbols-outlined text-sm">chevron_left</span>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { inject, computed, ref, type Ref } from 'vue';
 import RentalModeCollapse from './components/RentalModeCollapse.vue';
+import IdentityPricingTable from './components/IdentityPricingTable.vue';
 
 interface SessionDef {
   name: string;
@@ -137,23 +138,6 @@ function addSession() {
   });
 }
 
-function addIdentityRow(mode: 'daily' | 'hourly') {
-  formData.value.pricing[mode].identityRows.push({ label: '', weekday: 0, weekend: 0 });
-}
-
-function removeIdentityRow(mode: 'daily' | 'hourly', index: number) {
-  formData.value.pricing[mode].identityRows.splice(index, 1);
-}
-
-// 時段：每個時段各自的身份價格列
-function addSessionIdentityRow(session: SessionDef) {
-  session.identityRows.push({ label: '', weekday: 0, weekend: 0 });
-}
-
-function removeSessionIdentityRow(session: SessionDef, index: number) {
-  session.identityRows.splice(index, 1);
-}
-
 function removeSession(index: number) {
   formData.value.rentalModes.session.sessions.splice(index, 1);
 }
@@ -226,9 +210,9 @@ function handleSave() {
 </script>
 
 <template>
-  <div class="space-y-4 p-4">
+  <div class="admin-container-info">
     <!-- ========== 假日定義（各模式共用） ========== -->
-    <div class="card bg-base-100 shadow-sm mb-6">
+    <div class="card basic-card">
       <div class="card-body space-y-3">
         <h2 class="card-title">
           <span class="material-symbols-outlined text-primary">calendar_month</span>
@@ -243,7 +227,7 @@ function handleSave() {
           <div class="flex flex-wrap gap-8">
             <label v-for="wd in weekdayOptions" :key="wd.value" class="label cursor-pointer gap-2">
               <input type="checkbox" class="checkbox checkbox-success"
-              :checked="formData.weekendDays?.includes(wd.value)" @change="toggleWeekendDay(wd.value)" />
+                :checked="formData.weekendDays?.includes(wd.value)" @change="toggleWeekendDay(wd.value)" />
               <span>{{ wd.label }}</span>
             </label>
             <label class="label cursor-pointer gap-2">
@@ -254,189 +238,106 @@ function handleSave() {
         </template>
       </div>
     </div>
-  <!-- ========== 模式分段切換 ========== -->
-  <div role="tablist" class="tabs tabs-border bg-base-100 mb-0">
-    <button v-for="t in modeTabs" :key="t.key" class="tab"
-      :class="{ 'tab-active': activeMode === t.key }" @click="activeMode = t.key">
-      {{ t.label }}
-    </button>
-  </div>
-
-  <!-- 整日租借 -->
-  <div  v-show="activeMode === 'daily'">
-    <RentalModeCollapse mode-key="daily" @copy="copyModeSettings">
-      <template #limits>
-        <fieldset class="fieldset append">
-          <label class="label">最少租借天數</label>
-          <div class="input">
-            <input v-model.number="formData.rentalModes.daily.minDays" type="number" min="1" class="grow text-end" />
-            <span>天</span>
-          </div>
-        </fieldset>
-        <fieldset class="fieldset append">
-          <label class="label">最多租借天數</label>
-          <div class="input">
-            <input v-model.number="formData.rentalModes.daily.maxDays" type="number" min="1" class="grow text-end" />
-            <span>天</span>
-          </div>
-        </fieldset>
-      </template>
-
-      <!-- 價格表：「一般民眾」為基準列，可自訂新增身份 -->
-      <div class="overflow-x-auto">
-        <table class="table table-sm w-auto">
-          <thead>
-            <tr>
-              <th>身份別</th>
-              <th class="text-end">平日價</th>
-              <th v-if="weekendPricingEnabled" class="text-end">假日價</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="font-medium">一般民眾</td>
-              <td class="text-end"><input v-model.number="formData.pricing.daily.weekday" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-              <td v-if="weekendPricingEnabled" class="text-end"><input v-model.number="formData.pricing.daily.weekend" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-              <td></td>
-            </tr>
-            <tr v-for="(row, i) in formData.pricing.daily.identityRows" :key="i">
-              <td><input v-model="row.label" type="text" placeholder="例如：在地居民" class="input input-sm w-32" /></td>
-              <td class="text-end"><input v-model.number="row.weekday" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-              <td v-if="weekendPricingEnabled" class="text-end"><input v-model.number="row.weekend" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-              <td>
-                <button type="button" class="btn btn-error btn-ghost btn-square btn-sm" @click="removeIdentityRow('daily', i)">
-                  <span class="material-symbols-outlined text-lg">delete</span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <button type="button" class="btn btn-neutral btn-sm w-fit mt-2" @click="addIdentityRow('daily')">＋ 新增身份</button>
-    </RentalModeCollapse>
-  </div>
-
-  <!-- 時段租借 -->
-  <div v-show="activeMode === 'session'">
-    <RentalModeCollapse mode-key="session" @copy="copyModeSettings">
-      <p class="text-sm text-base-content/50 mb-2">自訂租借時段；每個時段可各自設定名稱、時間與身份價格。</p>
-
-      <div v-if="!formData.rentalModes.session.sessions.length" class="text-center text-base-content/30 italic py-4">
-        尚未新增時段
+    <!-- ========== 模式分段切換 ========== -->
+    <div class="basis-box">
+      <div role="tablist" class="tabs tabs-border bg-base-100 mb-0">
+        <button v-for="t in modeTabs" :key="t.key" class="tab"
+          :class="{ 'tab-active  before:border-primary': activeMode === t.key }" @click="activeMode = t.key">
+          {{ t.label }}
+        </button>
       </div>
 
-      <div v-for="(session, index) in formData.rentalModes.session.sessions" :key="index"
-        class="border border-base-300 rounded-box p-4 mb-4 space-y-3">
-        <!-- 時段基本資料 -->
-        <div class="flex items-center gap-2">
-          <input v-model="session.name" type="text" placeholder="時段名稱" class="input input-sm w-40" />
-          <select v-model="session.startTime" class="select select-sm">
-            <option v-for="opt in hourOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
-          </select>
-          <span class="text-base-content/50">~</span>
-          <select v-model="session.endTime" class="select select-sm">
-            <option v-for="opt in hourOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
-          </select>
-          <button type="button" class="btn btn-error btn-ghost btn-square btn-sm ml-auto" @click="removeSession(index)">
-            <span class="material-symbols-outlined text-lg">delete</span>
-          </button>
-        </div>
+      <!-- 整日租借 -->
+      <div v-show="activeMode === 'daily'">
+        <RentalModeCollapse mode-key="daily" @copy="copyModeSettings">
+          <template #limits>
+            <fieldset class="fieldset append">
+              <label class="label">最少租借天數</label>
+              <div class="input">
+                <input v-model.number="formData.rentalModes.daily.minDays" type="number" min="1"
+                  class="grow text-end" />
+                <span>天</span>
+              </div>
+            </fieldset>
+            <fieldset class="fieldset append">
+              <label class="label">最多租借天數</label>
+              <div class="input">
+                <input v-model.number="formData.rentalModes.daily.maxDays" type="number" min="1"
+                  class="grow text-end" />
+                <span>天</span>
+              </div>
+            </fieldset>
+          </template>
 
-        <!-- 該時段的身份價格表：一般民眾為基準列 -->
-        <div class="overflow-x-auto">
-          <table class="table table-sm w-auto">
-            <thead>
-              <tr>
-                <th>身份別</th>
-                <th class="text-end">平日價</th>
-                <th v-if="weekendPricingEnabled" class="text-end">假日價</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="font-medium">一般民眾</td>
-                <td class="text-end"><input v-model.number="session.weekday" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-                <td v-if="weekendPricingEnabled" class="text-end"><input v-model.number="session.weekend" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-                <td></td>
-              </tr>
-              <tr v-for="(row, i) in session.identityRows" :key="i">
-                <td><input v-model="row.label" type="text" placeholder="例如：在地居民" class="input input-sm w-32" /></td>
-                <td class="text-end"><input v-model.number="row.weekday" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-                <td v-if="weekendPricingEnabled" class="text-end"><input v-model.number="row.weekend" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-                <td>
-                  <button type="button" class="btn btn-error btn-ghost btn-square btn-sm" @click="removeSessionIdentityRow(session, i)">
-                    <span class="material-symbols-outlined text-lg">delete</span>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <button type="button" class="btn btn-neutral btn-sm w-fit" @click="addSessionIdentityRow(session)">＋ 新增身份</button>
+          <!-- 價格表：「一般民眾」為基準列，可自訂新增身份 -->
+          <IdentityPricingTable :pricing="formData.pricing.daily" :weekend-pricing-enabled="weekendPricingEnabled" />
+        </RentalModeCollapse>
       </div>
 
-      <button type="button" class="btn btn-neutral btn-sm w-fit mt-2" @click="addSession">＋ 新增時段</button>
-    </RentalModeCollapse>
-  </div>
+      <!-- 時段租借 -->
+      <div v-show="activeMode === 'session'">
+        <RentalModeCollapse mode-key="session" @copy="copyModeSettings">
+          <p class="text-sm text-base-content/50 mb-2">自訂租借時段；每個時段可各自設定名稱、時間與身份價格。</p>
 
-  <!-- 計時租借 -->
-  <div v-show="activeMode === 'hourly'">
-    <RentalModeCollapse mode-key="hourly" @copy="copyModeSettings">
-      <template #limits>
-        <fieldset class="fieldset append">
-          <label class="label">最低時數</label>
-          <div class="input">
-            <input v-model.number="formData.rentalModes.hourly.minHours" type="number" min="1" class="grow text-end" />
-            <span>小時</span>
+          <div v-if="!formData.rentalModes.session.sessions.length"
+            class="text-center text-base-content/30 italic py-4">
+            尚未新增時段
           </div>
-        </fieldset>
-        <fieldset class="fieldset append">
-          <label class="label">最多時數</label>
-          <div class="input">
-            <input v-model.number="formData.rentalModes.hourly.maxHours" type="number" min="1" class="grow text-end" />
-            <span>小時</span>
-          </div>
-        </fieldset>
-      </template>
 
-      <!-- 價格表：「一般民眾」為基準列，可自訂新增身份 -->
-      <div class="overflow-x-auto">
-        <table class="table table-sm w-auto">
-          <thead>
-            <tr>
-              <th>身份別</th>
-              <th class="text-end">平日價</th>
-              <th v-if="weekendPricingEnabled" class="text-end">假日價</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="font-medium">一般民眾</td>
-              <td class="text-end"><input v-model.number="formData.pricing.hourly.weekday" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-              <td v-if="weekendPricingEnabled" class="text-end"><input v-model.number="formData.pricing.hourly.weekend" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-              <td></td>
-            </tr>
-            <tr v-for="(row, i) in formData.pricing.hourly.identityRows" :key="i">
-              <td><input v-model="row.label" type="text" placeholder="例如：在地居民" class="input input-sm w-32" /></td>
-              <td class="text-end"><input v-model.number="row.weekday" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-              <td v-if="weekendPricingEnabled" class="text-end"><input v-model.number="row.weekend" type="number" min="0" class="input input-sm w-24 text-end" /></td>
-              <td>
-                <button type="button" class="btn btn-error btn-ghost btn-square btn-sm" @click="removeIdentityRow('hourly', i)">
-                  <span class="material-symbols-outlined text-lg">delete</span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <div v-for="(session, index) in formData.rentalModes.session.sessions" :key="index"
+            class="border border-base-300 rounded-box p-4 mb-4 space-y-3">
+            <!-- 時段基本資料 -->
+            <div class="flex items-center gap-2">
+              <input v-model="session.name" type="text" placeholder="時段名稱" class="input flex-1" />
+              <select v-model="session.startTime" class="select flex-1">
+                <option v-for="opt in hourOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+              </select>
+              <span class="text-base-content/50">~</span>
+              <select v-model="session.endTime" class="select flex-1">
+                <option v-for="opt in hourOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+              </select>
+              <button type="button" class="btn btn-error btn-ghost btn-square btn-sm ml-auto"
+                @click="removeSession(index)">
+                <span class="material-symbols-outlined text-lg">delete</span>
+              </button>
+            </div>
+
+            <!-- 該時段的身份價格表：一般民眾為基準列 -->
+            <IdentityPricingTable :pricing="session" :weekend-pricing-enabled="weekendPricingEnabled" />
+          </div>
+
+          <button type="button" class="btn btn-neutral btn-sm w-fit mt-2" @click="addSession">＋ 新增時段</button>
+        </RentalModeCollapse>
       </div>
-      <button type="button" class="btn btn-neutral btn-sm w-fit mt-2" @click="addIdentityRow('hourly')">＋ 新增身份</button>
-    </RentalModeCollapse>
-  </div>
-</div>
 
+      <!-- 計時租借 -->
+      <div v-show="activeMode === 'hourly'">
+        <RentalModeCollapse mode-key="hourly" @copy="copyModeSettings">
+          <template #limits>
+            <fieldset class="fieldset append">
+              <label class="label">最低時數</label>
+              <div class="input">
+                <input v-model.number="formData.rentalModes.hourly.minHours" type="number" min="1"
+                  class="grow text-end" />
+                <span>小時</span>
+              </div>
+            </fieldset>
+            <fieldset class="fieldset append">
+              <label class="label">最多時數</label>
+              <div class="input">
+                <input v-model.number="formData.rentalModes.hourly.maxHours" type="number" min="1"
+                  class="grow text-end" />
+                <span>小時</span>
+              </div>
+            </fieldset>
+          </template>
+
+          <!-- 價格表：「一般民眾」為基準列，可自訂新增身份 -->
+          <IdentityPricingTable :pricing="formData.pricing.hourly" :weekend-pricing-enabled="weekendPricingEnabled" />
+        </RentalModeCollapse>
+      </div>
+    </div>
+  </div>
   <!-- 儲存（sticky） -->
   <div class="sticky bottom-0 z-10 mt-6 flex justify-end border-t border-base-300 bg-base-100/90 py-3 backdrop-blur">
     <button type="button" class="btn btn-primary px-8" @click="handleSave">儲存租借方式</button>

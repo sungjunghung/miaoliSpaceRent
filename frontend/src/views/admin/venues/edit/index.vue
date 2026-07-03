@@ -112,7 +112,7 @@ const tabs = [
   { key: 'basic', label: '場館資料', routeName: 'admin-venue-edit-basic' },
   { key: 'rental', label: '租借方式', routeName: 'admin-venue-edit-rental' },
   { key: 'rental-items', label: '附加項目', routeName: 'admin-venue-edit-rental-items' },
-  { key: 'photos', label: '場館場館照片', routeName: 'admin-venue-edit-photos' },
+  { key: 'photos', label: '場館照片', routeName: 'admin-venue-edit-photos' },
 ];
 
 const activeTab = computed(() => {
@@ -186,13 +186,14 @@ function confirmDelete() {
 
     <!-- Tabs -->
     <div role="tablist" class="tabs tabs-border bg-base-100 px-2">
-      <button v-for="tab in tabs" :key="tab.key" role="tab" class="tab" :class="{ 'tab-active': activeTab === tab.key }"
+      <button v-for="tab in tabs" :key="tab.key" role="tab" class="tab " :class="{ 'tab-active before:border-primary': activeTab === tab.key }"
         @click="navigateTab(tab)">
         {{ tab.label }}
       </button>
     </div>
   </div>
   <!-- Sub-page content -->
+  
   <router-view />
 
   <!-- 刪除確認 -->

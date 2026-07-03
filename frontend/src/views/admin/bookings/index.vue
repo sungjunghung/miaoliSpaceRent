@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-4 p-4">
+  <div class="admin-container-flush">
 
     <!-- 年份 + 月份 + 篩選 -->
     <div class="flex items-center justify-between gap-2 flex-wrap">
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <div class="basis-table-container">
+    <div class="basis-table">
       <table class="table">
         <thead>
           <tr>

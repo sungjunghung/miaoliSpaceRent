@@ -20,9 +20,9 @@ function rejectPayment() {
 }
 </script>
 <template>
-    <div class="card bg-base-100 shadow-sm">
+    <div class="card basic-card">
       <div class="card-body">
-        <h3 class="font-bold text-base">繳費狀態</h3>
+        <h3 class="card-title">繳費狀態</h3>
         <template v-if="booking.documents?.some(d => d.required) && !booking.documentApprovedAt">
           <div role="alert" class="alert alert-soft alert-info">
             <span class="material-symbols-outlined text-base shrink-0">info</span>
