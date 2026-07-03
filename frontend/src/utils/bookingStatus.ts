@@ -1,6 +1,15 @@
+import type { RefundStatus } from '@/types/refund'
+
 export interface StatusDisplay {
   label: string
   className: string
+}
+
+/** 前台退款狀態：不揭露內部簽核過程（承辦/會計/出納），只呈現退款中/退款完成/已駁回 */
+export function getPortalRefundStatusDisplay(status: RefundStatus): StatusDisplay {
+  if (status === 'completed') return { label: '退款完成', className: 'badge-success' }
+  if (status === 'rejected') return { label: '已駁回', className: 'badge-error' }
+  return { label: '退款中', className: 'badge-info' }
 }
 
 /** 訂單主狀態 → 標籤 + badge 顏色（admin 與 portal 共用） */

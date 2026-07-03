@@ -23,8 +23,8 @@
           <div class="flex items-center gap-2 flex-wrap">
             <h3 class="card-title">{{ refund.id }}</h3>
             <span class="badge badge-outline">{{ REFUND_TYPE_LABELS[refund.type] }}</span>
-            <span :class="['badge', portalRefundStatus(refund.status).className]">
-              {{ portalRefundStatus(refund.status).label }}
+            <span :class="['badge', getPortalRefundStatusDisplay(refund.status).className]">
+              {{ getPortalRefundStatusDisplay(refund.status).label }}
             </span>
           </div>
 
@@ -78,7 +78,8 @@
 import { computed } from 'vue'
 import PageHeaderBasic from '@/components/portal/PageHeaderBasic.vue'
 import { useAuthStore } from '@/stores/auth'
-import { REFUND_TYPE_LABELS, useRefundsStore, type RefundStatus } from '@/stores/refunds'
+import { REFUND_TYPE_LABELS, useRefundsStore } from '@/stores/refunds'
+import { getPortalRefundStatusDisplay } from '@/utils/bookingStatus'
 import { users as mockUsers } from '@/services/userService'
 
 const authStore = useAuthStore()
@@ -96,12 +97,5 @@ const memberRefunds = computed(() =>
 function formatDate(date: string | null) {
   if (!date) return '—'
   return date.replaceAll('-', '/')
-}
-
-// 前台不揭露內部簽核過程（承辦/會計/出納），只呈現退款中與退款完成
-function portalRefundStatus(status: RefundStatus): { label: string; className: string } {
-  if (status === 'completed') return { label: '退款完成', className: 'badge-success' }
-  if (status === 'rejected') return { label: '已駁回', className: 'badge-error' }
-  return { label: '退款中', className: 'badge-info' }
 }
 </script>
