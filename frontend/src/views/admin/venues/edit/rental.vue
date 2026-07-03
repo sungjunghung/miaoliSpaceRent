@@ -1,81 +1,13 @@
 <script setup lang="ts">
 import { inject, computed, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import RentalModeCollapse from './components/RentalModeCollapse.vue';
+import RentalModeSettings from './components/RentalModeSettings.vue';
 import IdentityPricingTable from './components/IdentityPricingTable.vue';
-
-interface SessionDef {
-  name: string;
-  startTime: string;
-  endTime: string;
-  weekday: number;
-  weekend: number;
-  // 每個時段各自一張身份價格表（一個時段一組）
-  identityRows: IdentityRow[];
-}
-
-// 場館自訂的身份價格列（各場館各自定義，非共用清單）
-interface IdentityRow {
-  label: string;
-  weekday: number;
-  weekend: number;
-}
-
-interface ModePricing {
-  weekday: number;
-  weekend: number;
-  identityRows: IdentityRow[];
-}
-
-interface RequiredDocument {
-  key: string;
-  label: string;
-  hint: string;
-  required: boolean;
-  templateFile?: string | null;
-}
-
-interface RentalModeBase {
-  enabled: boolean;
-  requireDocuments: boolean;
-  requiredDocuments: RequiredDocument[];
-  depositEnabled: boolean;
-  depositAmount: number;
-  setupTeardownEnabled: boolean;
-  setupAllowanceHours: number;
-  teardownAllowanceHours: number;
-  setupOverageUnitMinutes: number;
-  teardownOverageUnitMinutes: number;
-  setupOverageFeePerUnit: number;
-  teardownOverageFeePerUnit: number;
-  advanceBookingDays: number;
-  latestBookingDays: number;
-  cancellationDeadlineDays: number;
-  receiptUploadDeadlineDays: number;
-  documentUploadDeadlineDays: number;
-}
-
-interface Venue {
-  rentalModes: {
-    daily: RentalModeBase & { minDays: number; maxDays: number };
-    session: RentalModeBase & { sessions: SessionDef[] };
-    hourly: RentalModeBase & { minHours: number; maxHours: number };
-  };
-  pricing: {
-    daily: ModePricing;
-    hourly: ModePricing;
-  };
-  pricePerHour: number;
-  // 假日價格為場館層級共用
-  weekendPricingEnabled: boolean;
-  weekendDays: number[];
-  weekendIncludeHolidays: boolean;
-}
+import type { RequiredDocument, VenueEditFormData } from '@/services/venueEditService';
 
 type ModeKey = 'daily' | 'session' | 'hourly';
 
-const formData = inject<Ref<Venue>>('venueFormData')!;
-const venueDefaults = formData.value as Venue & Record<string, any>;
+const formData = inject<Ref<VenueEditFormData>>('venueFormData')!;
 
 const MODE_LABELS: Record<ModeKey, string> = { daily: '整日租借', session: '時段租借', hourly: '計時租借' };
 // 模式由路由參數決定（頂層頁籤：整日/時段/計時共用本頁）
@@ -84,44 +16,6 @@ const activeMode = computed<ModeKey>(() => (route.params.mode as ModeKey) || 'da
 
 // 假日價格是否啟用 = 場館層級開關（各處假日欄位依此顯示）
 const weekendPricingEnabled = computed(() => formData.value.weekendPricingEnabled);
-
-// 確保每個租借方式都有各自管理的欄位（含申請與期限）
-for (const mode of ['daily', 'session', 'hourly'] as const) {
-  const rm = formData.value.rentalModes[mode] as any;
-  if (!('depositEnabled' in rm)) rm.depositEnabled = false;
-  rm.depositAmount ??= 0;
-  if (!('setupTeardownEnabled' in rm)) rm.setupTeardownEnabled = true;
-  rm.setupAllowanceHours ??= 1;
-  rm.teardownAllowanceHours ??= 1;
-  rm.setupOverageUnitMinutes ??= 30;
-  rm.teardownOverageUnitMinutes ??= 30;
-  rm.setupOverageFeePerUnit ??= 0;
-  rm.teardownOverageFeePerUnit ??= 0;
-  rm.advanceBookingDays ??= venueDefaults.advanceBookingDays ?? 7;
-  rm.latestBookingDays ??= venueDefaults.latestBookingDays ?? 1;
-  rm.cancellationDeadlineDays ??= venueDefaults.cancellationDeadlineDays ?? 7;
-  rm.receiptUploadDeadlineDays ??= venueDefaults.receiptUploadDeadlineDays ?? 3;
-  rm.documentUploadDeadlineDays ??= venueDefaults.documentUploadDeadlineDays ?? 7;
-}
-
-// 身份價格預設（整日/計時各一張表；時段則每個時段各一張，見下方 sessions）
-for (const mode of ['daily', 'hourly'] as const) {
-  const p = (formData.value.pricing[mode] ??= {} as any);
-  p.identityRows ??= [];
-}
-
-// 確保 sessions 是新格式（陣列物件）
-function ensureSessionFormat() {
-  const s = formData.value.rentalModes.session;
-  if (!Array.isArray(s.sessions) || (s.sessions.length > 0 && typeof s.sessions[0] === 'string')) {
-    (s as any).sessions = [];
-  }
-}
-ensureSessionFormat();
-// 既有時段補上各自的身份價格表預設
-for (const s of formData.value.rentalModes.session.sessions) {
-  (s as any).identityRows ??= [];
-}
 
 function addSession() {
   formData.value.rentalModes.session.sessions.push({
@@ -188,7 +82,7 @@ function handleSave() {
   <div class="admin-container-info">
     <div>
       <!-- 整日租借 -->
-      <RentalModeCollapse v-if="activeMode === 'daily'" mode-key="daily" @copy="copyModeSettings">
+      <RentalModeSettings v-if="activeMode === 'daily'" mode-key="daily" @copy="copyModeSettings">
         <template #limits>
           <fieldset class="fieldset append">
             <label class="label">最少租借天數</label>
@@ -210,10 +104,10 @@ function handleSave() {
 
         <!-- 價格表：「一般民眾」為基準列，可自訂新增身份 -->
         <IdentityPricingTable :pricing="formData.pricing.daily" :weekend-pricing-enabled="weekendPricingEnabled" />
-      </RentalModeCollapse>
+      </RentalModeSettings>
 
       <!-- 時段租借 -->
-      <RentalModeCollapse v-if="activeMode === 'session'" mode-key="session" @copy="copyModeSettings">
+      <RentalModeSettings v-if="activeMode === 'session'" mode-key="session" @copy="copyModeSettings">
         <p class="text-sm text-base-content/50 mb-2">自訂租借時段；每個時段可各自設定名稱、時間與身份價格。</p>
 
         <div v-if="!formData.rentalModes.session.sessions.length"
@@ -244,10 +138,10 @@ function handleSave() {
         </div>
 
         <button type="button" class="btn btn-neutral btn-sm w-fit mt-2" @click="addSession">＋ 新增時段</button>
-      </RentalModeCollapse>
+      </RentalModeSettings>
 
       <!-- 計時租借 -->
-      <RentalModeCollapse v-if="activeMode === 'hourly'" mode-key="hourly" @copy="copyModeSettings">
+      <RentalModeSettings v-if="activeMode === 'hourly'" mode-key="hourly" @copy="copyModeSettings">
         <template #limits>
           <fieldset class="fieldset append">
             <label class="label">最低時數</label>
@@ -269,7 +163,7 @@ function handleSave() {
 
         <!-- 價格表：「一般民眾」為基準列，可自訂新增身份 -->
         <IdentityPricingTable :pricing="formData.pricing.hourly" :weekend-pricing-enabled="weekendPricingEnabled" />
-      </RentalModeCollapse>
+      </RentalModeSettings>
     </div>
   </div>
   <!-- 儲存（sticky） -->

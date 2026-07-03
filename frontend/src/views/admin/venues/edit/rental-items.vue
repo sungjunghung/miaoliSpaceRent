@@ -1,28 +1,13 @@
 <script setup lang="ts">
 import { inject, ref, type Ref } from 'vue';
-
-interface RentalItem {
-  label: string;
-  unit: string;
-  amount: number;
-  quantity: number;
-  maxPerBooking: number;
-}
-
-interface Venue {
-  rentalItems: RentalItem[];
-}
+import type { VenueEditFormData } from '@/services/venueEditService';
 
 // 單位量詞選項（涵蓋常見租借設備：桌椅、影音器材、帳篷、舞台等）
 const unitOptions = ['個', '張', '把', '台', '組', '套', '支', '面', '頂', '座', '塊', '條', '架', '間', '箱', '捲', '次'];
 
-const formData = inject<Ref<Venue>>('venueFormData')!;
+const formData = inject<Ref<VenueEditFormData>>('venueFormData')!;
 const dragIndex = ref<number | null>(null);
 const dragOverIndex = ref<number | null>(null);
-
-if (!('rentalItems' in formData.value)) {
-  (formData.value as any).rentalItems = [];
-}
 
 function addItem() {
   formData.value.rentalItems.push({ label: '', unit: '個', amount: 0, quantity: 1, maxPerBooking: 1 });

@@ -1,36 +1,16 @@
 <script setup lang="ts">
 import { inject, ref, computed, type Ref, type ComputedRef } from 'vue';
 import OpeningHoursEditor from './components/OpeningHoursEditor.vue';
+import type { VenueBaseRecord, VenueEditFormData } from '@/services/venueEditService';
 
-interface Venue {
-  id: number;
-  parentId: number | null;
-  name: string;
-  status: string;
-  capacity: number;
-  location: string;
-  type: string;
-  description: string;
-  facilities: string[];
-  openingHours: Record<string, { open: string; close: string; lunchBreakStart?: string; lunchBreakEnd?: string }>;
-  closedWeekdays: number[];
-  closedDates: string[];
-  notices: string[];
-  isActive?: boolean;
-  // 假日價格為場館層級共用（各租借模式的假日價欄位依此顯示）
-  weekendPricingEnabled: boolean;
-  weekendDays: number[];
-  weekendIncludeHolidays: boolean;
-}
-
-const formData = inject<Ref<Venue>>('venueFormData')!;
-const allVenues = inject<ComputedRef<Venue[]>>('allVenues')!;
+const formData = inject<Ref<VenueEditFormData>>('venueFormData')!;
+const allVenues = inject<ComputedRef<VenueBaseRecord[]>>('allVenues')!;
 
 const topLevelVenues = computed(() =>
   allVenues.value.filter((v) => v.parentId === null && v.id !== formData.value.id),
 );
 
-function getVenueDepth(v: Venue): number {
+function getVenueDepth(v: VenueBaseRecord): number {
   let depth = 0;
   let current = v;
   while (current.parentId !== null) {

@@ -1,25 +1,13 @@
 <script setup lang="ts">
 // 身份價格表：「一般民眾」為基準列，可自訂新增身份
 // pricing 為響應式物件（整日/計時的 ModePricing 或單一時段 SessionDef），直接就地修改
-interface IdentityRow {
-  label: string;
-  weekday: number;
-  weekend: number;
-}
+import type { ModePricing } from '@/services/venueEditService';
+import { formatPrice, parsePriceInput } from '@/utils/priceInput';
 
 const props = defineProps<{
-  pricing: { weekday: number; weekend: number; identityRows: IdentityRow[] };
+  pricing: ModePricing;
   weekendPricingEnabled: boolean;
 }>();
-
-function formatPrice(value: number) {
-  return Math.max(0, value).toLocaleString('en-US');
-}
-
-function parsePriceInput(value: string) {
-  const digitsOnly = value.replace(/\D/g, '');
-  return digitsOnly === '' ? 0 : Number(digitsOnly);
-}
 
 function updatePrice(event: Event, apply: (value: number) => void) {
   const input = event.target as HTMLInputElement;

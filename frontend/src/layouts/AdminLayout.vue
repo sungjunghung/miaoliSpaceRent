@@ -55,7 +55,7 @@
 		</div>
 
 		<!-- 側邊選單（drawer）：Logo + 分組導覽 + 收合鈕 -->
-		<div class="drawer-side overflow-visible shadow-xl z-50 transition-transform duration-200 ease-out ">
+		<div class="drawer-side overflow-visible shadow-xl z-50 transition-transform duration-200 ease-out bg-base-300 shadow-lg">
 			<label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
 			<div
 				class="flex min-h-full flex-col items-start border-r border-base-300 transition-[width] duration-200 ease-out is-drawer-close:w-fit is-drawer-open:w-64">

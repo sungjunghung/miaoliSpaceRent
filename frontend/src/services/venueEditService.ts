@@ -19,12 +19,28 @@ export interface RequiredDocument {
   appliesTo: { daily: boolean; session: boolean; hourly: boolean };
 }
 
+// 場館自訂的身份價格列（各場館各自定義，非共用清單）
+export interface IdentityRow {
+  label: string;
+  weekday: number;
+  weekend: number;
+}
+
+// 一組價格：一般民眾基準價 + 自訂身份列
+export interface ModePricing {
+  weekday: number;
+  weekend: number;
+  identityRows: IdentityRow[];
+}
+
 export interface SessionDef {
   name: string;
   startTime: string;
   endTime: string;
   weekday: number;
   weekend: number;
+  // 每個時段各自一張身份價格表
+  identityRows: IdentityRow[];
 }
 
 export interface RentalItem {
@@ -33,6 +49,31 @@ export interface RentalItem {
   amount: number;
   quantity: number;
   maxPerBooking: number;
+}
+
+// 各租借模式共通的規則欄位（申請期限、保證金、場佈撤場、文件）
+export interface RentalModeBase {
+  enabled: boolean;
+  requireDocuments: boolean;
+  requiredDocuments: RequiredDocument[];
+  depositEnabled: boolean;
+  depositAmount: number;
+  setupTeardownEnabled: boolean;
+  setupAllowanceHours: number;
+  teardownAllowanceHours: number;
+  setupOverageUnitMinutes: number;
+  teardownOverageUnitMinutes: number;
+  setupOverageFeePerUnit: number;
+  teardownOverageFeePerUnit: number;
+  overageRoundingMode: 'ceil' | 'floor' | 'nearest';
+  advanceBookingDays: number;
+  latestBookingDays: number;
+  cancellationDeadlineDays: number;
+  receiptUploadDeadlineDays: number;
+  documentUploadDeadlineDays: number;
+  weekendPricingEnabled: boolean;
+  weekendDays: number[];
+  weekendIncludeHolidays: boolean;
 }
 
 export interface VenueEditFormData {
@@ -50,67 +91,14 @@ export interface VenueEditFormData {
   facilities: string[];
   openingHours: Record<string, { open: string; close: string; lunchBreakStart?: string; lunchBreakEnd?: string }>;
   rentalModes: {
-    daily: {
-      enabled: boolean;
-      minDays: number;
-      maxDays: number;
-      requireDocuments: boolean;
-      requiredDocuments: RequiredDocument[];
-      depositEnabled: boolean;
-      depositAmount: number;
-      setupAllowanceHours: number;
-      teardownAllowanceHours: number;
-      setupOverageUnitMinutes: number;
-      teardownOverageUnitMinutes: number;
-      setupOverageFeePerUnit: number;
-      teardownOverageFeePerUnit: number;
-      overageRoundingMode: 'ceil' | 'floor' | 'nearest';
-      weekendPricingEnabled: boolean;
-      weekendDays: number[];
-      weekendIncludeHolidays: boolean;
-    };
-    session: {
-      enabled: boolean;
-      sessions: SessionDef[];
-      requireDocuments: boolean;
-      requiredDocuments: RequiredDocument[];
-      depositEnabled: boolean;
-      depositAmount: number;
-      setupAllowanceHours: number;
-      teardownAllowanceHours: number;
-      setupOverageUnitMinutes: number;
-      teardownOverageUnitMinutes: number;
-      setupOverageFeePerUnit: number;
-      teardownOverageFeePerUnit: number;
-      overageRoundingMode: 'ceil' | 'floor' | 'nearest';
-      weekendPricingEnabled: boolean;
-      weekendDays: number[];
-      weekendIncludeHolidays: boolean;
-    };
-    hourly: {
-      enabled: boolean;
-      minHours: number;
-      maxHours: number;
-      requireDocuments: boolean;
-      requiredDocuments: RequiredDocument[];
-      depositEnabled: boolean;
-      depositAmount: number;
-      setupAllowanceHours: number;
-      teardownAllowanceHours: number;
-      setupOverageUnitMinutes: number;
-      teardownOverageUnitMinutes: number;
-      setupOverageFeePerUnit: number;
-      teardownOverageFeePerUnit: number;
-      overageRoundingMode: 'ceil' | 'floor' | 'nearest';
-      weekendPricingEnabled: boolean;
-      weekendDays: number[];
-      weekendIncludeHolidays: boolean;
-    };
+    daily: RentalModeBase & { minDays: number; maxDays: number };
+    session: RentalModeBase & { sessions: SessionDef[] };
+    hourly: RentalModeBase & { minHours: number; maxHours: number };
   };
   pricing: {
-    daily: Record<string, number>;
-    session: Record<string, number>;
-    hourly: Record<string, number>;
+    daily: ModePricing;
+    session: ModePricing;
+    hourly: ModePricing;
   };
   closedWeekdays: number[];
   closedDates: string[];
@@ -128,7 +116,7 @@ export interface VenueEditFormData {
   requiredDocuments: RequiredDocument[];
 }
 
-interface VenueBaseRecord {
+export interface VenueBaseRecord {
   id: number;
   parentId: number | null;
   name: string;
@@ -320,19 +308,17 @@ function buildSessionDefs(venueId: number): SessionDef[] {
         endTime: record.endTime,
         weekday: price?.price ?? 0,
         weekend: price?.weekendPrice ?? price?.price ?? 0,
+        identityRows: [],
       };
     });
 }
 
-function buildPriceMap(venueId: number, mode: 'daily' | 'hourly') {
+function buildPriceMap(venueId: number, mode: 'daily' | 'hourly'): ModePricing {
   const record = priceRecords.find((price) => price.venueId === venueId && price.mode === mode);
-  if (!record) {
-    return {} as Record<string, number>;
-  }
-
   return {
-    weekday: record.price ?? 0,
-    weekend: record.weekendPrice ?? record.price ?? 0,
+    weekday: record?.price ?? 0,
+    weekend: record?.weekendPrice ?? record?.price ?? 0,
+    identityRows: [],
   };
 }
 
@@ -380,6 +366,70 @@ export function getAllVenueBaseRecords() {
   return baseRecords;
 }
 
+// 尚未載入（或查無場館）時的空白表單，形狀與 getVenueEditFormData 回傳一致
+export function createEmptyVenueEditFormData(): VenueEditFormData {
+  const emptyModeBase = (): RentalModeBase => ({
+    enabled: false,
+    requireDocuments: false,
+    requiredDocuments: [],
+    depositEnabled: false,
+    depositAmount: 0,
+    setupTeardownEnabled: true,
+    setupAllowanceHours: 1,
+    teardownAllowanceHours: 1,
+    setupOverageUnitMinutes: 30,
+    teardownOverageUnitMinutes: 30,
+    setupOverageFeePerUnit: 0,
+    teardownOverageFeePerUnit: 0,
+    overageRoundingMode: 'ceil',
+    advanceBookingDays: 7,
+    latestBookingDays: 1,
+    cancellationDeadlineDays: 7,
+    receiptUploadDeadlineDays: 3,
+    documentUploadDeadlineDays: 7,
+    weekendPricingEnabled: false,
+    weekendDays: [0, 6],
+    weekendIncludeHolidays: false,
+  });
+  const emptyPricing = (): ModePricing => ({ weekday: 0, weekend: 0, identityRows: [] });
+
+  return {
+    id: 0,
+    parentId: null,
+    name: '',
+    status: 'available',
+    capacity: 0,
+    location: '',
+    type: '',
+    description: '',
+    mainImageUrl: '',
+    gallery: [],
+    pricePerHour: 0,
+    facilities: [],
+    openingHours: {},
+    rentalModes: {
+      daily: { ...emptyModeBase(), minDays: 0, maxDays: 0 },
+      session: { ...emptyModeBase(), sessions: [] },
+      hourly: { ...emptyModeBase(), minHours: 0, maxHours: 0 },
+    },
+    pricing: { daily: emptyPricing(), session: emptyPricing(), hourly: emptyPricing() },
+    closedWeekdays: [],
+    closedDates: [],
+    rentalItems: [],
+    notices: [],
+    isActive: true,
+    advanceBookingDays: 7,
+    latestBookingDays: 1,
+    receiptUploadDeadlineDays: 3,
+    documentUploadDeadlineDays: 7,
+    cancellationDeadlineDays: 7,
+    weekendDays: [0, 6],
+    weekendIncludeHolidays: false,
+    weekendPricingEnabled: false,
+    requiredDocuments: [],
+  };
+}
+
 export function getVenueEditFormData(venueId: number): VenueEditFormData | null {
   const base = baseRecords.find((record) => record.id === venueId);
   if (!base) return null;
@@ -393,6 +443,16 @@ export function getVenueEditFormData(venueId: number): VenueEditFormData | null 
   const images = buildImages(venueId);
   const holidaySettings = getHolidaySettings(venueId);
   const weekendPricingEnabled = holidaySettings.weekendDays.length > 0 || holidaySettings.weekendIncludeHolidays;
+
+  // 各模式共通的規則欄位：mock 資料無 per-mode 值，以場館層級為預設（皆為純量，展開即各自一份）
+  const modeRules = {
+    setupTeardownEnabled: true,
+    advanceBookingDays: base.advanceBookingDays ?? 7,
+    latestBookingDays: base.latestBookingDays ?? 1,
+    cancellationDeadlineDays: base.cancellationDeadlineDays ?? 7,
+    receiptUploadDeadlineDays: base.receiptUploadDeadlineDays ?? 3,
+    documentUploadDeadlineDays: base.documentUploadDeadlineDays ?? 7,
+  };
 
   return {
     id: base.id,
@@ -424,6 +484,7 @@ export function getVenueEditFormData(venueId: number): VenueEditFormData | null 
         setupOverageFeePerUnit: rentalModeMap.get('daily')?.setupOverageFeePerUnit ?? 0,
         teardownOverageFeePerUnit: rentalModeMap.get('daily')?.teardownOverageFeePerUnit ?? 0,
         overageRoundingMode: rentalModeMap.get('daily')?.overageRoundingMode ?? 'ceil',
+        ...modeRules,
         weekendPricingEnabled,
         weekendDays: [...holidaySettings.weekendDays],
         weekendIncludeHolidays: holidaySettings.weekendIncludeHolidays,
@@ -442,6 +503,7 @@ export function getVenueEditFormData(venueId: number): VenueEditFormData | null 
         setupOverageFeePerUnit: rentalModeMap.get('timeslot')?.setupOverageFeePerUnit ?? 0,
         teardownOverageFeePerUnit: rentalModeMap.get('timeslot')?.teardownOverageFeePerUnit ?? 0,
         overageRoundingMode: rentalModeMap.get('timeslot')?.overageRoundingMode ?? 'ceil',
+        ...modeRules,
         weekendPricingEnabled,
         weekendDays: [...holidaySettings.weekendDays],
         weekendIncludeHolidays: holidaySettings.weekendIncludeHolidays,
@@ -461,6 +523,7 @@ export function getVenueEditFormData(venueId: number): VenueEditFormData | null 
         setupOverageFeePerUnit: rentalModeMap.get('hourly')?.setupOverageFeePerUnit ?? 0,
         teardownOverageFeePerUnit: rentalModeMap.get('hourly')?.teardownOverageFeePerUnit ?? 0,
         overageRoundingMode: rentalModeMap.get('hourly')?.overageRoundingMode ?? 'ceil',
+        ...modeRules,
         weekendPricingEnabled,
         weekendDays: [...holidaySettings.weekendDays],
         weekendIncludeHolidays: holidaySettings.weekendIncludeHolidays,
@@ -468,7 +531,7 @@ export function getVenueEditFormData(venueId: number): VenueEditFormData | null 
     },
     pricing: {
       daily: dailyPricing,
-      session: {},
+      session: { weekday: 0, weekend: 0, identityRows: [] },
       hourly: hourlyPricing,
     },
     closedWeekdays: [...(base.closedWeekdays ?? [])],

@@ -1,111 +1,24 @@
 <script setup lang="ts">
 import { ref, computed, provide, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { getAllVenueBaseRecords, getVenueEditFormData, type VenueEditFormData } from '@/services/venueEditService';
+import {
+  createEmptyVenueEditFormData,
+  getAllVenueBaseRecords,
+  getVenueEditFormData,
+} from '@/services/venueEditService';
 
 const route = useRoute();
 const router = useRouter();
 
 const venueId = computed(() => Number(route.params.id));
-const formData = ref<VenueEditFormData>({
-  id: 0,
-  parentId: null,
-  name: '',
-  status: 'available',
-  capacity: 0,
-  location: '',
-  type: '',
-  description: '',
-  mainImageUrl: '',
-  gallery: [],
-  pricePerHour: 0,
-  facilities: [],
-  openingHours: {},
-  rentalModes: {
-    daily: {
-      enabled: false,
-      minDays: 0,
-      maxDays: 0,
-      requireDocuments: false,
-      requiredDocuments: [],
-      depositEnabled: false,
-      depositAmount: 0,
-      setupAllowanceHours: 1,
-      teardownAllowanceHours: 1,
-      setupOverageUnitMinutes: 30,
-      teardownOverageUnitMinutes: 30,
-      setupOverageFeePerUnit: 0,
-      teardownOverageFeePerUnit: 0,
-      overageRoundingMode: 'ceil',
-      weekendPricingEnabled: false,
-      weekendDays: [0, 6],
-      weekendIncludeHolidays: false,
-    },
-    session: {
-      enabled: false,
-      sessions: [],
-      requireDocuments: false,
-      requiredDocuments: [],
-      depositEnabled: false,
-      depositAmount: 0,
-      setupAllowanceHours: 1,
-      teardownAllowanceHours: 1,
-      setupOverageUnitMinutes: 30,
-      teardownOverageUnitMinutes: 30,
-      setupOverageFeePerUnit: 0,
-      teardownOverageFeePerUnit: 0,
-      overageRoundingMode: 'ceil',
-      weekendPricingEnabled: false,
-      weekendDays: [0, 6],
-      weekendIncludeHolidays: false,
-    },
-    hourly: {
-      enabled: false,
-      minHours: 0,
-      maxHours: 0,
-      requireDocuments: false,
-      requiredDocuments: [],
-      depositEnabled: false,
-      depositAmount: 0,
-      setupAllowanceHours: 1,
-      teardownAllowanceHours: 1,
-      setupOverageUnitMinutes: 30,
-      teardownOverageUnitMinutes: 30,
-      setupOverageFeePerUnit: 0,
-      teardownOverageFeePerUnit: 0,
-      overageRoundingMode: 'ceil',
-      weekendPricingEnabled: false,
-      weekendDays: [0, 6],
-      weekendIncludeHolidays: false,
-    },
-  },
-  pricing: { daily: {}, session: {}, hourly: {} },
-  closedWeekdays: [],
-  closedDates: [],
-  rentalItems: [],
-  notices: [],
-  isActive: true,
-  advanceBookingDays: 7,
-  latestBookingDays: 1,
-  receiptUploadDeadlineDays: 3,
-  documentUploadDeadlineDays: 7,
-  cancellationDeadlineDays: 7,
-  weekendDays: [0, 6],
-  weekendIncludeHolidays: false,
-  weekendPricingEnabled: false,
-  requiredDocuments: [],
-});
+// 表單資料形狀（含各欄位預設值）由 venueEditService 統一把關
+const formData = ref(createEmptyVenueEditFormData());
 
 onMounted(() => {
   const venue = getVenueEditFormData(venueId.value);
   if (venue) {
     formData.value = venue;
   }
-  // 場館層級假日價格預設（既有資料：已設定星期或含國定假日者視為已啟用）
-  const fd = formData.value as any;
-  fd.weekendPricingEnabled ??= (fd.weekendDays?.length ?? 0) > 0 || !!fd.weekendIncludeHolidays;
-  fd.weekendDays ??= [0, 6];
-  fd.weekendIncludeHolidays ??= false;
 });
 
 const allVenues = computed(() => getAllVenueBaseRecords());

@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { inject, ref, type Ref } from 'vue';
 import { publicImageUrl } from '@/utils/assets';
+import type { VenueEditFormData } from '@/services/venueEditService';
 
-interface Venue {
-  mainImageUrl: string;
-  gallery: string[];
-}
-
-const formData = inject<Ref<Venue>>('venueFormData')!;
+const formData = inject<Ref<VenueEditFormData>>('venueFormData')!;
 
 const fileInput = ref<HTMLInputElement | null>(null);
 const dragIndex = ref<number | null>(null);

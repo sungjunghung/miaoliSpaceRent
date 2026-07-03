@@ -1,35 +1,7 @@
 <script setup lang="ts">
 import { inject, computed, ref, type Ref } from 'vue';
-
-interface RequiredDocument {
-  key: string;
-  label: string;
-  hint: string;
-  required: boolean;
-  templateFile?: string | null;
-}
-
-interface RentalModeBase {
-  enabled: boolean;
-  depositEnabled: boolean;
-  depositAmount: number;
-  setupTeardownEnabled: boolean;
-  setupAllowanceHours: number;
-  teardownAllowanceHours: number;
-  setupOverageUnitMinutes: number;
-  teardownOverageUnitMinutes: number;
-  setupOverageFeePerUnit: number;
-  teardownOverageFeePerUnit: number;
-  // 申請與期限（每模式各自設定）
-  advanceBookingDays: number;
-  latestBookingDays: number;
-  cancellationDeadlineDays: number;
-  receiptUploadDeadlineDays: number;
-  documentUploadDeadlineDays: number;
-  // 需檢附文件（每模式各自管理，含各自範本）
-  requireDocuments: boolean;
-  requiredDocuments: RequiredDocument[];
-}
+import type { RentalModeBase, RequiredDocument, VenueEditFormData } from '@/services/venueEditService';
+import { formatPrice, parsePriceInput } from '@/utils/priceInput';
 
 const props = defineProps<{
   modeKey: 'daily' | 'session' | 'hourly';
@@ -37,7 +9,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{ (e: 'copy', payload: { from: string; to: string }): void }>();
 
-const formData = inject<Ref<any>>('venueFormData')!;
+const formData = inject<Ref<VenueEditFormData>>('venueFormData')!;
 
 const mode = computed<RentalModeBase>(() => formData.value.rentalModes[props.modeKey]);
 
@@ -59,10 +31,6 @@ const overageUnitOptions = Array.from({ length: 8 }, (_, i) => {
   return { value: minutes, label: `${minutes} 分鐘/單位` };
 });
 
-// 需檢附文件（此模式各自管理）
-if (!Array.isArray(mode.value.requiredDocuments)) mode.value.requiredDocuments = [];
-if (typeof mode.value.requireDocuments !== 'boolean') mode.value.requireDocuments = false;
-
 const newDocLabel = ref('');
 
 function addDocument() {
@@ -74,6 +42,7 @@ function addDocument() {
     hint: '',
     required: true,
     templateFile: '',
+    appliesTo: { daily: false, session: false, hourly: false, [props.modeKey]: true },
   });
   newDocLabel.value = '';
 }
@@ -94,15 +63,6 @@ function handleTemplateUpload(event: Event, doc: RequiredDocument) {
 function copyTo(to: string) {
   emit('copy', { from: props.modeKey, to });
   (document.activeElement as HTMLElement)?.blur();
-}
-
-function formatPrice(value: number) {
-  return Math.max(0, value).toLocaleString('en-US');
-}
-
-function parsePriceInput(value: string) {
-  const digitsOnly = value.replace(/\D/g, '');
-  return digitsOnly === '' ? 0 : Number(digitsOnly);
 }
 
 function updateDepositAmount(event: Event) {
