@@ -17,6 +17,10 @@ interface Venue {
   closedDates: string[];
   notices: string[];
   isActive?: boolean;
+  // 假日價格為場館層級共用（各租借模式的假日價欄位依此顯示）
+  weekendPricingEnabled: boolean;
+  weekendDays: number[];
+  weekendIncludeHolidays: boolean;
 }
 
 const formData = inject<Ref<Venue>>('venueFormData')!;
@@ -100,6 +104,27 @@ function onFacilityDragEnd() {
   facilityDragOverIndex.value = null;
 }
 
+// 假日定義（場館層級共用，影響各模式假日價格）
+const weekdayOptions = [
+  { value: 0, label: '日' },
+  { value: 1, label: '一' },
+  { value: 2, label: '二' },
+  { value: 3, label: '三' },
+  { value: 4, label: '四' },
+  { value: 5, label: '五' },
+  { value: 6, label: '六' },
+];
+
+function toggleWeekendDay(day: number) {
+  const days = formData.value.weekendDays;
+  const idx = days.indexOf(day);
+  if (idx >= 0) {
+    days.splice(idx, 1);
+  } else {
+    days.push(day);
+  }
+}
+
 // 注意事項管理
 const newNotice = ref('');
 const noticeDragIndex = ref<number | null>(null);
@@ -179,6 +204,34 @@ function handleSave() {
 
     <!-- 營運時間 -->
     <OpeningHoursEditor v-model="formData.openingHours" />
+
+    <!-- 假日定義（各租借模式共用） -->
+    <div class="card basic-card">
+      <div class="card-body space-y-3">
+        <h2 class="card-title">
+          <span class="material-symbols-outlined text-primary">calendar_month</span>
+          啟用假日價格
+        </h2>
+        <label class="label cursor-pointer justify-start gap-3 w-fit">
+          <input type="checkbox" class="toggle toggle-primary" v-model="formData.weekendPricingEnabled" />
+          <span>此場館使用假日價格</span>
+        </label>
+        <template v-if="formData.weekendPricingEnabled">
+          <p class="text-sm text-base-content/50">勾選的星期將適用假日價格，所有租借模式共用此設定</p>
+          <div class="flex flex-wrap gap-8">
+            <label v-for="wd in weekdayOptions" :key="wd.value" class="label cursor-pointer gap-2">
+              <input type="checkbox" class="checkbox checkbox-success"
+                :checked="formData.weekendDays?.includes(wd.value)" @change="toggleWeekendDay(wd.value)" />
+              <span>{{ wd.label }}</span>
+            </label>
+            <label class="label cursor-pointer gap-2">
+              <input type="checkbox" class="checkbox checkbox-success" v-model="formData.weekendIncludeHolidays" />
+              <span>法定國定假日</span>
+            </label>
+          </div>
+        </template>
+      </div>
+    </div>
 
     <!-- 設施 -->
     <div class="card basic-card">

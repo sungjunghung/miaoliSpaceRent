@@ -174,6 +174,13 @@ const router = createRouter({
             },
             {
               path: 'rental',
+              redirect: (to) => ({
+                name: 'admin-venue-edit-rental',
+                params: { id: to.params.id, mode: 'daily' },
+              }),
+            },
+            {
+              path: 'rental/:mode(daily|session|hourly)',
               name: 'admin-venue-edit-rental',
               component: () => import('@/views/admin/venues/edit/rental.vue'),
             },

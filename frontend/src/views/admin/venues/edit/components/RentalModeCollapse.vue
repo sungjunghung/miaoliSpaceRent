@@ -114,9 +114,9 @@ function updateDepositAmount(event: Event) {
 </script>
 
 <template>
-  <div class="bg-base-100">
+
     <!-- 標題列：啟用 + 套用到其他模式 -->
-    <div class="flex flex-wrap items-center gap-3 border-b border-base-300 px-4 py-3">
+    <div class="basis-box flex flex-wrap items-center p-4">
       <label class="label cursor-pointer gap-2">
         <input type="checkbox" v-model="mode.enabled" class="toggle toggle-primary mb-0!" />
         <span class="text-sm">啟用此模式</span>
@@ -134,7 +134,7 @@ function updateDepositAmount(event: Event) {
       </div>
     </div>
 
-    <div v-if="mode.enabled" class="space-y-6 p-4">
+    <template v-if="mode.enabled" class="space-y-4">
 
       <!-- ── 價格設定（各模式獨有） ── -->
       <div class="basis-box rounded-box p-4 space-y-3">
@@ -336,6 +336,6 @@ function updateDepositAmount(event: Event) {
         </template>
       </div>
 
-    </div>
-  </div>
+    </template>
+
 </template>

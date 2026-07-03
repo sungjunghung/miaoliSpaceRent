@@ -101,6 +101,11 @@ onMounted(() => {
   if (venue) {
     formData.value = venue;
   }
+  // 場館層級假日價格預設（既有資料：已設定星期或含國定假日者視為已啟用）
+  const fd = formData.value as any;
+  fd.weekendPricingEnabled ??= (fd.weekendDays?.length ?? 0) > 0 || !!fd.weekendIncludeHolidays;
+  fd.weekendDays ??= [0, 6];
+  fd.weekendIncludeHolidays ??= false;
 });
 
 const allVenues = computed(() => getAllVenueBaseRecords());
@@ -108,21 +113,25 @@ const allVenues = computed(() => getAllVenueBaseRecords());
 provide('venueFormData', formData);
 provide('allVenues', allVenues);
 
-const tabs = [
+// 租借三模式拉平為頂層頁籤（共用 admin-venue-edit-rental 路由，以 :mode 區分）
+const tabs: { key: string; label: string; routeName: string; mode?: string }[] = [
   { key: 'basic', label: '場館資料', routeName: 'admin-venue-edit-basic' },
-  { key: 'rental', label: '租借方式', routeName: 'admin-venue-edit-rental' },
+  { key: 'daily', label: '整日租借', routeName: 'admin-venue-edit-rental', mode: 'daily' },
+  { key: 'session', label: '時段租借', routeName: 'admin-venue-edit-rental', mode: 'session' },
+  { key: 'hourly', label: '計時租借', routeName: 'admin-venue-edit-rental', mode: 'hourly' },
   { key: 'rental-items', label: '附加項目', routeName: 'admin-venue-edit-rental-items' },
   { key: 'photos', label: '場館照片', routeName: 'admin-venue-edit-photos' },
 ];
 
 const activeTab = computed(() => {
   const name = route.name as string;
-  const tab = tabs.find((t) => t.routeName === name);
+  const tab = tabs.find((t) => t.routeName === name && (!t.mode || t.mode === route.params.mode));
   return tab?.key ?? 'basic';
 });
 
 function navigateTab(tab: (typeof tabs)[number]) {
-  router.replace({ name: tab.routeName, params: { id: venueId.value } });
+  const params = tab.mode ? { id: venueId.value, mode: tab.mode } : { id: venueId.value };
+  router.replace({ name: tab.routeName, params });
 }
 
 // 場館層級：狀態變更（單一真理來源，取代原 isActive 開關）
