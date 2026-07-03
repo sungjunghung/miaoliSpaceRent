@@ -756,6 +756,35 @@ export function generateBookings(): RawBooking[] {
     })
   }
 
+  // ── 固定示範：已取消、已繳費、無退款單（供後台「發起退款」流程檢視） ──
+  {
+    const todayStr = new Date().toISOString().slice(0, 10)
+    const date = addDays(todayStr, 12)
+    const createdAt = addDays(todayStr, -10)
+    const baseFee = 6000
+    const deposit = scenarioDeposit > 0 ? scenarioDeposit : 5000
+    const totalFee = baseFee + deposit
+    const documents = scenarioRequireDocuments ? makeDocuments(scenarioVenue, scenarioMode, true, addDays(createdAt, 2)) : []
+
+    bookings.push({
+      id: nextId++, userId: u1, venueId: scenarioVenue.id, rentalMode: scenarioMode,
+      date, startDate: date, endDate: date,
+      session: scenarioMode === 'session' ? scenarioSessionName : null,
+      startTime: scenarioMode === 'hourly' ? '09:00' : null, endTime: scenarioMode === 'hourly' ? '12:00' : null,
+      applicant: '王小明', purpose: '取消未退款示範', status: 'cancelled',
+      cancelDeadline: addDays(date, -7), createdAt, peopleCount: 20,
+      deposit, additionalFees: [],
+      remittance: makeRemittance(totalFee, '王小明', addDays(createdAt, 3)),
+      note: null, adminNote: '管理員取消時判定不予退費，會員申訴中。', cancelReason: '會員違規使用場地，依規定取消並不予退費', documentRejectReason: null,
+      documentApprovedAt: addDays(createdAt, 4),
+      paymentApprovedAt: addDays(createdAt, 7),
+      refund: null,
+      documentUploadDeadline: addDays(createdAt, scenarioDocDeadlineDays),
+      receiptUploadDeadline: addDays(createdAt, scenarioReceiptDeadlineDays),
+      documents,
+    })
+  }
+
   // 最終排序 + 重新編號
   bookings.sort((a, b) => a.date.localeCompare(b.date) || a.venueId - b.venueId)
   bookings.forEach((b, i) => { b.id = i + 1 })
