@@ -137,7 +137,7 @@ import { ref, computed, watch } from 'vue'
 import { useBookingsStore, type Booking } from '@/stores/bookings'
 import { useRefundsStore } from '@/stores/refunds'
 import { formatBookingDate, RENTAL_MODE_LABELS_SHORT } from '@/utils/bookingFormat'
-import { CANCELLED_STATUSES } from '@/utils/bookingStatus'
+import { CANCELLED_STATUSES, getAdminTodoDisplay } from '@/utils/bookingStatus'
 import VenueFilterDropdown from '@/components/admin/VenueFilterDropdown.vue'
 import AdminSlideDrawer from '@/components/admin/AdminSlideDrawer.vue'
 import BookingDetailContent from '@/components/admin/bookings/BookingDetailContent.vue'
@@ -262,26 +262,8 @@ function statusLabel(b: Booking): { label: string; cls: string } {
 }
 
 function todoDisplay(b: Booking): { label: string; cls: string } | null {
-  const refund = refundByBookingId.value.get(b.id)
-  if (refund) {
-    if (refund.status === 'completed') return { label: '取消退費已完成', cls: 'badge-success' }
-    if (refund.status === 'rejected') return { label: '退費已駁回', cls: 'badge-error' }
-    return {
-      label: {
-        admin_review: '退費待承辦審',
-        accounting_review: '退費待會計',
-        cashier_processing: '退費待出納',
-      }[refund.status] ?? '退費處理中',
-      cls: 'badge-info',
-    }
-  }
-
-  if (b.status === 'cancellation_requested') return { label: '待審核取消', cls: 'badge-warning' }
-  if (b.status === 'document_review') return { label: '需審核文件', cls: 'badge-info' }
-  if (b.status === 'payment_review') return { label: '需審核繳費', cls: 'badge-info' }
-  if (b.status === 'documents_rejected') return { label: '等待重傳', cls: 'badge-error' }
-  if (b.status === 'pending_payment') return { label: '等待繳費', cls: 'badge-warning' }
-  if (b.status === 'reserved') return { label: '等待用戶', cls: 'badge-warning' }
+  const display = getAdminTodoDisplay(b, refundByBookingId.value.get(b.id))
+  if (display) return { label: display.label, cls: display.className }
 
   return null
 }

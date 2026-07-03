@@ -38,6 +38,32 @@ export function getBookingStatusDisplay(b: {
 
 export const CANCELLED_STATUSES = ['cancelled', 'cancelled_expired', 'cancelled_rejected']
 
+/** 後台待辦提示：這筆訂單目前卡在誰手上（訂單列表與詳情共用） */
+export function getAdminTodoDisplay(
+  booking: { status: string },
+  refund?: { status: RefundStatus } | null,
+): StatusDisplay | null {
+  if (refund) {
+    if (refund.status === 'completed') return { label: '取消退費已完成', className: 'badge-success' }
+    if (refund.status === 'rejected') return { label: '退費已駁回', className: 'badge-error' }
+    return {
+      label: {
+        admin_review: '退費待承辦審',
+        accounting_review: '退費待會計',
+        cashier_processing: '退費待出納',
+      }[refund.status] ?? '退費處理中',
+      className: 'badge-info',
+    }
+  }
+  if (booking.status === 'cancellation_requested') return { label: '待審核取消', className: 'badge-warning' }
+  if (booking.status === 'document_review') return { label: '需審核文件', className: 'badge-info' }
+  if (booking.status === 'payment_review') return { label: '需審核繳費', className: 'badge-info' }
+  if (booking.status === 'documents_rejected') return { label: '等待重傳', className: 'badge-error' }
+  if (booking.status === 'pending_payment') return { label: '等待繳費', className: 'badge-warning' }
+  if (booking.status === 'reserved') return { label: '等待用戶', className: 'badge-warning' }
+  return null
+}
+
 /** 前台（Portal）簡化狀態顯示 */
 export function getPortalStatusDisplay(status: string): StatusDisplay {
   if (['confirmed', 'cancellation_requested'].includes(status)) {
