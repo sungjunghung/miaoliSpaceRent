@@ -7,8 +7,8 @@ import BookingDetailContent from '@/components/admin/bookings/BookingDetailConte
 const route = useRoute()
 const bookingsStore = useBookingsStore()
 
-const id = Number(route.params.id)
-const booking = computed(() => bookingsStore.getById(id))
+const id = computed(() => Number(route.params.id))
+const booking = computed(() => bookingsStore.getById(id.value))
 </script>
 
 <template>

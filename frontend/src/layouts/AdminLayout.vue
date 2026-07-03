@@ -51,6 +51,7 @@
 			<div class="bg-linear-to-bl from-base-100 to-base-200 flex-1 overflow-y-auto">
 				<router-view />
 			</div>
+			<ToastHost />
 		</div>
 
 		<!-- 側邊選單（drawer）：Logo + 分組導覽 + 收合鈕 -->
@@ -139,6 +140,7 @@
 <script setup lang="ts">
 import { ref, computed, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import ToastHost from '@/components/admin/ToastHost.vue'
 import { useBookingsStore } from '@/stores/bookings'
 import { venues as mockVenues } from '@/services/venueService'
 import { users as mockUsers } from '@/services/userService'

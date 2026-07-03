@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import type { Booking } from '@/stores/bookings'
+import { useBookingsStore, type Booking } from '@/stores/bookings'
+import { useToast } from '@/composables/useToast'
 
 const props = defineProps<{
   booking: Booking
 }>()
+
+const bookingsStore = useBookingsStore()
+const { showToast } = useToast()
 
 const adminNoteEdit = ref(false)
 const adminNoteVal = ref('')
@@ -12,6 +16,12 @@ const adminNoteVal = ref('')
 watch(() => props.booking, b => {
   if (b) adminNoteVal.value = b.adminNote ?? ''
 }, { immediate: true })
+
+function saveNote() {
+  bookingsStore.updateAdminNote(props.booking.id, adminNoteVal.value)
+  adminNoteEdit.value = false
+  showToast('備註已儲存')
+}
 </script>
 <template>
     <div class="card bg-base-100 shadow-sm">
@@ -28,7 +38,7 @@ watch(() => props.booking, b => {
           {{ adminNoteVal || '（無備注）' }}
         </p>
         <div v-if="adminNoteEdit" class="flex justify-end">
-          <button class="btn btn-primary" @click="adminNoteEdit = false">儲存</button>
+          <button class="btn btn-primary" @click="saveNote">儲存</button>
         </div>
       </div>
     </div>

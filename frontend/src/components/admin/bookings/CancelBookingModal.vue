@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useBookingsStore, type Booking } from '@/stores/bookings'
 import { useRefundsStore } from '@/stores/refunds'
 import { users as mockUsers } from '@/services/userService'
+import { useToast } from '@/composables/useToast'
 
 const props = defineProps<{
   booking: Booking
@@ -12,6 +13,7 @@ const props = defineProps<{
 
 const bookingsStore = useBookingsStore()
 const refundsStore = useRefundsStore()
+const { showToast } = useToast()
 
 const modalOpen = ref(false)
 const cancelReason = ref('')
@@ -85,6 +87,9 @@ function confirmCancel() {
 
   if (!props.refundOnly) {
     bookingsStore.cancelBooking(props.booking.id, cancelReason.value.trim())
+    showToast(askRefund.value && needRefund.value === 'yes' ? '訂單已取消，退款單已建立' : '訂單已取消')
+  } else {
+    showToast('退款單已建立')
   }
   modalOpen.value = false
 }

@@ -1,9 +1,23 @@
 <script setup lang="ts">
-import type { Booking } from '@/stores/bookings'
+import { useBookingsStore, type Booking } from '@/stores/bookings'
+import { useToast } from '@/composables/useToast'
 
-defineProps<{
+const props = defineProps<{
   booking: Booking
 }>()
+
+const bookingsStore = useBookingsStore()
+const { showToast } = useToast()
+
+function approvePayment() {
+  bookingsStore.approvePayment(props.booking.id)
+  showToast('繳費已核銷，訂單預訂成功')
+}
+
+function rejectPayment() {
+  bookingsStore.rejectPayment(props.booking.id)
+  showToast('已退回，等待會員重新提交匯款資訊', 'error')
+}
 </script>
 <template>
     <div class="card bg-base-100 shadow-sm">
@@ -45,8 +59,8 @@ defineProps<{
             <template v-else>
               <div class="divider"></div>
               <div class="flex justify-end gap-2">
-                <button class="btn">帳款不符退回</button>
-                <button class="btn">確認核銷入帳（預訂成功）</button>
+                <button class="btn" @click="rejectPayment">帳款不符退回</button>
+                <button class="btn btn-primary" @click="approvePayment">確認核銷入帳（預訂成功）</button>
               </div>
             </template>
           </template>

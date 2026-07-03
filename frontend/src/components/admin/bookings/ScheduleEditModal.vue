@@ -2,12 +2,14 @@
 import { ref, computed } from 'vue'
 import { useBookingsStore, type Booking } from '@/stores/bookings'
 import { CANCELLED_STATUSES } from '@/utils/bookingStatus'
+import { useToast } from '@/composables/useToast'
 
 const props = defineProps<{
   booking: Booking
 }>()
 
 const bookingsStore = useBookingsStore()
+const { showToast } = useToast()
 const scheduleModalOpen = ref(false)
 
 const editDate = ref('')
@@ -87,7 +89,20 @@ function openModal() {
 }
 
 function saveSchedule() {
-  scheduleModalOpen.value = false // TODO: 串接 API
+  const b = props.booking
+  if (b.rentalMode === 'session') {
+    bookingsStore.updateSchedule(b.id, { date: editDate.value, session: editSession.value })
+  } else if (b.rentalMode === 'hourly') {
+    bookingsStore.updateSchedule(b.id, { date: editDate.value, startTime: editStartTime.value, endTime: editEndTime.value })
+  } else {
+    bookingsStore.updateSchedule(b.id, {
+      date: editStartDate.value,
+      startDate: editStartDate.value,
+      endDate: editEndDate.value || editStartDate.value,
+    })
+  }
+  showToast('日期/時段已異動')
+  scheduleModalOpen.value = false
 }
 
 defineExpose({ openModal })

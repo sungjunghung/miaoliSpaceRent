@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { Booking } from '@/stores/bookings'
+import { useRefundsStore } from '@/stores/refunds'
+import { getBookingStatusDisplay, getAdminTodoDisplay, CANCELLED_STATUSES } from '@/utils/bookingStatus'
 import { users as mockUsers } from '@/services/userService'
 
 import RefundProcessingBlock from './RefundProcessingBlock.vue'
@@ -21,6 +23,14 @@ const member = computed(() =>
   props.booking.userId ? mockUsers.find(user => user.id === props.booking.userId) : null
 )
 
+const refundsStore = useRefundsStore()
+const statusDisplay = computed(() => getBookingStatusDisplay(props.booking))
+const todoDisplay = computed(() => getAdminTodoDisplay(
+  props.booking,
+  refundsStore.refunds.find(r => r.type === 'booking_cancellation' && r.bookingId === props.booking.id),
+))
+const isCancelled = computed(() => CANCELLED_STATUSES.includes(props.booking.status))
+
 const scheduleEditModal = ref<InstanceType<typeof ScheduleEditModal> | null>(null)
 const cancelBookingModal = ref<InstanceType<typeof CancelBookingModal> | null>(null)
 
@@ -35,12 +45,20 @@ const cancellable = computed(() => {
 
 <template>
   <div class="space-y-4 p-4">
-    <!-- 管理員取消訂單 -->
-    <div v-if="cancellable" class="flex justify-end">
-      <button class="btn btn-error btn-outline btn-sm" @click="cancelBookingModal?.openModal()">
+    <!-- 狀態列：訂單狀態 + 待辦提示 + 取消操作 -->
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="badge" :class="statusDisplay.className">{{ statusDisplay.label }}</span>
+      <span v-if="todoDisplay" class="badge badge-outline" :class="todoDisplay.className">{{ todoDisplay.label }}</span>
+      <button v-if="cancellable" class="btn btn-error btn-outline btn-sm ml-auto" @click="cancelBookingModal?.openModal()">
         <span class="material-symbols-outlined text-base">event_busy</span>
         {{ booking.status === 'cancellation_requested' ? '核准取消' : '取消訂單' }}
       </button>
+    </div>
+
+    <!-- 已取消：顯示取消原因 -->
+    <div v-if="isCancelled" role="alert" class="alert alert-error alert-soft">
+      <span class="material-symbols-outlined text-base shrink-0">event_busy</span>
+      <span>此訂單已取消{{ booking.cancelReason ? `，原因：${booking.cancelReason}` : '' }}</span>
     </div>
 
     <!-- 取消/退款摘要；實際退款作業集中於退款作業頁 -->

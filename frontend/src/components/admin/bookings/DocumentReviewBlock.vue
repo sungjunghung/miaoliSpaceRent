@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import type { Booking } from '@/stores/bookings'
+import { useBookingsStore, type Booking } from '@/stores/bookings'
+import { useToast } from '@/composables/useToast'
 
 const props = defineProps<{
   booking: Booking
 }>()
+
+const bookingsStore = useBookingsStore()
+const { showToast } = useToast()
 
 const rejectReasonEdit = ref(false)
 const rejectReasonVal = ref('')
@@ -12,6 +16,18 @@ const rejectReasonVal = ref('')
 watch(() => props.booking, b => {
   if (b) rejectReasonVal.value = b.documentRejectReason ?? ''
 }, { immediate: true })
+
+function approveDocuments() {
+  bookingsStore.approveDocuments(props.booking.id)
+  showToast('文件審核通過，訂單進入繳費階段')
+}
+
+function rejectDocuments() {
+  if (!rejectReasonVal.value.trim()) return
+  bookingsStore.rejectDocuments(props.booking.id, rejectReasonVal.value.trim())
+  rejectReasonEdit.value = false
+  showToast('已退件，等待會員重新上傳', 'error')
+}
 </script>
 <template>
     <div v-if="booking.documents?.length" class="card bg-base-100 shadow-sm">
@@ -52,14 +68,15 @@ watch(() => props.booking, b => {
           <div class="divider"></div>
           <div v-if="!rejectReasonEdit" class="flex justify-end gap-2">
             <button class="btn" @click="rejectReasonEdit = true">退件</button>
-            <button class="btn">審核通過（進入繳費）</button>
+            <button class="btn btn-primary" :disabled="!booking.documents?.filter(d => d.required).every(d => d.uploaded)"
+              @click="approveDocuments">審核通過（進入繳費）</button>
           </div>
           <div v-if="rejectReasonEdit" class="mt-3 space-y-2">
             <label class="label">退件原因</label>
             <textarea v-model="rejectReasonVal" class="textarea textarea-bordered w-full" rows="2" placeholder="請輸入退件原因..."></textarea>
             <div class="flex justify-end gap-2">
               <button class="btn btn-ghost" @click="rejectReasonEdit = false">取消</button>
-              <button class="btn btn-error" :disabled="!rejectReasonVal.trim()">確認退件</button>
+              <button class="btn btn-error" :disabled="!rejectReasonVal.trim()" @click="rejectDocuments">確認退件</button>
             </div>
           </div>
         </template>

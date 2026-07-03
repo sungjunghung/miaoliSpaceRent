@@ -130,5 +130,67 @@ export const useBookingsStore = defineStore('bookings', () => {
     booking.cancelReason = reason
   }
 
-  return { bookings, getByUserId, getById, cancelBooking, requestCancellation }
+  function todayStr(): string {
+    return new Date().toISOString().slice(0, 10)
+  }
+
+  function approveDocuments(id: number) {
+    const booking = getById(id)
+    if (!booking || booking.status !== 'document_review') return
+    booking.status = 'pending_payment'
+    booking.documentApprovedAt = todayStr()
+    booking.documentRejectReason = null
+  }
+
+  function rejectDocuments(id: number, reason: string) {
+    const booking = getById(id)
+    if (!booking || booking.status !== 'document_review') return
+    booking.status = 'documents_rejected'
+    booking.documentRejectReason = reason
+  }
+
+  function approvePayment(id: number) {
+    const booking = getById(id)
+    if (!booking || booking.status !== 'payment_review') return
+    booking.status = 'confirmed'
+    booking.paymentApprovedAt = todayStr()
+  }
+
+  // 帳款不符退回：清除匯款資訊，回到等待繳費讓會員重新提交
+  function rejectPayment(id: number) {
+    const booking = getById(id)
+    if (!booking || booking.status !== 'payment_review') return
+    booking.status = 'pending_payment'
+    booking.remittance = null
+    booking.paymentApprovedAt = null
+  }
+
+  function updateAdminNote(id: number, note: string) {
+    const booking = getById(id)
+    if (!booking) return
+    booking.adminNote = note.trim() || null
+  }
+
+  function updateSchedule(
+    id: number,
+    patch: Partial<Pick<Booking, 'date' | 'startDate' | 'endDate' | 'session' | 'startTime' | 'endTime'>>,
+  ) {
+    const booking = getById(id)
+    if (!booking) return
+    Object.assign(booking, patch)
+  }
+
+  return {
+    bookings,
+    getByUserId,
+    getById,
+    cancelBooking,
+    requestCancellation,
+    approveDocuments,
+    rejectDocuments,
+    approvePayment,
+    rejectPayment,
+    updateAdminNote,
+    updateSchedule,
+  }
 })
