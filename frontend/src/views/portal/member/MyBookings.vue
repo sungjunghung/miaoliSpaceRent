@@ -116,6 +116,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useBookingsStore, type Booking } from '@/stores/bookings'
 import BookingProgress from '@/components/portal/BookingProgress.vue'
 import { toZhDate, formatBookingDate, formatBookingTime } from '@/utils/bookingFormat'
+import { getBookingStatusPill } from '@/utils/bookingStatus'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -154,17 +155,9 @@ function goToDetail(id: number) {
   router.push(`/member/bookings/${id}`)
 }
 
-// 狀態樣態:label=文字、pill=狀態膠囊配色、borderCls=左側色條;四種狀態一眼分清
+// 狀態膠囊與左側色條：與後台「預約管理」共用同一套狀態標籤與色調
 function statusBadge(booking: Booking): { label: string; pill: string; borderCls: string } {
-  if (ACTIVE_STATUSES.includes(booking.status))
-    return { label: '預訂中', pill: 'bg-warning/15 text-warning', borderCls: 'border-warning' }
-  if (booking.status === 'confirmed' || booking.status === 'cancellation_requested')
-    return { label: '預訂成功', pill: 'bg-success/15 text-success', borderCls: 'border-success' }
-  if (booking.status === 'completed')
-    return { label: '已使用', pill: 'bg-base-300 text-base-content/70', borderCls: 'border-base-300' }
-  if (CANCELLED_STATUSES.includes(booking.status))
-    return { label: '已取消', pill: 'bg-error/15 text-error', borderCls: 'border-error' }
-  return { label: booking.status, pill: 'bg-base-200 text-base-content/60', borderCls: 'border-base-300' }
+  return getBookingStatusPill(booking)
 }
 
 function cancelReasonLabel(booking: Booking): string | null {

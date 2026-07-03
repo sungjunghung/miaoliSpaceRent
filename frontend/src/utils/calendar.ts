@@ -1,4 +1,5 @@
 import type { CalendarEvent } from '@/types/calendar'
+import { getBookingStatusMeta, type BookingStatusTone } from './bookingStatus'
 
 // ── 時間常數 ──────────────────────────────────────
 export const dayStartHour = 7
@@ -269,4 +270,72 @@ export function buildAllDayRows(
     if (!placed) rows.push([seg])
   }
   return rows
+}
+
+// ── 事件配色與標籤（日/週/月檢視共用） ──────────────────────────
+
+// 訂單事件曆格配色：與訂單 badge 同語意色調（見 bookingStatus.ts）
+const EVENT_CLASS_BY_TONE: Record<BookingStatusTone, string> = {
+  success: 'bg-success/10 text-success border-success/30',
+  warning: 'bg-warning/15 text-warning border-warning/40',
+  info:    'bg-info/10 text-info border-info/30',
+  error:   'bg-error/10 text-error border-error/30',
+  neutral: 'bg-base-200 text-base-content/60 border-base-300',
+  ghost:   'bg-base-200 text-base-content/60 border-base-300',
+}
+
+function bookingStatusFromEvent(event: CalendarEvent) {
+  return {
+    status: (event.metadata?.status as string) ?? '',
+    requireDocuments: Boolean(event.metadata?.requireDocuments),
+  }
+}
+
+export function getEventColor(event: CalendarEvent): string {
+  switch (event.type) {
+    case 'rented':
+    case 'unavailable': {
+      const booking = bookingStatusFromEvent(event)
+      const tone = booking.status ? getBookingStatusMeta(booking).tone : 'ghost'
+      return EVENT_CLASS_BY_TONE[tone]
+    }
+    case 'closed':
+      // 區分三種 closed 類型
+      if (event.metadata?.overrideType === 'open') {
+        return 'bg-green-50 text-green-700 border-green-200' // 開館覆寫
+      } else if (event.metadata?.overrideType === 'closed') {
+        return 'bg-red-100 text-red-800 border-red-300' // 閉館覆寫（深色）
+      } else if (event.metadata?.isRecurringClosed) {
+        return 'bg-red-50 text-red-800 border-red-200' // OpeningHours 休館日（淺色）
+      }
+      return 'bg-red-50 text-red-700 border-red-200'
+    case 'maintenance':
+      return 'bg-stone-100 text-stone-700 border-stone-200'
+    case 'note':
+      return 'bg-purple-50 text-purple-700 border-purple-200'
+    case 'blocked':
+      return 'bg-slate-100 text-slate-700 border-slate-300'
+    default:
+      return 'bg-base-200 text-base-content/60 border-base-300'
+  }
+}
+
+export function getEventLabel(event: CalendarEvent): string {
+  switch (event.type) {
+    case 'rented':
+    case 'unavailable': {
+      const booking = bookingStatusFromEvent(event)
+      return booking.status ? getBookingStatusMeta(booking).label : '預約'
+    }
+    case 'closed':
+      return '休館日'
+    case 'maintenance':
+      return '暫停租借'
+    case 'note':
+      return '註記'
+    case 'blocked':
+      return '時段保留'
+    default:
+      return '事件'
+  }
 }

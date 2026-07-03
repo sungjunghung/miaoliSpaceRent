@@ -12,48 +12,14 @@ import {
   dayStartHour,
   dayEndHour,
   formatTime,
+  getEventColor,
+  getEventLabel,
   layoutAllEvents,
   eventBlockStyle,
   minutesToOffset,
   positionToMinutes,
   isSameDay,
 } from '@/utils/calendar';
-
-function getEventColor(type: 'rented' | 'unavailable' | 'closed' | 'maintenance' | 'note' | 'blocked'): string {
-  switch (type) {
-    case 'rented':
-      return 'bg-orange-50 text-orange-700 border-orange-200';
-    case 'closed':
-      return 'bg-red-50 text-red-700 border-red-200';
-    case 'maintenance':
-      return 'bg-stone-100 text-stone-700 border-stone-200';
-    case 'note':
-      return 'bg-info/10 text-info border-info/30';
-    case 'blocked':
-      return 'bg-warning/10 text-warning border-warning/30';
-    case 'unavailable':
-    default:
-      return 'bg-slate-100 text-slate-700 border-slate-200';
-  }
-}
-
-function getEventLabel(type: 'rented' | 'unavailable' | 'closed' | 'maintenance' | 'note' | 'blocked'): string {
-  switch (type) {
-    case 'rented':
-      return '已租借';
-    case 'closed':
-      return '休館日';
-    case 'maintenance':
-      return '暫停租借';
-    case 'note':
-      return '註記';
-    case 'blocked':
-      return '時段保留';
-    case 'unavailable':
-    default:
-      return '預約處理中';
-  }
-}
 
 const emit = defineEmits<{
   eventClick: [event: CalendarEvent];
@@ -207,14 +173,14 @@ function formatWeekday(date: Date): string {
             :style="eventBlockStyle(layout)">
             <button
               class="w-full h-full text-left text-xs rounded border px-2 py-1 shadow-sm hover:shadow overflow-hidden"
-              :class="[getEventColor(layout.event.type), { '[writing-mode:vertical-lr]': layout.totalColumns >= 4 }]"
+              :class="[getEventColor(layout.event), { '[writing-mode:vertical-lr]': layout.totalColumns >= 4 }]"
               data-event-block="true" @click.stop="emit('eventClick', layout.event)"
               @mouseenter="eventTooltip.show(layout.event, $event.clientX, $event.clientY)"
               @mousemove="eventTooltip.move($event.clientX, $event.clientY)" @mouseleave="eventTooltip.hide()">
               <div v-if="layout.event.allDay" class="font-semibold truncate">{{ layout.event.title }}</div>
               <template v-else>
                 <div class="font-semibold truncate">{{ layout.event.title }}</div>
-                <div class="text-[11px] opacity-70">{{ getEventLabel(layout.event.type) }}</div>
+                <div class="text-[11px] opacity-70">{{ getEventLabel(layout.event) }}</div>
                 <div class="text-[11px] opacity-70">
                   {{ formatTime(layout.startMinutes) }} - {{ formatTime(layout.endMinutes) }}
                 </div>

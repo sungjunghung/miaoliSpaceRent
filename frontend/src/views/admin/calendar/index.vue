@@ -15,6 +15,7 @@ import { useCalendarState } from '@/composables/useCalendarState';
 import { useEventTooltip } from '@/composables/useEventTooltip';
 import { useBookingsStore } from '@/stores/bookings';
 import { formatBookingDate } from '@/utils/bookingFormat';
+import { CANCELLED_STATUSES } from '@/utils/bookingStatus';
 import type { CalendarEvent } from '@/types/calendar';
 import CalendarHeader from './components/CalendarHeader.vue';
 import DayView from './components/DayView.vue';
@@ -126,7 +127,9 @@ function buildEvents(): CalendarEvent[] {
   for (const b of mockBookings) {
     const raw = b as any
     const status: string = raw.status ?? 'confirmed'
-    // 僅「確認已租借」（預訂成功／已使用）標為 rented；其餘皆為 unavailable（預約處理中）
+    // 已取消的訂單不佔用場館時間，不產生事件
+    if (CANCELLED_STATUSES.includes(status)) continue
+    // rented＝確定佔用（預訂成功／已使用）；unavailable＝處理中暫佔；曆格顏色依訂單狀態（見 utils/calendar getEventColor）
     const type: CalendarEvent['type'] = status === 'confirmed' || status === 'completed' ? 'rented' : 'unavailable'
 
     let start: string
@@ -167,6 +170,7 @@ function buildEvents(): CalendarEvent[] {
         applicant: b.applicant,
         purpose: b.purpose,
         status,
+        requireDocuments: raw.requireDocuments,
         rentalMode: b.rentalMode,
         session: b.session,
         venueName: matchedVenue?.name ?? '',
@@ -258,13 +262,15 @@ function buildEvents(): CalendarEvent[] {
   return events
 }
 
-// 事件顏色圖例（對應各檢視元件的 getEventColor / getEventLabel）
+// 事件顏色圖例（對應 utils/calendar 的 getEventColor；訂單事件與訂單狀態 badge 同色調）
 const EVENT_LEGEND = [
-  { label: '已租借', swatch: 'bg-orange-50 border-orange-200' },
-  { label: '預約處理中', swatch: 'bg-slate-100 border-slate-200' },
+  { label: '預訂成功', swatch: 'bg-success/10 border-success/30' },
+  { label: '待用戶處理', swatch: 'bg-warning/15 border-warning/40' },
+  { label: '審核中', swatch: 'bg-info/10 border-info/30' },
+  { label: '已完成', swatch: 'bg-base-200 border-base-300' },
   { label: '休館日', swatch: 'bg-red-50 border-red-200' },
-  { label: '註記', swatch: 'bg-info/10 border-info/30' },
-  { label: '時段保留', swatch: 'bg-warning/10 border-warning/30' },
+  { label: '註記', swatch: 'bg-purple-50 border-purple-200' },
+  { label: '時段保留', swatch: 'bg-slate-100 border-slate-300' },
 ];
 
 // 掛載時初始化行事曆狀態並載入事件；卸載時清理（移除監聽等）

@@ -8,7 +8,7 @@ import {
   toZhDate, formatBookingDate, formatBookingTime, RENTAL_MODE_LABELS,
 } from '@/utils/bookingFormat'
 import { REFUND_TYPE_LABELS, useRefundsStore } from '@/stores/refunds'
-import { getPortalRefundStatusDisplay } from '@/utils/bookingStatus'
+import { getBookingStatusPill, getPortalRefundStatusDisplay } from '@/utils/bookingStatus'
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -94,19 +94,9 @@ function confirmDirectCancel() {
   directCancelOpen.value = false
 }
 
-const ACTIVE_STATUSES = ['reserved', 'document_review', 'documents_rejected', 'pending_payment', 'payment_review']
-
-// 狀態樣態:label=文字、pill=狀態膠囊配色、borderCls=左側色條(與我的預約一致)
+// 狀態膠囊與左側色條：與後台「預約管理」共用同一套狀態標籤與色調（我的預約亦同）
 function statusBadge(b: Booking): { label: string; pill: string; borderCls: string } {
-  if (ACTIVE_STATUSES.includes(b.status))
-    return { label: '預訂中', pill: 'bg-warning/15 text-warning', borderCls: 'border-warning' }
-  if (b.status === 'confirmed' || b.status === 'cancellation_requested')
-    return { label: '預訂成功', pill: 'bg-success/15 text-success', borderCls: 'border-success' }
-  if (b.status === 'completed')
-    return { label: '已使用', pill: 'bg-base-300 text-base-content/70', borderCls: 'border-base-300' }
-  if (['cancelled', 'cancelled_expired', 'cancelled_rejected'].includes(b.status))
-    return { label: '已取消', pill: 'bg-error/15 text-error', borderCls: 'border-error' }
-  return { label: b.status, pill: 'bg-base-200 text-base-content/60', borderCls: 'border-base-300' }
+  return getBookingStatusPill(b)
 }
 
 function cancelReasonLabel(b: Booking): string | null {

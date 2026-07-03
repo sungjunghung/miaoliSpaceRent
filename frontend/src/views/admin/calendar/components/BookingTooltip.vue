@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue';
 import type { EventTooltipState } from '@/composables/useEventTooltip';
+import { getBookingStatusDisplay } from '@/utils/bookingStatus';
 
 const tooltip = inject<EventTooltipState>('eventTooltip')!;
 
@@ -16,19 +17,25 @@ const MODE_LABEL: Record<string, string> = {
   hourly: '計時租借',
 };
 
-// 與日曆事件顏色／圖例一致的統一標示（不暴露內部細狀態）
+// 非訂單事件的標示（訂單事件依實際狀態顯示，與訂單 badge 一致）
 const TYPE_STATUS: Record<string, { label: string; class: string }> = {
-  rented: { label: '已租借', class: 'badge-success' },
-  unavailable: { label: '預約處理中', class: 'badge-neutral' },
   closed: { label: '休館日', class: 'badge-error' },
-  note: { label: '註記', class: 'badge-info' },
-  blocked: { label: '時段保留', class: 'badge-warning' },
+  note: { label: '註記', class: 'badge-ghost' },
+  blocked: { label: '時段保留', class: 'badge-neutral' },
 };
 
 const meta = computed(() => tooltip.activeEvent.value?.metadata ?? {});
 
 const statusInfo = computed(() => {
   const t = tooltip.activeEvent.value?.type as string;
+  // 訂單事件：顯示與「預約管理」相同的狀態標籤與顏色
+  if (t === 'rented' || t === 'unavailable') {
+    const m = meta.value as { status?: string; requireDocuments?: boolean };
+    if (m.status) {
+      const display = getBookingStatusDisplay({ status: m.status, requireDocuments: m.requireDocuments });
+      return { label: display.label, class: display.className };
+    }
+  }
   return TYPE_STATUS[t] ?? { label: '—', class: 'badge-ghost' };
 });
 

@@ -13,31 +13,13 @@ import {
   dayEndHour,
   formatTime,
   pad,
+  getEventColor,
   layoutAllEvents,
   eventBlockStyle,
   positionToMinutes,
   minutesToOffset,
   isSameDay,
 } from '@/utils/calendar';
-
-function getEventColor(type: 'rented' | 'unavailable' | 'closed' | 'maintenance' | 'note' | 'blocked'): string {
-  switch (type) {
-    case 'rented':
-      return 'bg-orange-50 text-orange-700 border-orange-200';
-    case 'unavailable':
-      return 'bg-slate-100 text-slate-700 border-slate-200';
-    case 'closed':
-      return 'bg-red-50 text-red-700 border-red-200';
-    case 'maintenance':
-      return 'bg-stone-100 text-stone-700 border-stone-200';
-    case 'note':
-      return 'bg-info/10 text-info border-info/30';
-    case 'blocked':
-      return 'bg-warning/10 text-warning border-warning/30';
-    default:
-      return 'bg-slate-50 text-slate-600 border-slate-200';
-  }
-}
 
 const WEEKDAY_LABELS = ['週日', '週一', '週二', '週三', '週四', '週五', '週六'];
 
@@ -195,7 +177,7 @@ function selectionStyle(date: Date) {
                 :style="eventBlockStyle(layout)">
                 <button
                   class="w-full h-full text-left text-xs rounded border px-1 py-0.5 shadow-sm hover:shadow overflow-hidden"
-                  :class="[getEventColor(layout.event.type), { '[writing-mode:vertical-lr]': layout.totalColumns >= 3 }]"
+                  :class="[getEventColor(layout.event), { '[writing-mode:vertical-lr]': layout.totalColumns >= 3 }]"
                   data-event-block="true" @click.stop="emit('eventClick', layout.event)"
                   @mouseenter="eventTooltip.show(layout.event, $event.clientX, $event.clientY)"
                   @mousemove="eventTooltip.move($event.clientX, $event.clientY)" @mouseleave="eventTooltip.hide()">

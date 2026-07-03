@@ -3,34 +3,7 @@ import { inject } from 'vue';
 import type { CalendarEvent } from '@/types/calendar';
 import type { CalendarState } from '@/composables/useCalendarState';
 import type { EventTooltipState } from '@/composables/useEventTooltip';
-import { isSameMonth, isSameDay, getMonthCellEvents } from '@/utils/calendar';
-
-function getEventColor(type: 'rented' | 'unavailable' | 'closed' | 'maintenance' | 'note' | 'blocked', event?: CalendarEvent): string {
-  switch (type) {
-    case 'rented':
-      return 'bg-orange-50 text-orange-700 border-orange-200';
-    case 'unavailable':
-      return 'bg-slate-100 text-slate-700 border-slate-200';
-    case 'closed':
-      // 區分三種 closed 類型
-      if (event?.metadata?.overrideType === 'open') {
-        return 'bg-green-50 text-green-700 border-green-200'; // 開館覆寫
-      } else if (event?.metadata?.overrideType === 'closed') {
-        return 'bg-red-100 text-red-800 border-red-300'; // 閉館覆寫（深色）
-      } else if (event?.metadata?.isRecurringClosed) {
-        return 'bg-red-50 text-red-800 border-red-200'; // OpeningHours 休館日（淺色）
-      }
-      return 'bg-red-50 text-red-700 border-red-200';
-    case 'maintenance':
-      return 'text-red-800 border-red-300'; // 不可租借時段（紅色）
-    case 'note':
-      return 'bg-info/10 text-info border-info/30';
-    case 'blocked':
-      return 'bg-warning/10 text-warning border-warning/30';
-    default:
-      return 'bg-slate-50 text-slate-600 border-slate-200';
-  }
-}
+import { isSameMonth, isSameDay, getMonthCellEvents, getEventColor } from '@/utils/calendar';
 
 const emit = defineEmits<{
   eventClick: [event: CalendarEvent];
@@ -103,7 +76,7 @@ function getVisibleEvents(day: Date): CalendarEvent[] {
             <li v-for="eventItem in getVisibleEvents(day).slice(0, 3)"
               :key="eventItem.id"
               class="text-xs rounded px-1.5 py-0.5 border truncate block cursor-pointer hover:brightness-95"
-              :class="getEventColor(eventItem.type, eventItem)" data-event-block="true"
+              :class="getEventColor(eventItem)" data-event-block="true"
               @click.stop="emit('eventClick', eventItem)"
               @mouseenter="eventTooltip.show(eventItem, $event.clientX, $event.clientY)"
               @mousemove="eventTooltip.move($event.clientX, $event.clientY)" @mouseleave="eventTooltip.hide()">
