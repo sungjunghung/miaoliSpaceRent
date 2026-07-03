@@ -26,7 +26,7 @@ function removeRow(index: number) {
 </script>
 
 <template>
-  <div class="overflow-x-auto">
+  <div class="basis-table">
     <table class="table table-sm w-full">
       <thead>
         <tr>
