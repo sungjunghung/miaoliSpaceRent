@@ -55,7 +55,7 @@ function parseHolidayEvents(csvText: string): CalendarEvent[] {
   const rows = parseGovHolidayRows(csvText);
   return rows
     .filter((row) => row.isHoliday !== '0' && row.note)
-    .map((row) => {
+    .map((row): CalendarEvent | null => {
       const isoDate = toIsoDate(row.date);
       if (!isoDate) return null;
       return {

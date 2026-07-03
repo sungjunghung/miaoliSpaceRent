@@ -11,7 +11,6 @@ import {
   slotHeight,
   dayStartHour,
   dayEndHour,
-  formatDate,
   formatTime,
   layoutAllEvents,
   eventBlockStyle,
