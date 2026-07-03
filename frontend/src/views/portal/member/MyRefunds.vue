@@ -20,21 +20,12 @@
         class="card bg-base-100 border border-base-200 shadow-sm"
       >
         <div class="card-body gap-4">
-          <div class="flex items-start justify-between gap-4 flex-wrap">
-            <div>
-              <div class="flex items-center gap-2 flex-wrap">
-                <h3 class="card-title">{{ refund.id }}</h3>
-                <span class="badge badge-outline">{{ REFUND_TYPE_LABELS[refund.type] }}</span>
-                <span :class="['badge', portalRefundStatus(refund.status).className]">
-                  {{ portalRefundStatus(refund.status).label }}
-                </span>
-              </div>
-              <p class="text-sm text-base-content/60 mt-1">{{ refund.reason }}</p>
-            </div>
-            <div class="text-right">
-              <p class="text-sm text-base-content/50">申請金額</p>
-              <p class="text-xl font-bold">NT$ {{ refund.amountRequested.toLocaleString() }}</p>
-            </div>
+          <div class="flex items-center gap-2 flex-wrap">
+            <h3 class="card-title">{{ refund.id }}</h3>
+            <span class="badge badge-outline">{{ REFUND_TYPE_LABELS[refund.type] }}</span>
+            <span :class="['badge', portalRefundStatus(refund.status).className]">
+              {{ portalRefundStatus(refund.status).label }}
+            </span>
           </div>
 
           <div v-if="refund.status === 'rejected'" class="alert alert-error alert-soft">
@@ -48,6 +39,14 @@
                 <tr>
                   <td class="text-base-content/50 w-32">申請日期</td>
                   <td>{{ formatDate(refund.requestedAt) }}</td>
+                </tr>
+                <tr>
+                  <td class="text-base-content/50">退款原因</td>
+                  <td>{{ refund.reason }}</td>
+                </tr>
+                <tr>
+                  <td class="text-base-content/50">申請金額</td>
+                  <td class="font-semibold">NT$ {{ refund.amountRequested.toLocaleString() }}</td>
                 </tr>
                 <tr v-if="refund.amountApproved">
                   <td class="text-base-content/50">核定金額</td>
