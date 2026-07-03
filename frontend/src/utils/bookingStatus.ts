@@ -82,29 +82,57 @@ export function getBookingStatusPill(b: {
 
 export const CANCELLED_STATUSES = ['cancelled', 'cancelled_expired', 'cancelled_rejected']
 
-/** 後台待辦提示：這筆訂單目前卡在誰手上（訂單列表與詳情共用） */
-export function getAdminTodoDisplay(
+/** 後台待辦提示：這筆訂單目前卡在誰手上（訂單列表、詳情、儀表板共用） */
+export function getAdminTodoMeta(
   booking: { status: string },
   refund?: { status: RefundStatus } | null,
-): StatusDisplay | null {
+): BookingStatusMeta | null {
   if (refund) {
-    if (refund.status === 'completed') return { label: '取消退費已完成', className: 'badge-success' }
-    if (refund.status === 'rejected') return { label: '退費已駁回', className: 'badge-error' }
+    if (refund.status === 'completed') return { label: '取消退費已完成', tone: 'success' }
+    if (refund.status === 'rejected') return { label: '退費已駁回', tone: 'error' }
     return {
       label: {
         admin_review: '退費待承辦審',
         accounting_review: '退費待會計',
         cashier_processing: '退費待出納',
       }[refund.status] ?? '退費處理中',
-      className: 'badge-info',
+      tone: 'info',
     }
   }
-  if (booking.status === 'cancellation_requested') return { label: '待審核取消', className: 'badge-warning' }
-  if (booking.status === 'document_review') return { label: '需審核文件', className: 'badge-info' }
-  if (booking.status === 'payment_review') return { label: '需審核繳費', className: 'badge-info' }
-  if (booking.status === 'documents_rejected') return { label: '等待重傳', className: 'badge-error' }
-  if (booking.status === 'pending_payment') return { label: '等待繳費', className: 'badge-warning' }
-  if (booking.status === 'reserved') return { label: '等待用戶', className: 'badge-warning' }
+  if (booking.status === 'cancellation_requested') return { label: '待審核取消', tone: 'warning' }
+  if (booking.status === 'document_review') return { label: '需審核文件', tone: 'info' }
+  if (booking.status === 'payment_review') return { label: '需審核繳費', tone: 'info' }
+  if (booking.status === 'documents_rejected') return { label: '等待重傳', tone: 'error' }
+  if (booking.status === 'pending_payment') return { label: '等待繳費', tone: 'warning' }
+  if (booking.status === 'reserved') return { label: '等待用戶', tone: 'warning' }
   return null
+}
+
+export function getAdminTodoDisplay(
+  booking: { status: string },
+  refund?: { status: RefundStatus } | null,
+): StatusDisplay | null {
+  const meta = getAdminTodoMeta(booking, refund)
+  return meta ? { label: meta.label, className: BADGE_BY_TONE[meta.tone] } : null
+}
+
+/** 待辦清單的狀態小圓點配色（與 badge 同色調） */
+const DOT_BY_TONE: Record<BookingStatusTone, string> = {
+  success: 'bg-success',
+  warning: 'bg-warning',
+  info:    'bg-info',
+  error:   'bg-error',
+  neutral: 'bg-base-300',
+  ghost:   'bg-base-300',
+}
+
+/** 儀表板待辦清單：標籤 + badge + 圓點，一次取得 */
+export function getAdminTodoIndicator(
+  booking: { status: string },
+  refund?: { status: RefundStatus } | null,
+): { label: string; badgeClass: string; dotClass: string } | null {
+  const meta = getAdminTodoMeta(booking, refund)
+  if (!meta) return null
+  return { label: meta.label, badgeClass: BADGE_BY_TONE[meta.tone], dotClass: DOT_BY_TONE[meta.tone] }
 }
 

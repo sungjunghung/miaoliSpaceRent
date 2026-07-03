@@ -8,10 +8,16 @@ import {
   ArcElement, Tooltip, Legend, Filler,
 } from 'chart.js'
 import { useBookingsStore } from '@/stores/bookings'
-import { useRefundsStore, REFUND_TYPE_LABELS, REFUND_STATUS_LABELS } from '@/stores/refunds'
+import { useRefundsStore, REFUND_TYPE_LABELS } from '@/stores/refunds'
 import { venues as mockVenues } from '@/services/venueService'
 import { RENTAL_MODE_LABELS, formatBookingTime } from '@/utils/bookingFormat'
-import { getBookingStatusDisplay, CANCELLED_STATUSES } from '@/utils/bookingStatus'
+import {
+  getBookingStatusDisplay,
+  getBookingStatusMeta,
+  getAdminTodoIndicator,
+  CANCELLED_STATUSES,
+  type BookingStatusTone,
+} from '@/utils/bookingStatus'
 import VenueFilterDropdown from '@/components/admin/VenueFilterDropdown.vue'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Tooltip, Legend, Filler)
@@ -107,21 +113,30 @@ const trendChartOptions = {
 }
 
 // ── Status Doughnut ────────────────────────────────────────────────────────
-const STATUS_META: Record<string, { label: string; color: string }> = {
-  confirmed: { label: '預訂成功', color: 'oklch(0.702 0.094 156.6)' },
-  completed: { label: '已完成', color: 'oklch(0.616 0.161 40.67)' },
-  reserved: { label: '已接受預訂', color: 'oklch(0.775 0.115 81.52)' },
-  document_review: { label: '文件審核', color: 'oklch(0.626 0.143 240.0)' },
-  documents_rejected: { label: '文件退件', color: 'oklch(0.516 0.146 29.67)' },
-  payment_review: { label: '繳費審核', color: 'oklch(0.626 0.143 240.0)' },
-  cancelled: { label: '已取消', color: 'oklch(0.75 0 0)' },
+// 以狀態色調分五大組（與行事曆圖例、狀態 badge 同語言）；顏色直接讀主題變數，跟著主題走
+function themeColor(varName: string, fallback: string) {
+  const v = getComputedStyle(document.documentElement).getPropertyValue(varName).trim()
+  return v || fallback
 }
 
-const statusDistribution = computed(() =>
-  Object.entries(STATUS_META)
-    .map(([key, meta]) => ({ key, ...meta, count: bookings.value.filter(b => b.status === key).length }))
-    .filter(s => s.count > 0)
-)
+const TONE_ORDER: BookingStatusTone[] = ['success', 'warning', 'info', 'neutral', 'error']
+const TONE_GROUP: Record<string, { label: string; color: string }> = {
+  success: { label: '預訂成功',  color: themeColor('--color-success', 'oklch(0.702 0.094 156.6)') },
+  warning: { label: '待用戶處理', color: themeColor('--color-warning', 'oklch(0.775 0.115 81.52)') },
+  info:    { label: '審核中',    color: themeColor('--color-info', 'oklch(0.626 0.143 240.0)') },
+  neutral: { label: '已完成',    color: themeColor('--color-neutral', 'oklch(0.274 0.013 253.0)') },
+  error:   { label: '已取消',    color: themeColor('--color-error', 'oklch(0.516 0.146 29.67)') },
+}
+
+const statusDistribution = computed(() => {
+  const counts: Partial<Record<BookingStatusTone, number>> = {}
+  for (const b of bookings.value) {
+    const tone = getBookingStatusMeta(b).tone
+    counts[tone] = (counts[tone] ?? 0) + 1
+  }
+  return TONE_ORDER.filter(t => counts[t])
+    .map(t => ({ key: t, ...TONE_GROUP[t], count: counts[t]! }))
+})
 
 const doughnutData = computed(() => ({
   labels: statusDistribution.value.map(s => s.label),
@@ -154,6 +169,10 @@ const upcomingBookings = computed(() =>
 function getVenueName(venueId: number) {
   return venues.find(v => v.id === venueId)?.name ?? `場館 #${venueId}`
 }
+
+// 待辦項目的標籤／badge／圓點統一由 getAdminTodoIndicator 提供（與訂單列表、詳情同源）
+const todoOf = (b: { status: string }) => getAdminTodoIndicator(b)!
+const todoOfRefund = (r: { status: any }) => getAdminTodoIndicator({ status: '' }, r)!
 
 function formatTime(b: any) {
   return formatBookingTime(b)
@@ -278,21 +297,19 @@ function formatTime(b: any) {
           <template v-else>
             <!-- 文件審核 -->
             <template v-if="docItems.length > 0">
-              <p class="font-semibold text-info mt-1 mb-1.5 flex items-center gap-1">
+              <p class="font-semibold text-base-content/70 mt-1 mb-1.5 flex items-center gap-1">
                 <span class="material-symbols-outlined">description</span> 文件審核（{{ docItems.length }}）
               </p>
               <router-link v-for="b in docItems.slice(0, 2)" :key="b.id"
                 :to="{ name: 'admin-booking-detail', params: { id: b.id } }"
-                class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg border border-base-300 hover:bg-base-200/50 hover:border-info/30 transition-colors mb-1 group">
-                <span class="w-1.5 h-1.5 rounded-full shrink-0"
-                  :class="b.status === 'document_review' ? 'bg-info' : 'bg-error'"></span>
+                class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg border border-base-300 hover:bg-base-200/50 transition-colors mb-1 group">
+                <span class="w-1.5 h-1.5 rounded-full shrink-0" :class="todoOf(b).dotClass"></span>
                 <div class="flex-1 min-w-0">
                   <p class="font-medium truncate">{{ b.applicant }}</p>
                   <p class="truncate">{{ getVenueName(b.venueId) }}・{{ b.date }}</p>
                 </div>
-                <span class="badge badge-outline"
-                  :class="b.status === 'document_review' ? 'badge-info' : 'badge-error'">
-                  {{ b.status === 'document_review' ? '需審核文件' : '等待重傳' }}
+                <span class="badge badge-outline" :class="todoOf(b).badgeClass">
+                  {{ todoOf(b).label }}
                 </span>
               </router-link>
               <p v-if="docItems.length > 2" class="mb-2 pl-2">還有 {{ docItems.length - 2 }} 筆⋯</p>
@@ -300,36 +317,36 @@ function formatTime(b: any) {
 
             <!-- 繳費審核 -->
             <template v-if="payItems.length > 0">
-              <p class="font-semibold text-info mt-2 mb-1.5 flex items-center gap-1">
+              <p class="font-semibold text-base-content/70 mt-2 mb-1.5 flex items-center gap-1">
                 <span class="material-symbols-outlined">receipt</span> 繳費審核（{{ payItems.length }}）
               </p>
               <router-link v-for="b in payItems.slice(0, 2)" :key="b.id"
                 :to="{ name: 'admin-booking-detail', params: { id: b.id } }"
-                class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg border border-base-200 hover:bg-base-200/50 hover:border-info/30 transition-colors mb-1 group">
-                <span class="w-1.5 h-1.5 rounded-full bg-info shrink-0"></span>
+                class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg border border-base-200 hover:bg-base-200/50 transition-colors mb-1 group">
+                <span class="w-1.5 h-1.5 rounded-full shrink-0" :class="todoOf(b).dotClass"></span>
                 <div class="flex-1 min-w-0">
                   <p class="font-medium truncate">{{ b.applicant }}</p>
                   <p class="truncate">{{ getVenueName(b.venueId) }}・{{ b.date }}</p>
                 </div>
-                <span class="badge badge-info badge-outline">需審核繳費</span>
+                <span class="badge badge-outline" :class="todoOf(b).badgeClass">{{ todoOf(b).label }}</span>
               </router-link>
               <p v-if="payItems.length > 2" class="mb-2 pl-2">還有 {{ payItems.length - 2 }} 筆⋯</p>
             </template>
 
             <!-- 退費申請 -->
             <template v-if="refundItems.length > 0">
-              <p class="font-semibold text-info mt-2 mb-1.5 flex items-center gap-1">
+              <p class="font-semibold text-base-content/70 mt-2 mb-1.5 flex items-center gap-1">
                 <span class="material-symbols-outlined">currency_exchange</span> 退費處理（{{ refundItems.length }}）
               </p>
               <router-link v-for="r in refundItems.slice(0, 2)" :key="r.id"
                 :to="{ name: 'admin-refunds', query: { refundId: r.id } }"
-                class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg border border-base-200 hover:bg-base-200/50 hover:border-info/30 transition-colors mb-1 group">
-                <span class="w-1.5 h-1.5 rounded-full bg-info shrink-0"></span>
+                class="flex items-center gap-2.5 px-2 py-1.5 rounded-lg border border-base-200 hover:bg-base-200/50 transition-colors mb-1 group">
+                <span class="w-1.5 h-1.5 rounded-full shrink-0" :class="todoOfRefund(r).dotClass"></span>
                 <div class="flex-1 min-w-0">
                   <p class="font-medium truncate">{{ r.memberName }}</p>
                   <p class="truncate">{{ REFUND_TYPE_LABELS[r.type] }}・{{ r.requestedAt }}</p>
                 </div>
-                <span class="badge badge-info badge-outline">{{ REFUND_STATUS_LABELS[r.status].label }}</span>
+                <span class="badge badge-outline" :class="todoOfRefund(r).badgeClass">{{ todoOfRefund(r).label }}</span>
               </router-link>
               <p v-if="refundItems.length > 2" class="pl-2">還有 {{ refundItems.length - 2 }} 筆⋯</p>
             </template>
