@@ -22,7 +22,6 @@
         <div class="card-body gap-4">
           <div class="flex items-center gap-2 flex-wrap">
             <h3 class="card-title">{{ refund.id }}</h3>
-            <span class="badge badge-outline">{{ REFUND_TYPE_LABELS[refund.type] }}</span>
             <span :class="['badge', getPortalRefundStatusDisplay(refund.status).className]">
               {{ getPortalRefundStatusDisplay(refund.status).label }}
             </span>
@@ -39,6 +38,10 @@
                 <tr>
                   <td class="text-base-content/50 w-32">申請日期</td>
                   <td>{{ formatDate(refund.requestedAt) }}</td>
+                </tr>
+                <tr>
+                  <td class="text-base-content/50">退款類型</td>
+                  <td>{{ REFUND_TYPE_LABELS[refund.type] }}</td>
                 </tr>
                 <tr>
                   <td class="text-base-content/50">退款原因</td>
